@@ -1,5 +1,5 @@
 {
-    "device":"STM32_B_L475E_IOT01A",
+    "device":"DISCO_L475VG_IOT",
     "processor":"STM32L4",
     "architecture":"CORTEX_M4",
     "toolchain":"ARM_GCC",

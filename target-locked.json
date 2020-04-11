@@ -1,7 +1,7 @@
 {
     "architecture": "CORTEX_M4", 
     "asm_flags": "-fno-exceptions -fno-unwind-tables", 
-    "c_flags": "-std=gnu11 -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -DUSE_HAL_DRIVER -DSTM32L475xx -fwrapv -Warray-bounds -ffunction-sections -fdata-sections -g -fstack-usage -Wall ", 
+    "c_flags": "-std=gnu11 -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -DSTM32L475xx -fwrapv -Warray-bounds -ffunction-sections -fdata-sections -g -fstack-usage -Wall ", 
     "cmake_definitions": {}, 
     "config": {
         "BLUENRG_MS": 1, 
@@ -29,21 +29,21 @@
         "USE_ACCEL_LSB": 0, 
         "USE_STM32L475E_IOT01": 1
     }, 
-    "cpp_flags": "-std=c++11 -Wno-register -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-array-bounds -DUSE_HAL_DRIVER -DSTM32L475xx -g -fstack-usage -Wall", 
+    "cpp_flags": "-std=c++11 -Wno-register -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-array-bounds -DSTM32L475xx -g -fstack-usage -Wall", 
     "cpu_opts": "-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16", 
-    "definitions": "-DSTM32L4  -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-B-L475E-IOT01A/inc/localconf.h", 
-    "device": "STM32_IOT_NODE", 
+    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-B-L475E-IOT01A/inc/localconf.h", 
+    "device": "DISCO_L475VG_IOT", 
     "generate_bin": true, 
     "generate_hex": true, 
     "libraries": [
         {
-            "branch": "master", 
+            "branch": "ffbc0730386dd3385f614195923e94e9dd9e8baa", 
             "name": "codal-core", 
             "type": "git", 
             "url": "https://github.com/letssteam/codal-core"
         }, 
         {
-            "branch": "master", 
+            "branch": "9c11d4b224a2db32b030a4c34b9e8c17f3adb457", 
             "name": "codal-stm32", 
             "type": "git", 
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +52,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -static -Wl,--gc-sections -Wl,--defsym=malloc_getpagesize_P=0x80 -Wl,--start-group -lc -lm -Wl,--end-group -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16", 
     "post_process": "", 
     "processor": "STM32L4", 
-    "snapshot_version": "v0.0.0", 
+    "snapshot_version": "v0.0.1", 
     "toolchain": "ARM_GCC"
 }

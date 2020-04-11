@@ -32,7 +32,7 @@
         "SET_L2CAP_CONN_UPD_REQ_COMMAND" : 1,
         "DENABLE_SPI_FIX" : 1
     },
-    "definitions":"-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-B-L475E-IOT01A/inc/localconf.h",
+    "definitions":"-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h",
     "cmake_definitions":{
     },
     "cpu_opts":"-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",

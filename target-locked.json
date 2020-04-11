@@ -31,7 +31,7 @@
     }, 
     "cpp_flags": "-std=c++11 -Wno-register -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-array-bounds -DSTM32L475xx -g -fstack-usage -Wall", 
     "cpu_opts": "-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16", 
-    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-B-L475E-IOT01A/inc/localconf.h", 
+    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h", 
     "device": "DISCO_L475VG_IOT", 
     "generate_bin": true, 
     "generate_hex": true, 

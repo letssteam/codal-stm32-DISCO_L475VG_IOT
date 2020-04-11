@@ -1,4 +1,4 @@
-# Codal target for the B-L475E-IOT01A Board
+# Codal target for the DISCO_L475VG_IOT Board
 
 Codal target for the [B-L475E-IOT01A](http://www.st.com/en/evaluation-tools/b-l475e-iot01a.html) Discovery kit for IoT node. Codal is the core set of drivers, mechanisms and types that make up the runtime for a board in Makecode.
 
@@ -61,8 +61,8 @@ Codal is also a build system to simplify as much as possible the experience of n
   ```json
   {
     "target": {
-        "name": "codal-stm32-B-L475E-IOT01A", 
-        "url": "https://github.com/letssteam/codal-stm32-B-L475E-IOT01A", 
+        "name": "codal-stm32-DISCO_L475VG_IOT", 
+        "url": "https://github.com/letssteam/codal-stm32-DISCO_L475VG_IOT", 
         "branch": "master", 
         "type": "git", 
         "test_ignore": true
@@ -80,8 +80,8 @@ If you would like to override or define any additional configuration options (`#
 ```json
 {
     "target": {
-        "name": "codal-stm32-B-L475E-IOT01A", 
-        "url": "https://github.com/letssteam/codal-stm32-B-L475E-IOT01A", 
+        "name": "codal-stm32-DISCO_L475VG_IOT", 
+        "url": "https://github.com/letssteam/codal-stm32-DISCO_L475VG_IOT", 
         "branch": "master", 
         "type": "git", 
         "test_ignore": true
@@ -105,8 +105,8 @@ For example, if you want to test the `BLE_TEMPERATURE_ALARM_SAMPLE`, you need to
 ```json
 {
     "target": {
-        "name": "codal-stm32-B-L475E-IOT01A", 
-        "url": "https://github.com/letssteam/codal-stm32-B-L475E-IOT01A", 
+        "name": "codal-stm32-DISCO_L475VG_IOT", 
+        "url": "https://github.com/letssteam/codal-stm32-DISCO_L475VG_IOT", 
         "branch": "master", 
         "type": "git", 
         "test_ignore": true

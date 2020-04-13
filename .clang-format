@@ -3,7 +3,7 @@ Standard : Cpp11
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
-ColumnLimit: 100
+ColumnLimit: 120
 DerivePointerAlignment: false
 PointerAlignment: Left
 BreakBeforeBraces: Attach

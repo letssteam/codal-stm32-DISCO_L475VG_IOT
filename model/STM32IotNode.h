@@ -32,7 +32,7 @@ namespace codal
     {
         public:
             //Timer timer;
-            //MessageBus     messageBus;
+            MessageBus     messageBus;
 
             STM32IotNodeIO io;
 

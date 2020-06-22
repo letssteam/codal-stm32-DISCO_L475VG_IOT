@@ -15,7 +15,7 @@ STM32IotNode *codal::default_device_instance = nullptr;
   */
 STM32IotNode::STM32IotNode()
   : CodalComponent(),
-    //messageBus(), 
+    messageBus(), 
     io()
     //buttonUSER(io.btnUser, DEVICE_ID_BUTTON_A, DEVICE_BUTTON_ALL_EVENTS, ACTIVE_LOW)
 {

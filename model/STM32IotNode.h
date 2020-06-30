@@ -13,6 +13,7 @@
 #include "MessageBus.h"
 
 #include "Button.h"
+#include "STM32LowLevelTimer.h"
 #include "STM32IotNodeIO.h"
 
 
@@ -31,7 +32,8 @@ namespace codal
     class STM32IotNode : public CodalComponent
     {
         public:
-            //Timer timer;
+            STM32LowLevelTimer lowLevelTimer;
+            Timer timer;
             MessageBus     messageBus;
 
             STM32IotNodeIO io;
@@ -46,7 +48,7 @@ namespace codal
             /**
              * Post constructor initialisation method.
              */
-            virtual int init();
+            int init() override final;
 
             /**
              * Delay execution for the given amount of time.

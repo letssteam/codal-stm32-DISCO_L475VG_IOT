@@ -15,13 +15,16 @@ STM32IotNode *codal::default_device_instance = nullptr;
   */
 STM32IotNode::STM32IotNode()
   : CodalComponent(),
-    messageBus(), 
+    lowLevelTimer(TIM_MST, TIM_MST_IRQ),
+    timer(lowLevelTimer),
+    messageBus(),
     io()
     //buttonUSER(io.btnUser, DEVICE_ID_BUTTON_A, DEVICE_BUTTON_ALL_EVENTS, ACTIVE_LOW)
 {
     // Clear our status
     status = 0;
     default_device_instance = this;
+    //this->init();
 }
 
 /**
@@ -47,8 +50,9 @@ int STM32IotNode::init()
     status |= DEVICE_INITIALIZED;
 
     //codal_dmesg_set_flush_fn(STM32IotNode_dmesg_flush);    
+    
     // Bring up fiber scheduler.
-    //scheduler_init(messageBus);
+    scheduler_init(messageBus);
 
     for(int i = 0; i < DEVICE_COMPONENT_COUNT; i++)
     {

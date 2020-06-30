@@ -1,7 +1,7 @@
 {
     "architecture": "CORTEX_M4",
     "asm_flags": "-fno-exceptions -fno-unwind-tables",
-    "c_flags": "-std=gnu11 -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -DSTM32L475xx -fwrapv -Warray-bounds -ffunction-sections -fdata-sections -g -fstack-usage -Wall ",
+    "c_flags": "-std=gnu11 -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -DSTM32L475xx -fwrapv -Warray-bounds -ffunction-sections -fdata-sections -g -fstack-usage -Wall -fno-inline",
     "cmake_definitions": {},
     "config": {
         "BLUENRG_MS": 1,
@@ -29,7 +29,7 @@
         "USE_ACCEL_LSB": 0,
         "USE_STM32L475E_IOT01": 1
     },
-    "cpp_flags": "-std=c++11 -Wno-register -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-array-bounds -DSTM32L475xx -g -fstack-usage -Wall",
+    "cpp_flags": "-std=c++11 -Wno-register -D__weak=\"__attribute__((weak))\" -D__packed=\"__attribute__((__packed__))\" -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-array-bounds -DSTM32L475xx -g -fstack-usage -Wall -fno-inline",
     "cpu_opts": "-mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h",
     "device": "DISCO_L475VG_IOT",
@@ -43,7 +43,7 @@
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "83fa2faa604d3f0804a4b34f20fa7732fc9ea9cf",
+            "branch": "880153ed70776a13bb5d5ea262525be746590b2d",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +52,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -static -Wl,--gc-sections -Wl,--defsym=malloc_getpagesize_P=0x80 -Wl,--start-group -lc -lm -Wl,--end-group -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.1.3",
+    "snapshot_version": "v0.1.4",
     "toolchain": "ARM_GCC"
 }

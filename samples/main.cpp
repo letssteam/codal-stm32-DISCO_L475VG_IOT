@@ -1,26 +1,21 @@
-#include "wiring_time.h"
-
-#include "STM32Pin.h"
 #include "STM32IotNode.h"
+
+#if defined(GPIO_SAMPLE)
+    #include "GPIOSample.h"
+#elif defined(ADC_SAMPLE)
+    #include "ADCSample.h"
+#elif defined(SERIAL_SAMPLE)
+    #include "SerialSample.h"
+#elif defined(TIMER_SAMPLE)
+    #include "TimerSample.h"
+#else
+    #include "BlinkSample.h"
+#endif
 
 using namespace codal;
 
-
 int main()
 {
-    STM32IotNode iotnode;
-    int pin_state = 0;
-
-    while (1) {
-        pin_state = !pin_state;
-        if (pin_state) {
-            iotnode.io.led1.setDigitalValue(HIGH);
-            iotnode.io.led2.setDigitalValue(LOW);
-        } else {
-            iotnode.io.led1.setDigitalValue(LOW);
-            iotnode.io.led2.setDigitalValue(HIGH);
-        }
-        delay(500);
-        //iotnode.sleep(500);
-    }
+    SAMPLE_MAIN();
+    release_fiber();
 }

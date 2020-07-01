@@ -13,30 +13,22 @@ void Update_IT_callback(void) {
     state = !state;
 }
 
-#if defined(TIM5)
+#if defined(TIM6)
 TIM_TypeDef* Instance = TIM5;
 #else
 TIM_TypeDef* Instance = TIM2;
 #endif
 
-HardwareTimer* MyTim;
-
-extern "C" void yield2(void) {
-    for (int i = 0; i < 1234567; i++) {
-        {
-            asm("nop");
-        }
-    }
-}
+HardwareTimer* tim;
 
 void TimerSample_main() {
     // Instantiate HardwareTimer object. Thanks to 'new' instanciation, HardwareTimer is not destructed when this
     // function is finished.
-    MyTim = new HardwareTimer(Instance);
-    MyTim->setOverflow(10, HERTZ_FORMAT);  // 1 Hz
-    MyTim->attachInterrupt(Update_IT_callback);
-    MyTim->resume();
+    tim = new HardwareTimer(Instance);
+    tim->setOverflow(1, HERTZ_FORMAT);  // 1 Hz
+    tim->attachInterrupt(Update_IT_callback);
+    tim->setInterruptPriority(12, 3);
+    tim->resume();
     while (1) {
-        yield2();
     }
 }

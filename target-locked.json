@@ -37,13 +37,13 @@
     "generate_hex": true,
     "libraries": [
         {
-            "branch": "0f0e9ba2943fd6e09ad0a225aa1fc3e2df3448be",
+            "branch": "53538d6fbac8bf88db33478566e61bda7522a397",
             "name": "codal-core",
             "type": "git",
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "bc06adbecfe6810e174872e793948c7861924626",
+            "branch": "22b6a23ebb3358774335c0a08210f09029dd920b",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +52,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -static -Wl,--gc-sections -Wl,--defsym=malloc_getpagesize_P=0x80 -Wl,--start-group -lc -lm -Wl,--end-group -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.1.6",
+    "snapshot_version": "v0.2.0",
     "toolchain": "ARM_GCC"
 }

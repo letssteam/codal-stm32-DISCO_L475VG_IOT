@@ -18,7 +18,9 @@ STM32IotNode::STM32IotNode()
     lowLevelTimer(TIM_MST, TIM_MST_IRQ),
     timer(lowLevelTimer),
     messageBus(),
-    io()
+    io(),
+    i2c1( io.sda, io.scl ),
+    i2c2( io.sda2, io.scl2 )
     //buttonUSER(io.btnUser, DEVICE_ID_BUTTON_A, DEVICE_BUTTON_ALL_EVENTS, ACTIVE_LOW)
 {
     // Clear our status

@@ -10,6 +10,8 @@
 #include "TimerSample.h"
 #elif defined(HADWARE_TIMER_SAMPLE)
 #include "HardwareTimerSample.h"
+#elif defined(OLED_SSD1306_SAMPLE)
+#include "OLED_SSD1306.h"
 #else
 #include "BlinkSample.h"
 #endif

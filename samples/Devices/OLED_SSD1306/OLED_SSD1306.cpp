@@ -1,6 +1,5 @@
 #include "OLED_SSD1306.h"
 
-#include "i2c.h"
 #include "pinmap.h"
 
 using namespace codal;
@@ -45,9 +44,6 @@ void OledSample(){
     SSD1306_I2C oled( iotNode.i2c1, 0x78, 128, 64, false );
 
     oled.init();
-
-    uint8_t state = 0;
-    uint8_t count = 0;
 
 	while(1)
     {    

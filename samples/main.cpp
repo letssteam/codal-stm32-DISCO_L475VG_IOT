@@ -12,6 +12,8 @@
 #include "HardwareTimerSample.h"
 #elif defined(OLED_SSD1306_SAMPLE)
 #include "OLED_SSD1306.h"
+#elif defined(HTS221_SAMPLE)
+#include "HTS221_sample.h"
 #else
 #include "BlinkSample.h"
 #endif

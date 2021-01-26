@@ -14,6 +14,8 @@
 #include "OLED_SSD1306.h"
 #elif defined(HTS221_SAMPLE)
 #include "HTS221_sample.h"
+#elif defined(LPS22HB_SAMPLE)
+#include "LPS22HB_sample.h"
 #else
 #include "BlinkSample.h"
 #endif

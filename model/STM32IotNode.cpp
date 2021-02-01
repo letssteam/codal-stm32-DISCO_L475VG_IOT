@@ -20,13 +20,16 @@ STM32IotNode::STM32IotNode()
     messageBus(),
     io(),
     i2c1( io.sda, io.scl ),
-    i2c2( io.sda2, io.scl2 )
+    i2c2( io.sda2, io.scl2 ),
+    serial( io.rx, io.tx )
     //buttonUSER(io.btnUser, DEVICE_ID_BUTTON_A, DEVICE_BUTTON_ALL_EVENTS, ACTIVE_LOW)
 {
     // Clear our status
     status = 0;
     default_device_instance = this;
     //this->init();
+
+    default_serial_debug = &serial;
 }
 
 /**

@@ -16,6 +16,7 @@
 #include "STM32LowLevelTimer.h"
 #include "STM32IotNodeIO.h"
 #include "STM32I2C.h"
+#include "STM32Serial.h"
 
 
 
@@ -40,6 +41,7 @@ namespace codal
             STM32IotNodeIO io;
             STM32I2C i2c1;//External on arduino stardard pins 
             STM32I2C i2c2;//Internal only used by MEMS sensors 
+            STM32Serial serial;
 
             //Button buttonUSER;
             

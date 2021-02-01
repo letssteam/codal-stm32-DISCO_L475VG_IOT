@@ -1,21 +1,26 @@
 #include "SerialSample.h"
+#include "STM32Serial.h"
+
+using namespace codal;
+using namespace std;
 
 void SerialSample_main(){
-    codal::STM32IotNode iotNode;
-    
+    STM32IotNode iotNode;
+    string str;
+
+    iotNode.serial.init( 115200 );
+
     printf("\n");
-    printf("*******************************************\n");
-    printf("* Demonstration de la communication serie *\n");
-    printf("*******************************************\n");
-    
-    iotNode.sleep(1000);
-    
+    printf("*******************************************\n\r");
+    printf("* Demonstration de la communication serie *\n\r");
+    printf("*******************************************\n\r");
+
     while(1) {
-        iotNode.io.led1.setDigitalValue(1);
-
-        printf("\nVALUE = %d.%d degC\n", 0, 0);
-
-        iotNode.io.led1.setDigitalValue(0);
-        iotNode.sleep(1000);
+        if( iotNode.serial.isReadable() ){
+            char c = iotNode.serial.getChar(ASYNC);
+            str += c;
+            printf( string("< " + string(1, c) + "\n\r").c_str() );
+            printf( string("> " + str + "\n\r").c_str() );
+        }
     }
 }

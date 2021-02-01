@@ -16,6 +16,8 @@
 #include "HTS221_sample.h"
 #elif defined(LPS22HB_SAMPLE)
 #include "LPS22HB_sample.h"
+#elif defined(VL53L0X_SAMPLE)
+#include "VL53L0x_sample.h"
 #else
 #include "BlinkSample.h"
 #endif

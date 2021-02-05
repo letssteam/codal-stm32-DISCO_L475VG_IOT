@@ -1,5 +1,6 @@
 #include "SerialSample.h"
 #include "STM32Serial.h"
+#include <string>
 
 using namespace codal;
 using namespace std;

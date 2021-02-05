@@ -25,7 +25,7 @@ void hts221Sample(){
     string tempStr;
     string humStr;
 
-    while(1){
+    while(true){
 
         oled.fill(0);
         

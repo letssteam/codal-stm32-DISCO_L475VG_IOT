@@ -23,7 +23,7 @@ void lps22hbSample(){
     string pres;
     string temp;
 
-    while(1){
+    while(true){
 
         pres = to_string( lps.getPressure() ).substr(0, 6);
         temp = to_string( lps.getTemperature() ).substr(0, 4);

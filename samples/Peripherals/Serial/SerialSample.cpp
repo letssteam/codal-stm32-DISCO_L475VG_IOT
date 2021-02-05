@@ -15,12 +15,12 @@ void SerialSample_main(){
     printf("* Demonstration de la communication serie *\n\r");
     printf("*******************************************\n\r");
 
-    while(1) {
-        if( iotNode.serial.isReadable() ){
+    while(true) {
+        if( iotNode.serial.isReadable() != 0 ){
             char c = iotNode.serial.getChar(ASYNC);
             str += c;
-            printf( string("< " + string(1, c) + "\n\r").c_str() );
-            printf( string("> " + str + "\n\r").c_str() );
+            printf( "< %c \n\r",c);
+            printf( "> %s \n\r",str.c_str());
         }
     }
 }

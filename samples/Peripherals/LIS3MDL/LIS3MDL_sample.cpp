@@ -20,7 +20,7 @@ void lis3mdlSample(){
 
 
 
-    while(1){
+    while(true){
 
         auto values = magneto.getMeasure();
 

@@ -6,10 +6,10 @@ using namespace codal;
 
 STM32Pin led1(ID_PIN_P19, PinNumber::LED_1, PIN_CAPABILITY_AD);
 
-int state = 0;
+bool state = false;
 
 void Update_IT_callback(void) {
-    led1.setDigitalValue(state);
+    led1.setDigitalValue((int)state);
     state = !state;
 }
 
@@ -29,6 +29,6 @@ void HardwareTimerSample_main() {
     tim->attachInterrupt(Update_IT_callback);
     tim->setInterruptPriority(12, 3);
     tim->resume();
-    while (1) {
+    while (true) {
     }
 }

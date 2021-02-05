@@ -17,7 +17,7 @@
 #elif defined(LPS22HB_SAMPLE)
 #include "LPS22HB_sample.h"
 #elif defined(VL53L0X_SAMPLE)
-#include "VL53L0x_sample.h"
+#include "VL53L0X_sample.h"
 #elif defined(LIS3MDL_SAMPLE)
 #include "LIS3MDL_sample.h"
 #else

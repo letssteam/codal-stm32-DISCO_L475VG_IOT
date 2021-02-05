@@ -14,11 +14,8 @@ STM32IotNode *codal::default_device_instance = nullptr;
   * that represent various device drivers used to control aspects of the STM32 IOT node.
   */
 STM32IotNode::STM32IotNode()
-  : CodalComponent(),
-    lowLevelTimer(TIM_MST, TIM_MST_IRQ),
+  : lowLevelTimer(TIM_MST, TIM_MST_IRQ),
     timer(lowLevelTimer),
-    messageBus(),
-    io(),
     i2c1( io.sda, io.scl ),
     i2c2( io.sda2, io.scl2 ),
     serial( io.rx, io.tx )
@@ -49,8 +46,9 @@ STM32IotNode::STM32IotNode()
   */
 int STM32IotNode::init()
 {
-    if (status & DEVICE_INITIALIZED)
+    if ((status & DEVICE_INITIALIZED) != 0){
         return DEVICE_NOT_SUPPORTED;
+    }
 
     status |= DEVICE_INITIALIZED;
 
@@ -77,10 +75,11 @@ void STM32IotNode_dmesg_flush()
 {
 #if CONFIG_ENABLED(DMESG_SERIAL_DEBUG)
 #if DEVICE_DMESG_BUFFER_SIZE > 0
-    if (codalLogStore.ptr > 0 && default_device_instance)
+    if (codalLogStore.ptr > 0 && default_device_instance != nullptr)
     {
-        for (uint32_t i=0; i<codalLogStore.ptr; i++)
+        for (uint32_t i=0; i<codalLogStore.ptr; i++){
             __io_putchar(codalLogStore.buffer[i]);
+        }
         codalLogStore.ptr = 0;
     }
 #endif

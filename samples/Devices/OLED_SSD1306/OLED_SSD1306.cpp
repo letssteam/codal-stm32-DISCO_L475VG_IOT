@@ -26,13 +26,13 @@ void CharScreen( SSD1306& oled ){
 }
 
 void BlinkScreen(STM32IotNode& iotNode,  SSD1306& oled, uint32_t delay){
-    oled.invert(0);
+    oled.invert(false);
     iotNode.sleep(delay);
-    oled.invert(1);
+    oled.invert(true);
     iotNode.sleep(delay);
-    oled.invert(0);
+    oled.invert(false);
     iotNode.sleep(delay);
-    oled.invert(1);
+    oled.invert(true);
     iotNode.sleep(delay);
 }
 
@@ -45,7 +45,7 @@ void OledSample(){
 
     oled.init();
 
-	while(1)
+	while(true)
     {    
         HelloWorld(oled);
         BlinkScreen(iotNode, oled, 500);

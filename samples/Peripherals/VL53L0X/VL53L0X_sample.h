@@ -4,7 +4,7 @@
 
 #include "STM32IotNode.h"
 #include "ssd1306.h"
-#include "VL53L0x.h"
+#include "VL53L0X.h"
 
 #ifndef SAMPLE_MAIN
 #define SAMPLE_MAIN vlx53l0xSample

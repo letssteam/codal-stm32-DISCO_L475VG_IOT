@@ -2,8 +2,8 @@
 
 void BlinkSample_main(){
     codal::STM32IotNode iotNode;
-	bool state = false;
-	while(true)
+    bool state = false;
+    while(true)
     {    
         iotNode.io.led1.setDigitalValue((int)state);
         iotNode.io.led2.setDigitalValue((int)!state);

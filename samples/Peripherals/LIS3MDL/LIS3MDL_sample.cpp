@@ -23,7 +23,7 @@ void lis3mdlSample(){
 
         auto values = magneto.getMeasure();
 
-        printf("X : %5ld\tY : %5ld\tZ : %5ld\n\r", values[0], values[1], values[2]);
+        printf("X : %5u\tY : %5u\tZ : %5u\n\r", values[0], values[1], values[2]);
 
         iotNode.sleep(500);
     }

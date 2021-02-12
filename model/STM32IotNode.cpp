@@ -18,7 +18,11 @@ STM32IotNode::STM32IotNode()
     timer(lowLevelTimer),
     i2c1( io.sda, io.scl ),
     i2c2( io.sda2, io.scl2 ),
-    serial( io.rx, io.tx )
+    serial( io.rx, io.tx ),
+    coordinateSpace(SIMPLE_CARTESIAN, true, COORDINATE_SPACE_ROTATED_180),
+    magnetometer(i2c2, 0x3C, coordinateSpace),
+    accelerometer(i2c2, 0xD4, coordinateSpace),
+    gyroscope(i2c2, 0xD4, coordinateSpace)
     //buttonUSER(io.btnUser, DEVICE_ID_BUTTON_A, DEVICE_BUTTON_ALL_EVENTS, ACTIVE_LOW)
 {
     // Clear our status

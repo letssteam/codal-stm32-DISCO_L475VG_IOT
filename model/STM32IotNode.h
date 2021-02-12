@@ -18,6 +18,10 @@
 #include "STM32I2C.h"
 #include "STM32Serial.h"
 
+#include "LIS3MDL_Magnetometer.h"
+#include "LSM6DSL_Accelerometer.h"
+#include "LSM6DSL_Gyroscope.h"
+
 
 
 // Status flag values
@@ -42,6 +46,11 @@ namespace codal
             STM32I2C i2c1;//External on arduino stardard pins 
             STM32I2C i2c2;//Internal only used by MEMS sensors 
             STM32Serial serial;
+            
+            CoordinateSpace coordinateSpace;
+            LIS3MDL_Magnetometer magnetometer;
+            LSM6DSL_Accelerometer accelerometer;
+            LSM6DSL_Gyroscope gyroscope;
 
             //Button buttonUSER;
             

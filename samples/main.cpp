@@ -20,6 +20,10 @@
 #include "VL53L0X_sample.h"
 #elif defined(LIS3MDL_SAMPLE)
 #include "LIS3MDL_sample.h"
+#elif defined(LSM6DSL_SAMPLE)
+#include "LSM6DSL_sample.h"
+#elif defined(LSM6DSL_ACCEL_EVENT_SAMPLE)
+#include "LSM6DSL_accel_sample_event.h"
 #else
 #include "BlinkSample.h"
 #endif

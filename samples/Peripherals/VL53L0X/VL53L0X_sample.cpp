@@ -22,7 +22,7 @@ void vlx53l0xSample(){
 
     string dist;
 
-    while(1){
+    while(true){
 
         oled.fill(0);
 

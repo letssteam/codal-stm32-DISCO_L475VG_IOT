@@ -6,10 +6,10 @@ using namespace codal;
 
 STM32Pin led1(ID_PIN_P19, PinNumber::LED_1, PIN_CAPABILITY_AD);
 
-int state = 0;
+bool state = false;
 
 void Update_IT_callback(uint16_t channel_bitmsk) {
-    led1.setDigitalValue(state);
+    led1.setDigitalValue((int)state);
     state = !state;
 }
 
@@ -56,6 +56,6 @@ void TimerSample_main() {
 
     uint32_t end = getCurrentMicros();
     cycleScale   = (10000) / (end - start - 5);
-    while (1) {
+    while (true) {
     }
 }

@@ -26,7 +26,7 @@
         "CODAL_DEBUG":"CODAL_DEBUG_ENABLED",
         "DEVICE_USB":0,
         "CODAL_TIMESTAMP":"uint32_t",
-        "PROCESSOR_WORD_TYPE":"uint32_t",
+        "PROCESSOR_WORD_TYPE":"uintptr_t",
         "BLUENRG_MS" : 1,
         "USE_STM32L475E_IOT01" : 1,
         "SET_L2CAP_CONN_UPD_REQ_COMMAND" : 1,

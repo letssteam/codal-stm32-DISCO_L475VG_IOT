@@ -7,8 +7,7 @@ using namespace std;
 void lis3mdlSample(){
 
     STM32IotNode iotNode;
-    auto coordSpace = CoordinateSpace(SIMPLE_CARTESIAN);
-    LIS3MDL magneto(coordSpace, iotNode.i2c2, 0x3C);
+    LIS3MDL magneto(iotNode.i2c2, 0x3C);
 
     iotNode.serial.init(115200);
     magneto.init();

@@ -17,6 +17,7 @@
 #include "STM32IotNodeIO.h"
 #include "STM32I2C.h"
 #include "STM32Serial.h"
+#include "STM32SPI.h"
 
 #include "LIS3MDL_Magnetometer.h"
 #include "LSM6DSL_Accelerometer.h"
@@ -46,6 +47,8 @@ namespace codal
             STM32I2C i2c1;//External on arduino stardard pins 
             STM32I2C i2c2;//Internal only used by MEMS sensors 
             STM32Serial serial;
+            STM32SPI spi1;
+            STM32SPI spi3;
             
             CoordinateSpace coordinateSpace;
             LIS3MDL_Magnetometer magnetometer;

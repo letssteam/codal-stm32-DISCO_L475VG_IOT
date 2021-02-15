@@ -19,6 +19,8 @@ STM32IotNode::STM32IotNode()
     i2c1( io.sda, io.scl ),
     i2c2( io.sda2, io.scl2 ),
     serial( io.rx, io.tx ),
+    spi1(io.miso, io.mosi, io.sclk),
+    spi3(io.miso3, io.mosi3, io.sclk3),
     coordinateSpace(SIMPLE_CARTESIAN, true, COORDINATE_SPACE_ROTATED_180),
     magnetometer(i2c2, 0x3C, coordinateSpace),
     accelerometer(i2c2, 0xD4, coordinateSpace),

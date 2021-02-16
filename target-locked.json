@@ -23,7 +23,7 @@
         "DMESG_SERIAL_DEBUG": 1,
         "EVENT_LISTENER_DEFAULT_FLAGS": "MESSAGE_BUS_LISTENER_DROP_IF_BUSY",
         "MESSAGE_BUS_LISTENER_MAX_QUEUE_DEPTH": 10,
-        "PROCESSOR_WORD_TYPE": "uint32_t",
+        "PROCESSOR_WORD_TYPE": "uintptr_t",
         "SCHEDULER_TICK_PERIOD_US": 1000,
         "SET_L2CAP_CONN_UPD_REQ_COMMAND": 1,
         "USE_ACCEL_LSB": 0,
@@ -37,13 +37,13 @@
     "generate_hex": true,
     "libraries": [
         {
-            "branch": "f36662d6603664ca9c97833bb1077d41c5008d9a",
+            "branch": "9401a01faadf058a757db171e5842dd1d2b20a32",
             "name": "codal-core",
             "type": "git",
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "7dd515c10dccf7fe4116cde5f9b769bb68b2c742",
+            "branch": "d3cc4b86a6a047b90fd205f583e8b72a109dab77",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +52,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=524288 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.2.2",
+    "snapshot_version": "v0.2.3",
     "toolchain": "ARM_GCC"
 }

@@ -43,7 +43,7 @@
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "d3cc4b86a6a047b90fd205f583e8b72a109dab77",
+            "branch": "70ffbc0dac9c9fa2752b41a305efb0faea0acad4",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +52,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=524288 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.2.3",
+    "snapshot_version": "v0.2.4",
     "toolchain": "ARM_GCC"
 }

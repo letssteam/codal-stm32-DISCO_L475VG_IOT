@@ -3,7 +3,7 @@ name: codal-buildtarget
 on:
   push:
     branches: 
-      - master
+      - main
   create:
 
 jobs:

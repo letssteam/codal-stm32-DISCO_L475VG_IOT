@@ -22,6 +22,10 @@
 #include "LIS3MDL_Magnetometer.h"
 #include "LSM6DSL_Accelerometer.h"
 #include "LSM6DSL_Gyroscope.h"
+#include "HTS221_Humidity.h"
+#include "HTS221_Temperature.h"
+#include "LPS22HB_Pressure.h"
+#include "VL53L0X_Distance.h"
 
 
 
@@ -49,11 +53,17 @@ namespace codal
             STM32Serial serial;
             STM32SPI spi1;
             STM32SPI spi3;
+
+            HTS221_Humidity hygrometer;
+            HTS221_Temperature thermometer;
+            LPS22HB_Pressure barometer;
+            VL53L0X_Distance distance;
             
             CoordinateSpace coordinateSpace;
             LIS3MDL_Magnetometer magnetometer;
             LSM6DSL_Accelerometer accelerometer;
             LSM6DSL_Gyroscope gyroscope;
+
 
             //Button buttonUSER;
             

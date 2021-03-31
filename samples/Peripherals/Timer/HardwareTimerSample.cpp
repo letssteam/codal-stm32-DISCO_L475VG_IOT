@@ -1,4 +1,5 @@
 #include "HardwareTimerSample.h"
+#include "HardwareTimer.h"
 #include "STM32Pin.h"
 #include "wiring_time.h"
 

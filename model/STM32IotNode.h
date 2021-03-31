@@ -6,7 +6,6 @@
 #include "CodalDevice.h"
 #include "CodalDmesg.h"
 #include "CodalFiber.h"
-#include "DumbSensor.h"
 #include "HTS221_Humidity.h"
 #include "HTS221_Temperature.h"
 #include "LIS3MDL_Magnetometer.h"
@@ -48,7 +47,6 @@ class STM32IotNode : public CodalComponent {
     STM32SPI spi1;
     STM32SPI spi3;
 
-    DumbSensor dumbSensor;
     HTS221_Humidity hygrometer;
     HTS221_Temperature thermometer;
     LPS22HB_Pressure barometer;

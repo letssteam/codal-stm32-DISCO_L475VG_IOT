@@ -1,5 +1,6 @@
-#include <array>
 #include "LSM6DSL_accel_sample_event.h"
+
+#include <array>
 
 using namespace codal;
 using namespace std;
@@ -42,34 +43,35 @@ void onSampleEvent(Event e){
     if(e.source == DEVICE_ID_ACCELEROMETER)
         printf("(%ld) ACCELERATION  = |X : %d, Y : %d, Z : %d|\n", e.timestamp, sample.x, sample.y, sample.z);
     if(e.source == DEVICE_ID_GESTURE)
-        printf("(%ld) GESTURE  = %s\n", e.timestamp, gestureName(e.value));        
+        printf("(%ld) GESTURE  = %s\n", e.timestamp, gestureName(e.value));
 }*/
 
-void lsm6dslAccelEventSample(){
-
+void lsm6dslAccelEventSample()
+{
     STM32IotNode iotNode;
+    iotNode.init();
+
     iotNode.serial.init(115200);
 
     default_device_instance->serial.init(115200);
-    
+
     printf("\n");
     printf("****************\n\r");
     printf("* LSM6DSL TEST *\n\r");
     printf("****************\n\r");
-/*
-    EventModel::defaultEventBus->listen(DEVICE_ID_ACCELEROMETER, DEVICE_EVT_ANY, onSampleEvent);
-    EventModel::defaultEventBus->listen(DEVICE_ID_GESTURE, DEVICE_EVT_ANY, onSampleEvent);
+    /*
+        EventModel::defaultEventBus->listen(DEVICE_ID_ACCELEROMETER, DEVICE_EVT_ANY, onSampleEvent);
+        EventModel::defaultEventBus->listen(DEVICE_ID_GESTURE, DEVICE_EVT_ANY, onSampleEvent);
 
-    iotNode.sleep(500);
-    iotNode.accelerometer.requestUpdate();*/
+        codal::STM32IotNode::sleep(500);
+        iotNode.accelerometer.requestUpdate();*/
 
-    while(true){
+    while (true) {
         iotNode.io.led1.setDigitalValue(1);
         iotNode.io.led2.setDigitalValue(1);
-        iotNode.sleep(1000);
+        codal::STM32IotNode::sleep(1000);
         iotNode.io.led1.setDigitalValue(0);
         iotNode.io.led2.setDigitalValue(0);
-        iotNode.sleep(1000);
+        codal::STM32IotNode::sleep(1000);
     }
-
 }

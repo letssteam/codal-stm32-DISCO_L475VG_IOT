@@ -6,6 +6,8 @@
 #include "ADCSample.h"
 #elif defined(SERIAL_SAMPLE)
 #include "SerialSample.h"
+#elif defined(SERIALUSB_SAMPLE)
+#include "SerialUSBSample.h"
 #elif defined(SPI_SAMPLE)
 #include "SpiSample.h"
 #elif defined(TIMER_SAMPLE)

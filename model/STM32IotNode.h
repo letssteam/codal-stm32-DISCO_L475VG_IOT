@@ -6,6 +6,7 @@
 #include "CodalDevice.h"
 #include "CodalDmesg.h"
 #include "CodalFiber.h"
+#include "Event.h"
 #include "HTS221_Humidity.h"
 #include "HTS221_Temperature.h"
 #include "LIS3MDL_Magnetometer.h"
@@ -19,10 +20,8 @@
 #include "STM32LowLevelTimer.h"
 #include "STM32SPI.h"
 #include "STM32Serial.h"
+#include "Timer.h"
 #include "VL53L0X_Distance.h"
-#include "codal-core/inc/driver-models/Timer.h"
-#include "codal-core/inc/types/Event.h"
-#include "stm32_def.h"
 
 // Status flag values
 #define DEVICE_INITIALIZED 0x01

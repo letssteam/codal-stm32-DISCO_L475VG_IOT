@@ -1,7 +1,7 @@
 {
     "architecture": "CORTEX_M4",
     "asm_flags": "-fno-exceptions -fno-unwind-tables",
-    "c_flags": "-std=c11 -u _printf_float  -fwrapv -Warray-bounds -Wno-format",
+    "c_flags": "-std=c11 -u _printf_float  -fwrapv -Warray-bounds -Wno-format -g -Og -fno-inline",
     "cmake_definitions": {},
     "config": {
         "BLUENRG_MS": 1,
@@ -29,7 +29,7 @@
         "USE_ACCEL_LSB": 0,
         "USE_STM32L475E_IOT01": 1
     },
-    "cpp_flags": "-std=c++17 -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile",
+    "cpp_flags": "-std=c++17 -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile -g -Og -fno-inline",
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
     "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h",
     "device": "DISCO_L475VG_IOT",
@@ -37,13 +37,13 @@
     "generate_hex": true,
     "libraries": [
         {
-            "branch": "a2780d04ffbc21ded9cb7117818b43168e10385d",
+            "branch": "886c8059ed0c03979477fdccdea362216f1a0064",
             "name": "codal-core",
             "type": "git",
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "059fe5a2f96e905213f339ec4ce391882e7d5f64",
+            "branch": "c997203c8f4a9120d1594bd805d2fbc9c36b6538",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +52,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=524288 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.2.7",
+    "snapshot_version": "v0.2.8",
     "toolchain": "ARM_GCC"
 }

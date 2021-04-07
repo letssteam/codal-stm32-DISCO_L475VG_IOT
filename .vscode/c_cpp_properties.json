@@ -1,14 +1,7 @@
 {
     "configurations": [
         {
-            "includePath": [
-                "/usr/lib/arm-none-eabi/include/*",
-                "${workspaceFolder}/inc/**",
-                "${workspaceFolder}/src/**",
-                "${workspaceFolder}/model/**",
-                "${workspaceFolder}/**"
-            ],
-            "name": "Codal-stm32-NUCLEO_F4x1RE",
+            "name": "codal-stm32-DISCO_L475VG_IOT",
             "defines": [
                 "STM32L4",
                 "STM32L4xx",

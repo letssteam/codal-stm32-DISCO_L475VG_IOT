@@ -1,7 +1,7 @@
 {
     "architecture": "CORTEX_M4",
     "asm_flags": "-fno-exceptions -fno-unwind-tables",
-    "c_flags": "-std=c18 -u _printf_float  -fwrapv -Warray-bounds -Wno-format",
+    "c_flags": "-std=c11 -u _printf_float  -fwrapv -Warray-bounds -Wno-format",
     "cmake_definitions": {},
     "config": {
         "BLUENRG_MS": 1,

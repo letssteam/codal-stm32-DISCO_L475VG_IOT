@@ -37,7 +37,7 @@
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
     "asm_flags": "-fno-exceptions -fno-unwind-tables",
     "c_flags": "-std=c18 -u _printf_float  -fwrapv -Warray-bounds -Wno-format -g -Og -fno-inline",
-    "cpp_flags": "-std=c++2a -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile -g -Og -fno-inline",
+    "cpp_flags": "-std=c++17 -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile -g -Og -fno-inline",
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=524288 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "libraries": [
         {

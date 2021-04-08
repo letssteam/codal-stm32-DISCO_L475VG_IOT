@@ -12,6 +12,8 @@
 #include "SpiSample.h"
 #elif defined(TIMER_SAMPLE)
 #include "TimerSample.h"
+#elif defined(WEBUSB_SAMPLE)
+#include "WebUSBSample.h"
 #elif defined(HADWARE_TIMER_SAMPLE)
 #include "HardwareTimerSample.h"
 #elif defined(OLED_SSD1306_SAMPLE)
@@ -34,7 +36,8 @@
 
 using namespace codal;
 
-int main() {
+int main()
+{
     SAMPLE_MAIN();
     release_fiber();
 }

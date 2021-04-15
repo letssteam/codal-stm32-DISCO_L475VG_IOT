@@ -7,7 +7,7 @@
             "label": "build",
             "args": [],
             "type": "shell",
-            "command": "cd ../codal/;./build.py -d",
+            "command": "cd ../../;./build.py -d",
             "problemMatcher": {
                 "base": "$gcc",
                 "fileLocation": [
@@ -23,7 +23,7 @@
             "label": "tag current target",
             "args": [],
             "type": "shell",
-            "command": "cd ../codal/;./build.py -l",
+            "command": "cd ../../;./build.py -l",
             "group": "test",
             "problemMatcher": []
         },
@@ -31,7 +31,7 @@
             "label": "clean build current target",
             "args": [],
             "type": "shell",
-            "command": "cd ../codal/;./build.py -d -c",
+            "command": "cd ../../;./build.py -d -c",
             "problemMatcher": {
                 "base": "$gcc",
                 "fileLocation": [
@@ -44,7 +44,7 @@
             "label": "flash",
             "args": [],
             "type": "shell",
-            "command": "cd ../codal;openocd -s /usr/share/openocd/scripts/ -s ${workspaceFolder}/scripts/ -f openocd.cfg -c 'program build/DISCO_L475VG_IOT verify reset exit'; sleep 6",
+            "command": "cd ../..;openocd -s /usr/share/openocd/scripts/ -s ${workspaceFolder}/scripts/ -f openocd.cfg -c 'program build/DISCO_L475VG_IOT verify reset exit'; sleep 6",
             "dependsOn": [
                 "build"
             ],

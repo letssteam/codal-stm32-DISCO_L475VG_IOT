@@ -5,6 +5,7 @@
     "cmake_definitions": {},
     "config": {
         "BLUENRG_MS": 1,
+        "BOARD_NAME": "\"DISCO_L475VG_IOT\"",
         "CODAL_DEBUG": "CODAL_DEBUG_ENABLED",
         "CODAL_TIMESTAMP": "uint32_t",
         "DENABLE_SPI_FIX": 1,
@@ -31,7 +32,7 @@
     },
     "cpp_flags": "-std=c++17 -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile -g -Og -fno-inline",
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
-    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h",
+    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DUSBCON -DUSBD_USE_CDC -DHAL_PCD_MODULE_ENABLED -DUSBD_CLASS_BOS_ENABLED=1",
     "device": "DISCO_L475VG_IOT",
     "generate_bin": true,
     "generate_hex": true,
@@ -43,7 +44,7 @@
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "c997203c8f4a9120d1594bd805d2fbc9c36b6538",
+            "branch": "a4b60e68460e5f7c3df01971f6a695a0019fc77b",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -52,6 +53,6 @@
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=524288 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.2.8",
+    "snapshot_version": "v0.2.9",
     "toolchain": "ARM_GCC"
 }

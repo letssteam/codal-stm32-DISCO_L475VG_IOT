@@ -2,12 +2,6 @@ project(codal-stm32-DISCO_L475VG_IOT)
 
 include("${CODAL_UTILS_LOCATION}")
 
-set(CMAKE_CXX_CLANG_TIDY
-    clang-tidy;
-    --extra-arg=-std=c++17;
-    --extra-arg=-Wno-error;
-    --extra-arg=-Wno-register;)
-
 # find sources and headers
 RECURSIVE_FIND_DIR(TOP_LEVEL_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/inc" "*.h")
 RECURSIVE_FIND_FILE(TOP_LEVEL_SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src" "*.c")

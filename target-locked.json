@@ -1,6 +1,7 @@
 {
     "architecture": "CORTEX_M4",
     "asm_flags": "-fno-exceptions -fno-unwind-tables",
+    "board": "B_L475E_IOT01A",
     "c_flags": "-std=c11 -u _printf_float  -fwrapv -Warray-bounds -Wno-format -g -Og -fno-inline",
     "cmake_definitions": {},
     "config": {
@@ -28,12 +29,13 @@
         "SCHEDULER_TICK_PERIOD_US": 1000,
         "SET_L2CAP_CONN_UPD_REQ_COMMAND": 1,
         "USE_ACCEL_LSB": 0,
-        "USE_STM32L475E_IOT01": 1
+        "USE_STM32L475E_IOT01": 1,
+        "VARIANT_H": "\"variant_B_L475E_IOT01A.h\""
     },
     "cpp_flags": "-std=c++17 -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile -g -Og -fno-inline",
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
-    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DUSBCON -DUSBD_USE_CDC -DHAL_PCD_MODULE_ENABLED -DUSBD_CLASS_BOS_ENABLED=1",
-    "device": "DISCO_L475VG_IOT",
+    "definitions": "-DCUSTOM_PERIPHERAL_PINS -DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DUSBCON -DUSBD_USE_CDC -DHAL_PCD_MODULE_ENABLED -DUSBD_CLASS_BOS_ENABLED=1",
+    "device": "STM32",
     "generate_bin": true,
     "generate_hex": true,
     "libraries": [
@@ -44,15 +46,19 @@
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "a44c94d918213396f852d5e037ea6f4819f31b9c",
+            "branch": "bf0c4ee989074f71a5f7a29febccf0626c790663",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
         }
     ],
     "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=524288 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16",
+    "mcu": "cortex-m4",
     "post_process": "",
     "processor": "STM32L4",
-    "snapshot_version": "v0.2.16",
-    "toolchain": "ARM_GCC"
+    "product_line": "STM32L475xx",
+    "series": "STM32L4xx",
+    "snapshot_version": "v0.2.17",
+    "toolchain": "ARM_GCC",
+    "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }

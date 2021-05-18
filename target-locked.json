@@ -25,11 +25,13 @@
         "DMESG_SERIAL_DEBUG": 1,
         "EVENT_LISTENER_DEFAULT_FLAGS": "MESSAGE_BUS_LISTENER_DROP_IF_BUSY",
         "MESSAGE_BUS_LISTENER_MAX_QUEUE_DEPTH": 10,
+        "PERIPHERAL_PINS": "PeripheralPins_B_L475E_IOT01A",
         "PROCESSOR_WORD_TYPE": "uintptr_t",
         "SCHEDULER_TICK_PERIOD_US": 1000,
         "SET_L2CAP_CONN_UPD_REQ_COMMAND": 1,
         "USE_ACCEL_LSB": 0,
         "USE_STM32L475E_IOT01": 1,
+        "VARIANT": "variant_B_L475E_IOT01A",
         "VARIANT_H": "\"variant_B_L475E_IOT01A.h\""
     },
     "cpp_flags": "-std=c++17 -u _printf_float  -fwrapv -fno-rtti -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Warray-bounds -Wno-register -Wno-format -Wno-volatile -g -Og -fno-inline",
@@ -46,7 +48,7 @@
             "url": "https://github.com/letssteam/codal-core"
         },
         {
-            "branch": "bf0c4ee989074f71a5f7a29febccf0626c790663",
+            "branch": "ec3308669acc0ad7ccbcb7b301fbb565f34afe96",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -58,7 +60,7 @@
     "processor": "STM32L4",
     "product_line": "STM32L475xx",
     "series": "STM32L4xx",
-    "snapshot_version": "v0.2.17",
+    "snapshot_version": "v0.2.18",
     "toolchain": "ARM_GCC",
     "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }

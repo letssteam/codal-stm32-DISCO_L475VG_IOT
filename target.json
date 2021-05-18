@@ -1,7 +1,14 @@
 {
-    "device": "DISCO_L475VG_IOT",
-    "processor": "STM32L4",
+    "device": "STM32",
+    "board":"B_L475E_IOT01A",
+
     "architecture": "CORTEX_M4",
+    "mcu":"cortex-m4",
+
+    "processor": "STM32L4",
+    "series":"STM32L4xx",
+    "product_line":"STM32L475xx",
+    "variant":"STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT",
     "toolchain": "ARM_GCC",
     "post_process": "",
     "generate_bin": true,
@@ -31,9 +38,10 @@
         "USE_STM32L475E_IOT01": 1,
         "SET_L2CAP_CONN_UPD_REQ_COMMAND": 1,
         "DENABLE_SPI_FIX": 1,
-        "BOARD_NAME": "\"DISCO_L475VG_IOT\""
+        "BOARD_NAME": "\"DISCO_L475VG_IOT\"",
+        "VARIANT_H":"\"variant_B_L475E_IOT01A.h\""    
     },
-    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DUSBCON -DUSBD_USE_CDC -DHAL_PCD_MODULE_ENABLED -DUSBD_CLASS_BOS_ENABLED=1",
+    "definitions": "-DCUSTOM_PERIPHERAL_PINS -DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DUSBCON -DUSBD_USE_CDC -DHAL_PCD_MODULE_ENABLED -DUSBD_CLASS_BOS_ENABLED=1",
     "cmake_definitions": {},
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
     "asm_flags": "-fno-exceptions -fno-unwind-tables",

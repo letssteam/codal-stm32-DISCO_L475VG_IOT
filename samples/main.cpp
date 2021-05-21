@@ -14,6 +14,8 @@
 #include "TimerSample.h"
 #elif defined(WEBUSB_SAMPLE)
 #include "WebUSBSample.h"
+#elif defined(BLE_PERIPHERAL_SAMPLE)
+#include "BLE_Peripheral_Sample.h"
 #elif defined(HADWARE_TIMER_SAMPLE)
 #include "HardwareTimerSample.h"
 #elif defined(OLED_SSD1306_SAMPLE)

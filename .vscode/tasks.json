@@ -55,6 +55,22 @@
                 "kind": "test",
                 "isDefault": true
             }
+        },
+        {
+            "label": "flash_pyocd",
+            "args": [],
+            "type": "shell",
+            "command": "cd ../..;pyocd flash DISCO_L475VG_IOT.hex; sleep 6",
+            "dependsOn": [
+                "build"
+            ],
+            "presentation": {
+                "reveal": "never"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }

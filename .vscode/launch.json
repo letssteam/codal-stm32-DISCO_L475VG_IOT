@@ -24,6 +24,25 @@
                 "enable breakpoint",
                 "monitor reset"
             ]
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "pyocd",
+            "cwd": "${workspaceFolder}/../../",
+            "executable": "${workspaceFolder}/../../build/DISCO_L475VG_IOT",
+            "name": "Debug (PyOCD)",
+            "device": "STM32L475VGTx",
+            "svdFile": "${workspaceFolder}/scripts/STM32L4x5.svd",
+            "searchDir": [
+                "/usr/share/openocd/scripts/",
+                "${workspaceFolder}/scripts/"
+            ],
+            "configFiles": [
+                "openocd.cfg"
+            ],
+            "preLaunchTask": "flash_pyocd",
+            "runToMain": true
         }
     ]
 }

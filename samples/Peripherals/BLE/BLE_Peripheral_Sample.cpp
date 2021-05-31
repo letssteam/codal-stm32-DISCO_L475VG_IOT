@@ -14,7 +14,7 @@ HCISpiTransportClass hci(iotNode.spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pi
 BLELocalDevice BLEObj(&hci);
 BLELocalDevice& BLE = BLEObj;
 
-void BLE_HCI_Sample_main()
+void BLE_Peripheral_Sample_main()
 {
     BLEService ledService("19B10000-E8F2-537E-4F6C-D104768A1214");
     BLEByteCharacteristic switchCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLEWrite);

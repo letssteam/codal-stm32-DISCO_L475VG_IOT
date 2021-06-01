@@ -60,7 +60,7 @@
             "label": "flash_pyocd",
             "args": [],
             "type": "shell",
-            "command": "cd ../..;pyocd flash DISCO_L475VG_IOT.hex; sleep 6",
+            "command": "cd ../..;pyocd flash STM32.hex; sleep 6",
             "dependsOn": [
                 "build"
             ],

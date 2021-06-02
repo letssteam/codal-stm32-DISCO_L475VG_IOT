@@ -22,6 +22,11 @@ void blePeripheralDisconnectHandler(BLEDevice central)
     printf("BLE Disconnected : %s\n\r", central.address().c_str());
 }
 
+void bleOnDelimiterHandler()
+{
+    printf("Delimiter detected !\n\r");
+}
+
 void BLE_Serial_Sample_main()
 {
     iotNode.serial.init(115200);
@@ -49,6 +54,8 @@ void BLE_Serial_Sample_main()
 
     STM32SerialBLE bleSerial("6E400001-B5A3-F393-E0A9-E50E24DCCA9E", "6E400002-B5A3-F393-E0A9-E50E24DCCA9E",
                              "6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
+
+    bleSerial.onDelimiterReceived('$', bleOnDelimiterHandler);
 
     BLE.setEventHandler(BLEConnected, blePeripheralConnectHandler);
     BLE.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);

@@ -1,14 +1,12 @@
 {
     "device": "STM32",
-    "board":"B_L475E_IOT01A",
-
+    "board": "B_L475E_IOT01A",
     "architecture": "CORTEX_M4",
-    "mcu":"cortex-m4",
-
+    "mcu": "cortex-m4",
     "processor": "STM32L4",
-    "series":"STM32L4xx",
-    "product_line":"STM32L475xx",
-    "variant":"STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT",
+    "series": "STM32L4xx",
+    "product_line": "STM32L475xx",
+    "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT",
     "toolchain": "ARM_GCC",
     "post_process": "",
     "generate_bin": true,
@@ -40,8 +38,8 @@
         "DENABLE_SPI_FIX": 1,
         "BOARD_NAME": "\"DISCO_L475VG_IOT\"",
         "PERIPHERAL_PINS": "PeripheralPins_B_L475E_IOT01A",
-        "VARIANT" : "variant_B_L475E_IOT01A",
-        "VARIANT_H":"\"variant_B_L475E_IOT01A.h\""    
+        "VARIANT": "variant_B_L475E_IOT01A",
+        "VARIANT_H": "\"variant_B_L475E_IOT01A.h\""
     },
     "definitions": "-DCUSTOM_PERIPHERAL_PINS -DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DHAL_UART_MODULE_ENABLED -DDMESG_SERIAL_DEBUG -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DUSBCON -DUSBD_USE_CDC -DHAL_PCD_MODULE_ENABLED -DUSBD_CLASS_BOS_ENABLED=1",
     "cmake_definitions": {},
@@ -60,7 +58,7 @@
         {
             "name": "codal-stm32",
             "url": "https://github.com/letssteam/codal-stm32",
-            "branch": "main",
+            "branch": "ble_serial",
             "type": "git"
         }
     ]

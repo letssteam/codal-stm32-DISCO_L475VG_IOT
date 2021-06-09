@@ -16,6 +16,8 @@
 #include "WebUSBSample.h"
 #elif defined(BLE_PERIPHERAL_SAMPLE)
 #include "BLE_Peripheral_Sample.h"
+#elif defined(BLE_BROADCAST_SAMPLE)
+#include "BLE_Broadcast_Sample.h"
 #elif defined(BLE_SERIAL_SAMPLE)
 #include "BLE_Serial_Sample.h"
 #elif defined(HADWARE_TIMER_SAMPLE)

@@ -6,6 +6,7 @@
 #include "Event.h"
 #include "MessageBus.h"
 #include "NotifyEvents.h"
+#include "STM32DISCO_L475VG_IOT_IO.h"
 #include "STM32LowLevelTimer.h"
 #include "Timer.h"
 
@@ -24,6 +25,7 @@ class STM32DISCO_L475VG_IOT : public CodalComponent {
     STM32LowLevelTimer lowLevelTimer;
     Timer timer;
     MessageBus messageBus;
+    STM32DISCO_L475VG_IOT_IO io;
 
     /**
      * Constructor.

@@ -8,6 +8,7 @@
 #include "NotifyEvents.h"
 #include "STM32DISCO_L475VG_IOT_IO.h"
 #include "STM32LowLevelTimer.h"
+#include "STM32Serial.h"
 #include "Timer.h"
 
 // Status flag values
@@ -26,6 +27,7 @@ class STM32DISCO_L475VG_IOT : public CodalComponent {
     Timer timer;
     MessageBus messageBus;
     STM32DISCO_L475VG_IOT_IO io;
+    STM32Serial serial;
 
     /**
      * Constructor.

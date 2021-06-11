@@ -13,11 +13,12 @@ STM32DISCO_L475VG_IOT* codal::default_device_instance = nullptr;
  * that represent various device drivers used to control aspects of the STM32 IOT node.
  */
 STM32DISCO_L475VG_IOT::STM32DISCO_L475VG_IOT()
-    : CodalComponent(), lowLevelTimer(TIM5, TIM5_IRQn), timer(lowLevelTimer), messageBus(), io()
+    : CodalComponent(), lowLevelTimer(TIM5, TIM5_IRQn), timer(lowLevelTimer), messageBus(), io(), serial(io.rx, io.tx)
 {
     // Clear our status
     status                  = 0;
     default_device_instance = this;
+    default_serial_debug    = &serial;
 }
 
 /**

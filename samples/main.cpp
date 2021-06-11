@@ -1,16 +1,23 @@
 
 #include "CodalFiber.h"
 #include "STM32DISCO_L475VG_IOT.h"
-using namespace codal;
+
+#if defined(GPIO_SAMPLE)
+#include "GPIOSample.h"
+#elif defined(ADC_SAMPLE)
+#include "ADCSample.h"
+#elif defined(PIN_SAMPLE)
+#include "PinSample.h"
+#else
+#include "BlinkSample.h"
+#endif
+
+codal::STM32DISCO_L475VG_IOT discoL475VgIot;
 
 int main()
 {
-    STM32DISCO_L475VG_IOT discoL475VgIot;
     discoL475VgIot.init();
-    while (1) {
-        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-        discoL475VgIot.sleep(1000);
-    }
-    release_fiber();
+    SAMPLE_MAIN(discoL475VgIot);
+    codal::release_fiber();
     return 0;
 }

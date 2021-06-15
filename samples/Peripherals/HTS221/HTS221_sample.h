@@ -1,6 +1,4 @@
-
-#ifndef __HTS221_SAMPLE_H__
-#define __HTS221_SAMPLE_H__
+#pragma once
 
 #include "HTS221.h"
 #include "STM32DISCO_L475VG_IOT.h"
@@ -10,5 +8,3 @@
 #endif
 
 void hts221Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot);
-
-#endif

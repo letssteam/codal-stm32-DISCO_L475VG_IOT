@@ -15,26 +15,27 @@ void hts221Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*          Demonstration du HTS221        *\r\n");
     printf("*******************************************\r\n");
 
-    HTS221 hts(discoL475VgIot.i2c2, 0xBE);
-    hts.init();
+    HTS221 hts221(discoL475VgIot.i2c2, 0xBE);
+    hts221.init();
 
-    hts.setOutputRate(HTS221_OUTPUT_RATE::RATE_1HZ);
+    hts221.setOutputRate(HTS221_OUTPUT_RATE::RATE_1HZ);
 
     discoL475VgIot.sleep(2000);
 
-    string tempStr;
-    string humStr;
+    string temperature;
+    string humidity;
 
     while (true) {
-        while (!hts.isTemperatureDataAvailable() || !hts.isHumidityDataAvailable()) {
+        while (!hts221.isTemperatureDataAvailable() || !hts221.isHumidityDataAvailable()) {
             discoL475VgIot.sleep(100);
         }
 
-        tempStr = "Temp : " + to_string(hts.getTemperature()) + " C";
-        humStr  = "Hum : " + to_string(hts.getHumidity()) + " %RH";
+        temperature = "Temperature : " + to_string(hts221.getTemperature()) + " C";
+        humidity    = "Humidity : " + to_string(hts221.getHumidity()) + " %RH";
 
-        printf("%s \r\n", tempStr.c_str());
-        printf("%s \r\n", humStr.c_str());
+        printf("%s \r\n", temperature.c_str());
+        printf("%s \r\n", humidity.c_str());
+        printf("\r\n");
 
         discoL475VgIot.sleep(1000);
     }

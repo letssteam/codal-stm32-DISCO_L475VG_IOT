@@ -11,18 +11,18 @@ void SerialSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     discoL475VgIot.serial.init(115200);
 
-    printf("\n");
-    printf("*******************************************\n\r");
-    printf("* Demonstration de la communication serie *\n\r");
-    printf("*******************************************\n\r");
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("* Demonstration de la communication serie *\r\n");
+    printf("*******************************************\r\n");
     string str;
 
     while (true) {
         if (discoL475VgIot.serial.isReadable() != 0) {
             char c = discoL475VgIot.serial.getChar(ASYNC);
             str += c;
-            printf("< %c \n\r", c);
-            printf("> %s \n\r", str.c_str());
+            printf("< %c \r\n", c);
+            printf("> %s \r\n", str.c_str());
         }
     }
 }

@@ -6,6 +6,8 @@
 #include "GPIOSample.h"
 #elif defined(ADC_SAMPLE)
 #include "ADCSample.h"
+#elif defined(HTS221_SAMPLE)
+#include "HTS221_sample.h"
 #elif defined(SERIAL_SAMPLE)
 #include "SerialSample.h"
 #elif defined(PIN_SAMPLE)

@@ -7,6 +7,7 @@
 #include "MessageBus.h"
 #include "NotifyEvents.h"
 #include "STM32DISCO_L475VG_IOT_IO.h"
+#include "STM32I2C.h"
 #include "STM32LowLevelTimer.h"
 #include "STM32Serial.h"
 #include "Timer.h"
@@ -28,6 +29,8 @@ class STM32DISCO_L475VG_IOT : public CodalComponent {
     MessageBus messageBus;
     STM32DISCO_L475VG_IOT_IO io;
     STM32Serial serial;
+    STM32I2C i2c1;  // External on arduino stardard pins
+    STM32I2C i2c2;  // Internal only used by MEMS sensors
 
     /**
      * Constructor.

@@ -26,13 +26,19 @@
 #include "LSM6DSL_accel_sample_event.h"
 #elif defined(VL53L0X_SAMPLE)
 #include "VL53L0X_sample.h"
+#elif defined(BLE_PERIPHERAL_SAMPLE)
+#include "BLE_Peripheral_Sample.h"
+#elif defined(BLE_BROADCAST_SAMPLE)
+#include "BLE_Broadcast_Sample.h"
+#elif defined(BLE_SERIAL_SAMPLE)
+#include "BLE_Serial_Sample.h"
 #else
 #include "BlinkSample.h"
 #endif
 
 codal::STM32DISCO_L475VG_IOT discoL475VgIot;
 
-int main()
+auto main() -> int
 {
     discoL475VgIot.init();
     SAMPLE_MAIN(discoL475VgIot);

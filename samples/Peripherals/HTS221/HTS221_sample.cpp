@@ -3,9 +3,6 @@
 
 #include <string>
 
-using namespace codal;
-using namespace std;
-
 void hts221Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     discoL475VgIot.serial.init(115200);
@@ -15,23 +12,23 @@ void hts221Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*          Demonstration du HTS221        *\r\n");
     printf("*******************************************\r\n");
 
-    HTS221 hts221(discoL475VgIot.i2c2, 0xBE);
+    codal::HTS221 hts221(discoL475VgIot.i2c2, 0xBE);
     hts221.init();
 
-    hts221.setOutputRate(HTS221_OUTPUT_RATE::RATE_1HZ);
+    hts221.setOutputRate(codal::HTS221_OUTPUT_RATE::RATE_1HZ);
 
     discoL475VgIot.sleep(2000);
 
-    string temperature;
-    string humidity;
+    std::string temperature;
+    std::string humidity;
 
     while (true) {
         while (!hts221.isTemperatureDataAvailable() || !hts221.isHumidityDataAvailable()) {
             discoL475VgIot.sleep(100);
         }
 
-        temperature = "Temperature : " + to_string(hts221.getTemperature()) + " C";
-        humidity    = "Humidity : " + to_string(hts221.getHumidity()) + " %RH";
+        temperature = "Temperature : " + std::to_string(hts221.getTemperature()) + " C";
+        humidity    = "Humidity : " + std::to_string(hts221.getHumidity()) + " %RH";
 
         printf("%s \r\n", temperature.c_str());
         printf("%s \r\n", humidity.c_str());

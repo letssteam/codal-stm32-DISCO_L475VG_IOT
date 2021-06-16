@@ -14,7 +14,7 @@ void BlinkSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     initializeGpioPinAsOutput(GPIOA, GPIO_PIN_5);
 
-    while (1) {
+    while (true) {
         HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
         discoL475VgIot.sleep(1000);
     }

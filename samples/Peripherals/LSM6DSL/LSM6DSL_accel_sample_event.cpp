@@ -3,15 +3,12 @@
 #include <array>
 #include <cstdio>
 
-using namespace codal;
-using namespace std;
+codal::Accelerometer* lsm6dsl;
+codal::CoordinateSpace coordinateSpace(codal::SIMPLE_CARTESIAN, true, COORDINATE_SPACE_ROTATED_180);
 
-Accelerometer* lsm6dsl;
-CoordinateSpace coordinateSpace(SIMPLE_CARTESIAN, true, COORDINATE_SPACE_ROTATED_180);
-
-void onSampleEvent(Event e)
+void onSampleEvent(codal::Event e)
 {
-    Sample3D sample = lsm6dsl->getSample();
+    codal::Sample3D sample = lsm6dsl->getSample();
     if (e.source == DEVICE_ID_ACCELEROMETER) {
         printf("ACCELERATION  = |X : %d, Y : %d, Z : %d|\n", sample.x, sample.y, sample.z);
     }
@@ -26,10 +23,10 @@ void lsm6dslAccelEventSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du LSM6DSL        *\r\n");
     printf("*******************************************\r\n");
 
-    lsm6dsl = new LSM6DSL_Accelerometer(discoL475VgIot.i2c2, 0xD4, coordinateSpace);
+    lsm6dsl = new codal::LSM6DSL_Accelerometer(discoL475VgIot.i2c2, 0xD4, coordinateSpace);
     lsm6dsl->init();
 
-    EventModel::defaultEventBus->listen(DEVICE_ID_ACCELEROMETER, DEVICE_EVT_ANY, onSampleEvent);
+    codal::EventModel::defaultEventBus->listen(DEVICE_ID_ACCELEROMETER, DEVICE_EVT_ANY, onSampleEvent);
 
     discoL475VgIot.sleep(500);
     lsm6dsl->requestUpdate();

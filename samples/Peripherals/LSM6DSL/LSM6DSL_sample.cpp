@@ -3,9 +3,6 @@
 #include <array>
 #include <cstdio>
 
-using namespace codal;
-using namespace std;
-
 void lsm6dslSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     discoL475VgIot.serial.init(115200);
@@ -15,11 +12,11 @@ void lsm6dslSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du LSM6DSL        *\r\n");
     printf("*******************************************\r\n");
 
-    LSM6DSL lsm6dsl(discoL475VgIot.i2c2, 0xD4);
+    codal::LSM6DSL lsm6dsl(discoL475VgIot.i2c2, 0xD4);
     lsm6dsl.init();
 
-    array<float, 3> gyroscopeMeasure;
-    array<float, 3> accelerometerMeasure;
+    std::array<float, 3> gyroscopeMeasure;
+    std::array<float, 3> accelerometerMeasure;
 
     while (true) {
         gyroscopeMeasure     = lsm6dsl.getGyroscopeMeasure();

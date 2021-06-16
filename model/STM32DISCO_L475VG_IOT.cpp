@@ -1,6 +1,6 @@
 #include "STM32DISCO_L475VG_IOT.h"
 
-using namespace codal;
+using codal::STM32DISCO_L475VG_IOT;
 
 void STM32DISCO_L475VG_IOT_dmesg_flush();
 
@@ -13,11 +13,8 @@ STM32DISCO_L475VG_IOT* codal::default_device_instance = nullptr;
  * that represent various device drivers used to control aspects of the STM32 IOT node.
  */
 STM32DISCO_L475VG_IOT::STM32DISCO_L475VG_IOT()
-    : CodalComponent(),
-      lowLevelTimer(TIM5, TIM5_IRQn),
+    : lowLevelTimer(TIM5, TIM5_IRQn),
       timer(lowLevelTimer),
-      messageBus(),
-      io(),
       serial(io.rx, io.tx),
       i2c1(io.sda, io.scl),
       i2c2(io.sda2, io.scl2),
@@ -45,7 +42,7 @@ STM32DISCO_L475VG_IOT::STM32DISCO_L475VG_IOT()
  * @note This method must be called before user code utilises any functionality
  *       contained within the STM32DISCO_L475VG_IOT class.
  */
-int STM32DISCO_L475VG_IOT::init()
+auto STM32DISCO_L475VG_IOT::init() -> int
 {
     if ((status & DEVICE_INITIALIZED) != 0) {
         return DEVICE_NOT_SUPPORTED;
@@ -58,9 +55,9 @@ int STM32DISCO_L475VG_IOT::init()
     // Bring up fiber scheduler.
     scheduler_init(messageBus);
 
-    for (int i = 0; i < DEVICE_COMPONENT_COUNT; i++) {
-        if (CodalComponent::components[i] != nullptr && CodalComponent::components[i] != this) {
-            CodalComponent::components[i]->init();
+    for (auto& component : CodalComponent::components) {
+        if (component != nullptr && component != this) {
+            component->init();
         }
     }
 
@@ -69,7 +66,7 @@ int STM32DISCO_L475VG_IOT::init()
     return DEVICE_OK;
 }
 
-WEAK int __io_putchar(int ch);
+WEAK auto __io_putchar(int ch) -> int;
 
 void STM32DISCO_L475VG_IOT_dmesg_flush()
 {

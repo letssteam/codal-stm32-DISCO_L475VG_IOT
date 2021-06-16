@@ -9,6 +9,7 @@
 #include "STM32DISCO_L475VG_IOT_IO.h"
 #include "STM32I2C.h"
 #include "STM32LowLevelTimer.h"
+#include "STM32SPI.h"
 #include "STM32Serial.h"
 #include "Timer.h"
 
@@ -31,7 +32,8 @@ class STM32DISCO_L475VG_IOT : public CodalComponent {
     STM32Serial serial;
     STM32I2C i2c1;  // External on arduino stardard pins
     STM32I2C i2c2;  // Internal only used by MEMS sensors
-
+    STM32SPI spi1;
+    STM32SPI spi3;
     /**
      * Constructor.
      */

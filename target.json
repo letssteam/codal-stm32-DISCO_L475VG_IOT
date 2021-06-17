@@ -39,7 +39,11 @@
     "VARIANT": "variant_B_L475E_IOT01A",
     "VARIANT_H": "\"variant_B_L475E_IOT01A.h\"",
     "ARDUINO_B_L475E_IOT01A":1,
-    "HAL_UART_MODULE_ENABLED":1
+    "HAL_UART_MODULE_ENABLED":1,
+    "USBCON":1,
+    "USBD_USE_CDC":1,
+    "HAL_PCD_MODULE_ENABLED":1,
+    "USBD_CLASS_BOS_ENABLED":1
   },
   "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h",
   "cmake_definitions": {},

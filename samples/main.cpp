@@ -26,6 +26,10 @@
 #include "LSM6DSL_accel_sample_event.h"
 #elif defined(VL53L0X_SAMPLE)
 #include "VL53L0X_sample.h"
+#elif defined(SERIALUSB_SAMPLE)
+#include "SerialUSBSample.h"
+#elif defined(WEBUSB_SAMPLE)
+#include "WebUSBSample.h"
 #elif defined(BLE_PERIPHERAL_SAMPLE)
 #include "BLE_Peripheral_Sample.h"
 #elif defined(BLE_BROADCAST_SAMPLE)

@@ -36,6 +36,8 @@
 #include "BLE_Broadcast_Sample.h"
 #elif defined(BLE_SERIAL_SAMPLE)
 #include "BLE_Serial_Sample.h"
+#elif defined(OLED_SSD1306_SAMPLE)
+#include "OLED_SSD1306.h"
 #else
 #include "BlinkSample.h"
 #endif

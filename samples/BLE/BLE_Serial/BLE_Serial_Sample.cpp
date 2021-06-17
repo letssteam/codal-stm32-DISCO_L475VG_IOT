@@ -8,6 +8,8 @@ HCISpiTransportClass hci(spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNametoD
                          pinNametoDigitalPin(PA_8), 8000000, 0);
 BLELocalDevice BLEObj(&hci);
 BLELocalDevice& BLE = BLEObj;
+codal::STM32SerialBLE bleSerial("6E400001-B5A3-F393-E0A9-E50E24DCCA9E", "6E400002-B5A3-F393-E0A9-E50E24DCCA9E",
+                                "6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
 
 void blePeripheralConnectHandler(const BLEDevice& central)
 {
@@ -17,6 +19,18 @@ void blePeripheralConnectHandler(const BLEDevice& central)
 void blePeripheralDisconnectHandler(const BLEDevice& central)
 {
     printf("BLE Disconnected : %s\r\n", central.address().c_str());
+}
+
+void blePanic()
+{
+    printf("Failed to initialize BLE !!\r\n");
+
+    while (true) {
+        io.led2.setDigitalValue(state ? 1 : 0);
+        io.led1.setDigitalValue(state ? 0 : 1);
+        state = !state;
+        discoL475VgIot.sleep(50);
+    }
 }
 
 void BLE_Serial_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
@@ -34,35 +48,30 @@ void BLE_Serial_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         printf("BLE Initialized !\r\n");
     }
     else {
-        printf("Failed to initialize BLE !!\r\n");
-
-        while (true) {
-            io.led2.setDigitalValue(state ? 1 : 0);
-            io.led1.setDigitalValue(state ? 0 : 1);
-            state = !state;
-            discoL475VgIot.sleep(50);
-        }
+        blePanic();
     }
 
-    codal::STM32SerialBLE bleSerial("6E400001-B5A3-F393-E0A9-E50E24DCCA9E", "6E400002-B5A3-F393-E0A9-E50E24DCCA9E",
-                                    "6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
+    bleSerial.begin();
 
     BLE.setEventHandler(BLEConnected, blePeripheralConnectHandler);
     BLE.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
+
     BLE.setLocalName("STM32DISCO_L475VG");
     BLE.setAdvertisedService(bleSerial.getService());
     BLE.advertise();
 
     while (true) {
-        io.led1.setDigitalValue(state ? 1 : 0);
-        io.led2.setDigitalValue(state ? 0 : 1);
-
-        if (bleSerial.available() > 0) {
-            bleSerial.send("Recv " + std::to_string(bleSerial.available()) + " bytes");
-            printf("Recv: %s\r\n", bleSerial.read().c_str());
+        // listen for BLE peripherals to connect:
+        BLEDevice central = BLE.central();
+        // if a central is connected to peripheral:
+        if (central) {
+            // while the central is still connected to peripheral:
+            while (central.connected()) {
+                if (bleSerial.available() > 0) {
+                    bleSerial.send("Recv " + std::to_string(bleSerial.available()) + " bytes");
+                    printf("Recv: %s\r\n", bleSerial.read().c_str());
+                }
+            }
         }
-
-        discoL475VgIot.sleep(150);
-        state = !state;
     }
 }

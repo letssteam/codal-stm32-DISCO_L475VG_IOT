@@ -14,10 +14,10 @@ void WebUSBSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     while (!webusb.isConnected()) {
     }
 
-    printf("\n");
-    printf("*******************************************\n\r");
-    printf("* Demonstration de l'activation du WebUSB *\n\r");
-    printf("*******************************************\n\r");
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("* Demonstration de l'activation du WebUSB *\r\n");
+    printf("*******************************************\r\n");
 
     bool state = false;
     while (true) {

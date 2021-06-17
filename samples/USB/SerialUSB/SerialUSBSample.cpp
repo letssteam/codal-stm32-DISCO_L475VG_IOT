@@ -14,10 +14,10 @@ void SerialUSBSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     while (!usbSerial.isConnected()) {
     }
 
-    usbSerial.send("\n\r");
-    usbSerial.send("*******************************************\n\r");
-    usbSerial.send("* Demonstration de la communication serie *\n\r");
-    usbSerial.send("*******************************************\n\r");
+    usbSerial.send("\r\n");
+    usbSerial.send("*******************************************\r\n");
+    usbSerial.send("* Demonstration de la communication serie *\r\n");
+    usbSerial.send("*******************************************\r\n");
 
     bool state = false;
 

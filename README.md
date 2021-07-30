@@ -37,7 +37,7 @@ The support for Arduino Uno V3 and PMOD connectivity provides unlimited expansio
 - [ ] 260-1260 hPa absolute digital output barometer (LPS22HB)
 - [ ] Time-of-Flight and gesture-detection sensor (VL53L0X)
 - [ ] 2 push-buttons (user and reset)
-- [ ] GPIO
+- [x] GPIO
 - [ ] ADC 12 bits
 - [ ] FAT Storage over the flash memory
 - [ ] Expansion connectors:

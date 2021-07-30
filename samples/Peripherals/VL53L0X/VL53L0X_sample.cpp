@@ -1,37 +1,32 @@
 
 #include "VL53L0X_sample.h"
 
-using namespace codal;
-using namespace std;
+#include <cstdio>
+#include <string>
 
-void vlx53l0xSample()
+void vlx53l0xSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    STM32IotNode iotNode;
-    iotNode.init();
+    discoL475VgIot.serial.init(115200);
 
-    SSD1306_I2C oled(iotNode.i2c1, 0x78, 128, 64, false);
-    VL53L0X vl(iotNode.i2c2, iotNode.io.pc6, 0x52);
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("*         Demonstration du VL53L0X        *\r\n");
+    printf("*******************************************\r\n");
 
-    oled.init();
-    vl.init();
+    codal::VL53L0X vl53l0x(discoL475VgIot.i2c2, discoL475VgIot.io.pc6, 0x52);
 
-    oled.fill(0);
-    oled.drawText("VL53L0X test !!", 24, 36, 1);
-    oled.show();
+    vl53l0x.init();
 
-    codal::STM32IotNode::sleep(2000);
+    discoL475VgIot.sleep(2000);
 
-    string dist;
+    std::string distance;
 
     while (true) {
-        oled.fill(0);
+        distance = "Distance : " + std::to_string(vl53l0x.getDistance()) + " mm";
 
-        dist = "Dist : " + to_string(vl.getDistance()) + " mm";
+        printf("%s \r\n", distance.c_str());
+        printf("\r\n");
 
-        oled.drawText("VL53L0x test", 24, 0, 1);
-        oled.drawText(dist, 0, 30, 1);
-
-        oled.show();
-        codal::STM32IotNode::sleep(500);
+        discoL475VgIot.sleep(500);
     }
 }

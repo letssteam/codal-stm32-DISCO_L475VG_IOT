@@ -1,39 +1,35 @@
-
 #include "LPS22HB_sample.h"
 
-using namespace codal;
-using namespace std;
+#include <string>
 
-void lps22hbSample()
+using std::string;
+using std::to_string;
+
+void lps22hbSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    STM32IotNode iotNode;
-    iotNode.init();
+    discoL475VgIot.serial.init(115200);
 
-    SSD1306_I2C oled(iotNode.i2c1, 0x78, 128, 64, false);
-    LPS22HB lps(iotNode.i2c2, 0xBA);
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("*         Demonstration du LPS22HB        *\r\n");
+    printf("*******************************************\r\n");
 
-    oled.init();
-    lps.init();
+    codal::LPS22HB lps22hb(discoL475VgIot.i2c2, 0xBA);
+    lps22hb.init();
 
-    oled.fill(0);
-    oled.drawText("LPS22HB Test !!", 16, 28, 1);
-    oled.show();
+    discoL475VgIot.sleep(2000);
 
-    codal::STM32IotNode::sleep(2000);
-
-    string pres;
-    string temp;
+    string pressure;
+    string temperature;
 
     while (true) {
-        pres = to_string(lps.getPressure()).substr(0, 6);
-        temp = to_string(lps.getTemperature()).substr(0, 4);
+        pressure    = "Pressure : " + to_string(lps22hb.getPressure()) + "hPa";
+        temperature = "Temperature : " + to_string(lps22hb.getTemperature()) + "C";
 
-        oled.fill(0);
-        oled.drawText("LPS22HB", 38, 0, 1);
-        oled.drawText("Pres : " + pres + "hPa", 0, 28, 1);
-        oled.drawText("Temp : " + temp + " C", 0, 36, 1);
-        oled.show();
+        printf("%s \r\n", pressure.c_str());
+        printf("%s \r\n", temperature.c_str());
+        printf("\r\n");
 
-        codal::STM32IotNode::sleep(500);
+        discoL475VgIot.sleep(1000);
     }
 }

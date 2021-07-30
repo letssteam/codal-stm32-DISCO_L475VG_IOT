@@ -1,15 +1,21 @@
 #include "BlinkSample.h"
 
-void BlinkSample_main()
+void initializeGpioPinAsOutput(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 {
-    codal::STM32IotNode iotNode;
-    iotNode.init();
+    GPIO_InitTypeDef GPIO_InitStruct;
+    __GPIOA_CLK_ENABLE();
+    GPIO_InitStruct.Pin   = GPIO_Pin;
+    GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(GPIOx, &GPIO_InitStruct);
+}
 
-    bool state = false;
+void BlinkSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
+{
+    initializeGpioPinAsOutput(GPIOA, GPIO_PIN_5);
+
     while (true) {
-        iotNode.io.led1.setDigitalValue((int)state);
-        iotNode.io.led2.setDigitalValue((int)!state);
-        codal::STM32IotNode::sleep(1000);
-        state = !state;
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+        discoL475VgIot.sleep(1000);
     }
 }

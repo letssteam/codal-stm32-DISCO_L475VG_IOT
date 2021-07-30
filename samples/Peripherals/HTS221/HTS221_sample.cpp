@@ -1,46 +1,39 @@
 
 #include "HTS221_sample.h"
 
-using namespace codal;
-using namespace std;
+#include <string>
 
-void hts221Sample()
+void hts221Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    STM32IotNode iotNode;
-    iotNode.init();
+    discoL475VgIot.serial.init(115200);
 
-    SSD1306_I2C oled(iotNode.i2c1, 0x78, 128, 64, false);
-    HTS221 hts(iotNode.i2c2, 0xBE);
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("*          Demonstration du HTS221        *\r\n");
+    printf("*******************************************\r\n");
 
-    oled.init();
-    hts.init();
+    codal::HTS221 hts221(discoL475VgIot.i2c2, 0xBE);
+    hts221.init();
 
-    hts.setOutputRate(HTS221_OUTPUT_RATE::RATE_1HZ);
+    hts221.setOutputRate(codal::HTS221_OUTPUT_RATE::RATE_1HZ);
 
-    oled.fill(0);
-    oled.drawText("HTS221 test !!", 29, 36, 1);
-    oled.show();
+    discoL475VgIot.sleep(2000);
 
-    codal::STM32IotNode::sleep(2000);
-
-    string tempStr;
-    string humStr;
+    std::string temperature;
+    std::string humidity;
 
     while (true) {
-        oled.fill(0);
-
-        while (!hts.isTemperatureDataAvailable() || !hts.isHumidityDataAvailable()) {
-            codal::STM32IotNode::sleep(10);
+        while (!hts221.isTemperatureDataAvailable() || !hts221.isHumidityDataAvailable()) {
+            discoL475VgIot.sleep(100);
         }
 
-        tempStr = "Temp : " + to_string(hts.getTemperature()).substr(0, 5) + " C";
-        humStr  = "Hum : " + to_string(hts.getHumidity()).substr(0, 5) + " %RH";
+        temperature = "Temperature : " + std::to_string(hts221.getTemperature()) + " C";
+        humidity    = "Humidity : " + std::to_string(hts221.getHumidity()) + " %RH";
 
-        oled.drawText("HTS221 test", 28, 0, 1);
-        oled.drawText(tempStr, 0, 30, 1);
-        oled.drawText(humStr, 0, 38, 1);
+        printf("%s \r\n", temperature.c_str());
+        printf("%s \r\n", humidity.c_str());
+        printf("\r\n");
 
-        oled.show();
-        codal::STM32IotNode::sleep(500);
+        discoL475VgIot.sleep(1000);
     }
 }

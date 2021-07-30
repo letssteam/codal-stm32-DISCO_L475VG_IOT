@@ -1,35 +1,33 @@
 #include "LSM6DSL_sample.h"
 
 #include <array>
+#include <cstdio>
 
-using namespace codal;
-using namespace std;
-
-void lsm6dslSample()
+void lsm6dslSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    STM32IotNode iotNode;
-    iotNode.init();
+    discoL475VgIot.serial.init(115200);
 
-    LSM6DSL accelGyro(iotNode.i2c2, 0xD4);
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("*         Demonstration du LSM6DSL        *\r\n");
+    printf("*******************************************\r\n");
 
-    iotNode.serial.init(115200);
-    accelGyro.init();
+    codal::LSM6DSL lsm6dsl(discoL475VgIot.i2c2, 0xD4);
+    lsm6dsl.init();
 
-    printf("\n");
-    printf("****************\n\r");
-    printf("* LSM6DSL TEST *\n\r");
-    printf("****************\n\r");
-
-    array<float, 3> gyro;
-    array<float, 3> accel;
+    std::array<float, 3> gyroscopeMeasure;
+    std::array<float, 3> accelerometerMeasure;
 
     while (true) {
-        gyro  = accelGyro.getGyroscopeMeasure();
-        accel = accelGyro.getAccelerometerMeasure();
+        gyroscopeMeasure     = lsm6dsl.getGyroscopeMeasure();
+        accelerometerMeasure = lsm6dsl.getAccelerometerMeasure();
 
-        printf("Accel [G] : %5.3f %5.3f %5.3f | Gyro [°/s (dps)] : %5.3f %5.3f %5.3f\n\r", accel[0], accel[1], accel[2],
-               gyro[0], gyro[1], gyro[2]);
+        printf("Accelerometer [G] : %5.3f %5.3f %5.3f\r\n", accelerometerMeasure[0], accelerometerMeasure[1],
+               accelerometerMeasure[2]);
+        printf("Gyroscope [°/s (dps)] : %5.3f %5.3f %5.3f\r\n", gyroscopeMeasure[0], gyroscopeMeasure[1],
+               gyroscopeMeasure[2]);
+        printf("\r\n");
 
-        codal::STM32IotNode::sleep(100);
+        discoL475VgIot.sleep(1000);
     }
 }

@@ -50,8 +50,6 @@ void BLE_Serial_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         blePanic();
     }
 
-    bleSerial.begin();
-
     BLE.setEventHandler(BLEConnected, blePeripheralConnectHandler);
     BLE.setEventHandler(BLEDisconnected, blePeripheralDisconnectHandler);
 

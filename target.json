@@ -7,7 +7,6 @@
   "product_line": "STM32L475xx",
   "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT",
   "board": "B_L475E_IOT01A",
-
   "toolchain": "ARM_GCC",
   "post_process": "",
   "generate_bin": true,
@@ -62,7 +61,7 @@
     {
       "name": "codal-stm32",
       "url": "https://github.com/letssteam/codal-stm32",
-      "branch": "main",
+      "branch": "fix_conception_errors",
       "type": "git"
     }
   ]

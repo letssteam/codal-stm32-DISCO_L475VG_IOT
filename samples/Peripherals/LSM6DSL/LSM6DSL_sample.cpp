@@ -12,7 +12,7 @@ void lsm6dslSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du LSM6DSL        *\r\n");
     printf("*******************************************\r\n");
 
-    codal::LSM6DSL lsm6dsl(discoL475VgIot.i2c2, 0xD4);
+    codal::LSM6DSL lsm6dsl(&discoL475VgIot.i2c2, 0xD4);
     lsm6dsl.init();
 
     std::array<float, 3> gyroscopeMeasure;

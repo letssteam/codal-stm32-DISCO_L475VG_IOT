@@ -13,7 +13,7 @@ void vlx53l0xSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du VL53L0X        *\r\n");
     printf("*******************************************\r\n");
 
-    codal::VL53L0X vl53l0x(discoL475VgIot.i2c2, discoL475VgIot.io.pc6, 0x52);
+    codal::VL53L0X vl53l0x(&discoL475VgIot.i2c2, &discoL475VgIot.io.pc6, 0x52);
 
     vl53l0x.init();
 

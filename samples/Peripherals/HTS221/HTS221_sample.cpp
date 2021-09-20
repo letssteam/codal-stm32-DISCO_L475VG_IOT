@@ -12,7 +12,7 @@ void hts221Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*          Demonstration du HTS221        *\r\n");
     printf("*******************************************\r\n");
 
-    codal::HTS221 hts221(discoL475VgIot.i2c2, 0xBE);
+    codal::HTS221 hts221(&discoL475VgIot.i2c2, 0xBE);
     hts221.init();
 
     hts221.setOutputRate(codal::HTS221_OUTPUT_RATE::RATE_1HZ);

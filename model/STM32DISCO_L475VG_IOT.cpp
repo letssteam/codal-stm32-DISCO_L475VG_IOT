@@ -16,8 +16,8 @@ STM32DISCO_L475VG_IOT::STM32DISCO_L475VG_IOT()
     : lowLevelTimer(TIM5, TIM5_IRQn),
       timer(lowLevelTimer),
       serial(io.rx, io.tx),
-      i2c1(&io.sda, &io.scl),
-      i2c2(&io.sda2, &io.scl2),
+      i2c1(io.sda, io.scl),
+      i2c2(io.sda2, io.scl2),
       spi1(io.miso, io.mosi, io.sclk),
       spi3(io.miso3, io.mosi3, io.sclk3)
 {

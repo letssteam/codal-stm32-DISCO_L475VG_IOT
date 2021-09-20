@@ -23,7 +23,7 @@ void lsm6dslAccelEventSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du LSM6DSL        *\r\n");
     printf("*******************************************\r\n");
 
-    lsm6dsl = new codal::LSM6DSL_Accelerometer(discoL475VgIot.i2c2, 0xD4, coordinateSpace);
+    lsm6dsl = new codal::LSM6DSL_Accelerometer(&discoL475VgIot.i2c2, 0xD4, coordinateSpace);
     lsm6dsl->init();
 
     codal::EventModel::defaultEventBus->listen(DEVICE_ID_ACCELEROMETER, DEVICE_EVT_ANY, onSampleEvent);

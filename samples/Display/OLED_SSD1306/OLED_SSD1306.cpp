@@ -38,7 +38,7 @@ void BlinkScreen(codal::SSD1306* oled, uint32_t ms)
 
 void OledSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    codal::SSD1306_I2C oled(discoL475VgIot.i2c1, 0x78, 128, 64, false);
+    codal::SSD1306_I2C oled(&discoL475VgIot.i2c1, 0x78, 128, 64, false);
 
     oled.init();
 

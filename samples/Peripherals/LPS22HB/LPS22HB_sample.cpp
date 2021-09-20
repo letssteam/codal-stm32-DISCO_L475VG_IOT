@@ -14,7 +14,7 @@ void lps22hbSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du LPS22HB        *\r\n");
     printf("*******************************************\r\n");
 
-    codal::LPS22HB lps22hb(discoL475VgIot.i2c2, 0xBA);
+    codal::LPS22HB lps22hb(&discoL475VgIot.i2c2, 0xBA);
     lps22hb.init();
 
     discoL475VgIot.sleep(2000);

@@ -11,7 +11,7 @@ void lis3mdlSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du LIS3MDL        *\r\n");
     printf("*******************************************\r\n");
 
-    codal::LIS3MDL lis3mdl(discoL475VgIot.i2c2, 0x3C);
+    codal::LIS3MDL lis3mdl(&discoL475VgIot.i2c2, 0x3C);
     lis3mdl.init();
 
     while (true) {

@@ -23,13 +23,13 @@
         "DEVICE_STACK_SIZE": 2048,
         "DEVICE_TAG": 0,
         "DEVICE_USB": 0,
-        "EVENT_LISTENER_DEFAULT_FLAGS": "MESSAGE_BUS_LISTENER_QUEUE_IF_BUSY",
+        "EVENT_LISTENER_DEFAULT_FLAGS": "MESSAGE_BUS_LISTENER_DROP_IF_BUSY",
         "HAL_PCD_MODULE_ENABLED": 1,
         "HAL_UART_MODULE_ENABLED": 1,
         "MESSAGE_BUS_LISTENER_MAX_QUEUE_DEPTH": 10,
         "PERIPHERAL_PINS": "PeripheralPins_B_L475E_IOT01A",
         "PROCESSOR_WORD_TYPE": "uintptr_t",
-        "SCHEDULER_TICK_PERIOD_US": 4000,
+        "SCHEDULER_TICK_PERIOD_US": 1000,
         "USBCON": 1,
         "USBD_CLASS_BOS_ENABLED": 1,
         "USBD_USE_CDC": 1,
@@ -39,7 +39,7 @@
     },
     "cpp_flags": "-std=c++17 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
-    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h",
+    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DI2C_IRQ_PRIO=0",
     "device": "STM32",
     "generate_bin": true,
     "generate_hex": true,
@@ -51,7 +51,7 @@
             "url": "https://github.com/letssteam/codal-core.git"
         },
         {
-            "branch": "93ea10deea687b338c25481a8eba906cf84651ec",
+            "branch": "54748dec91caec3f1045b383272cda852b2a1e7e",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -63,7 +63,7 @@
     "processor": "STM32L4",
     "product_line": "STM32L475xx",
     "series": "STM32L4xx",
-    "snapshot_version": "v1.0.3",
+    "snapshot_version": "v1.0.4",
     "toolchain": "ARM_GCC",
     "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }

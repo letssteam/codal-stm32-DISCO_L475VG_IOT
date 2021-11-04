@@ -8,6 +8,8 @@
 #include "PinSample.h"
 #elif defined(ADC_SAMPLE)
 #include "ADCSample.h"
+#elif defined(PWM_SAMPLE)
+#include "PWMSample.h"
 #elif defined(SERIAL_SAMPLE)
 #include "SerialSample.h"
 #elif defined(SPI_SAMPLE)

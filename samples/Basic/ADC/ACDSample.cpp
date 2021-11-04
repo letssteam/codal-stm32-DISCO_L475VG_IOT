@@ -1,20 +1,20 @@
+#include <cstdio>
+
 #include "ADCSample.h"
-#include "STM32LowLevelTimer.h"
-#include "STM32PWM.h"
 
 using namespace codal;
 
 void ADCSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    while (true) {
-        for (int i = 0; i < 1024; i++) {
-            discoL475VgIot.io.D2.setAnalogValue(i);
-            discoL475VgIot.sleep(1);
-        }
+    discoL475VgIot.serial.init(115200);
 
-        for (int i = 0; i < 1024; i++) {
-            discoL475VgIot.io.D2.setAnalogValue(1024 - i);
-            discoL475VgIot.sleep(1);
-        }
+    printf("\n");
+    printf("*******************************************\r\n");
+    printf("*               ADC Example               *\r\n");
+    printf("*******************************************\r\n");
+
+    while (true) {
+        discoL475VgIot.serial.printf("ADC Value : %d\r\n", discoL475VgIot.io.A0.getAnalogValue());
+        discoL475VgIot.sleep(1000);
     }
 }

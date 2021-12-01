@@ -63,6 +63,12 @@
       "url": "https://github.com/letssteam/codal-stm32",
       "branch": "main",
       "type": "git"
+    },
+    {
+      "name": "codal-nimble",
+      "url": "https://github.com/letssteam/codal-nimble",
+      "branch": "main",
+      "type": "git"
     }
   ]
 }

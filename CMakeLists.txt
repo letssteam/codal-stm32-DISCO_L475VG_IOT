@@ -30,7 +30,6 @@ target_link_libraries(
     codal-stm32-DISCO_L475VG_IOT
     codal-core
     codal-stm32
-    codal-nimble   
 )
 
 # expose it to parent cmake.

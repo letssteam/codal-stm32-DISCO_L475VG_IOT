@@ -28,8 +28,9 @@ add_library(codal-stm32-DISCO_L475VG_IOT ${TOP_LEVEL_SOURCE_FILES} ${TOP_LEVEL_S
 
 target_link_libraries(
     codal-stm32-DISCO_L475VG_IOT
+    codal-jacdac
     codal-core
-    codal-stm32   
+    codal-stm32 
 )
 
 # expose it to parent cmake.

@@ -63,6 +63,12 @@
       "url": "https://github.com/letssteam/codal-stm32",
       "branch": "main",
       "type": "git"
+    },
+    {
+      "name": "codal-jacdac",
+      "url": "https://github.com/letssteam/codal-jacdac",
+      "branch": "main",
+      "type": "git"
     }
   ]
 }

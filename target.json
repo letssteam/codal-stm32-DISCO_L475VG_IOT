@@ -44,7 +44,7 @@
     "HAL_PCD_MODULE_ENABLED": 1,
     "USBD_CLASS_BOS_ENABLED": 1
   },
-  "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DI2C_IRQ_PRIO=0",
+  "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DI2C_IRQ_PRIO=0 -DEXTI_IRQ_PRIO=0",
   "cmake_definitions": {},
   "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
   "asm_flags": "-fno-exceptions -fno-unwind-tables --specs=nosys.specs -mcpu=cortex-m4 -mthumb",

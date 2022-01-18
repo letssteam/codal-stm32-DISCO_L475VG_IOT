@@ -1,5 +1,8 @@
 #include "BLE_Broadcast_Sample.h"
 
+#include <string>
+
+#include "STM32AdvertisingBLE.h"
 #include "STM32duinoBLE.h"
 
 codal::STM32DISCO_L475VG_IOT_IO io;
@@ -8,6 +11,10 @@ HCISpiTransportClass hci(spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNametoD
                          pinNametoDigitalPin(PA_8), 8000000, 0);
 BLELocalDevice BLEObj(&hci);
 BLELocalDevice& BLE = BLEObj;
+
+codal::STM32AdvertisingBLE advertising(DEVICE_ID_RADIO);
+
+#define ST_MICRO_COMPANY_UUID 0x0030
 
 void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
@@ -34,20 +41,26 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         }
     }
 
-    const char* advDataStr = "My broadcast message !";
+    advertising.setLocalName("Youpi !");
+    advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, "Start counter !");
+    advertising.setDurationScanning(0);
+    advertising.begin();
 
-    BLEAdvertisingData advData;
-    advData.setAdvertisedServiceData(0x1800, (uint8_t*)(advDataStr), strlen(advDataStr));
-
-    BLE.setAdvertisingData(advData);
-    BLE.setLocalName("My Device");
-    BLE.setConnectable(false);
-    BLE.advertise(37);
+    std::string message;
+    unsigned ms = 0;
+    BLEDevice buffer[16];
 
     while (true) {
-        io.led2.setDigitalValue(state ? 1 : 0);
         io.led1.setDigitalValue(state ? 0 : 1);
+        io.led2.setDigitalValue(state ? 1 : 0);
         state = !state;
-        discoL475VgIot.sleep(150);
+
+        if (ms % 1000) {
+            message = "Time: " + std::to_string(ms / 1000);
+            advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, message.c_str());
+        }
+
+        ms += 500;
+        discoL475VgIot.sleep(500);
     }
 }

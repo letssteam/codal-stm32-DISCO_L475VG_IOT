@@ -42,6 +42,8 @@
 #include "BLE_Serial_Sample.h"
 #elif defined(OLED_SSD1306_SAMPLE)
 #include "OLED_SSD1306.h"
+#elif defined(WIFI_HTTP_CLIENT_SAMPLE)
+#include "WIFI_Http_Client_Sample.h"
 #elif defined(MESSAGEBUS_SAMPLE)
 #include "MessageBus_Sample.h"
 #else

@@ -16,7 +16,7 @@ codal::STM32AdvertisingBLE advertising(DEVICE_ID_RADIO);
 
 char get_safe_char(uint8_t c)
 {
-    if (c >= 32 && c <= 176) {
+    if (c >= 32 && c <= 126) {
         return (char)c;
     }
     else {
@@ -28,16 +28,13 @@ void print_manufacturer_data(BLEDevice& device)
 {
     size_t nb = device.manufacturerDataCount();
     for (size_t i = 0; i < nb; ++i) {
-        auto data       = device.getManufacturerData(i);
+        auto manData    = device.getManufacturerData(i);
         std::string str = "";
-        printf("\t\t#%d: ", i + 1);
+        printf("\t\t#%d: 0x%04X - ", i + 1, manData.companyIdentifier);
 
-        for (size_t j = 0; j < data.size(); j++) {
-            printf("%02X", data[j]);
-
-            if (j >= 2) {
-                str += get_safe_char(data[j]);
-            }
+        for (size_t j = 0; j < manData.data.size(); j++) {
+            printf("%02X", manData.data[j]);
+            str += get_safe_char(manData.data[j]);
         }
         printf(" ('%s')\n\r", str.c_str());
     }

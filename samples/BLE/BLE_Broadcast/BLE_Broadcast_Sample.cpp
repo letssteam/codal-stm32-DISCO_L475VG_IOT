@@ -42,11 +42,12 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     }
 
     advertising.setLocalName("Youpi !");
-    advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, "Start counter !");
+    advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)"Start counter !", 15);
     advertising.setDurationScanning(0);
     advertising.begin();
 
-    std::string message;
+    int size;
+    char message[22];
     unsigned ms = 0;
     BLEDevice buffer[16];
 
@@ -56,8 +57,10 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         state = !state;
 
         if (ms % 1000) {
-            message = "Time: " + std::to_string(ms / 1000);
-            advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, message.c_str());
+            size = sprintf(message, "Time: %02d", ms / 1000);
+            if (size >= 0) {
+                advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)message, size);
+            }
         }
 
         ms += 500;

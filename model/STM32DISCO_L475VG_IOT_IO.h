@@ -54,6 +54,9 @@
 #define ID_PIN_WIFI_WAKE_UP            (DEVICE_ID_IO_P0 + 46)
 #define ID_PIN_WIFI_RESET              (DEVICE_ID_IO_P0 + 47)
 #define ID_PIN_WIFI_NSS                (DEVICE_ID_IO_P0 + 48)
+#define ID_PIN_WIFI_MISO               (DEVICE_ID_IO_P0 + 38)
+#define ID_PIN_WIFI_MOSI               (DEVICE_ID_IO_P0 + 39)
+#define ID_PIN_WIFI_SCLK               (DEVICE_ID_IO_P0 + 40)
 #define ID_PIN_WIFI_COMMAND_DATA_READY (DEVICE_ID_IO_P0 + 49)
 
 namespace codal {

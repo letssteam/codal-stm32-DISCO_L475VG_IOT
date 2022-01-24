@@ -5,7 +5,7 @@
 
 codal::STM32DISCO_L475VG_IOT_IO io;
 codal::STM32SPI spi3(io.miso3, io.mosi3, io.sclk3);
-HCISpiTransportClass hci(spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNametoDigitalPin(PE_6),
+HCISpiTransportClass hci(&spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNametoDigitalPin(PE_6),
                          pinNametoDigitalPin(PA_8), 8000000, 0);
 BLELocalDevice BLEObj(&hci);
 BLELocalDevice& BLE = BLEObj;

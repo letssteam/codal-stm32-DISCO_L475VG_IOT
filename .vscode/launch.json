@@ -20,7 +20,7 @@
             "preLaunchTask": "flash",
             "runToMain": true,
             "demangle": true,
-            "showDevDebugOutput": true,
+            "showDevDebugOutput": "parsed",
             "preLaunchCommands": [
                 "set mem inaccessible-by-default off",
                 "enable breakpoint",

@@ -24,17 +24,6 @@ uint8_t RemoteIP[] = {192, 168, 3, 110};
 
 static uint8_t RxData[500];
 
-codal::STM32Pin wakeUpPin(ID_PIN_WIFI_WAKE_UP, PinNumber::PB_13, codal::PIN_CAPABILITY_DIGITAL);
-codal::STM32Pin resetPin(ID_PIN_WIFI_RESET, PinNumber::PE_8, codal::PIN_CAPABILITY_DIGITAL);
-codal::STM32Pin nssPin(ID_PIN_WIFI_NSS, PinNumber::PE_0, codal::PIN_CAPABILITY_DIGITAL);
-codal::STM32Pin commandDataReadyPin(ID_PIN_WIFI_COMMAND_DATA_READY, PinNumber::PE_1, codal::PIN_CAPABILITY_DIGITAL);
-
-codal::STM32Pin miso3(ID_PIN_MISO, PinNumber::PC_11, codal::PIN_CAPABILITY_DIGITAL);
-codal::STM32Pin mosi3(ID_PIN_MOSI, PinNumber::PC_12, codal::PIN_CAPABILITY_DIGITAL);
-codal::STM32Pin sclk3(ID_PIN_SCLK, PinNumber::PC_10, codal::PIN_CAPABILITY_DIGITAL);
-
-codal::STM32SPI spi3(miso3, mosi3, sclk3);
-
 void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     uint8_t MAC_Addr[6];

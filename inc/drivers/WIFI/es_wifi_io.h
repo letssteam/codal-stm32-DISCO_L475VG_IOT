@@ -19,16 +19,10 @@
 #ifndef WIFI_IO_H
 #define WIFI_IO_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/* Includes ------------------------------------------------------------------*/
 #include "STM32Pin.h"
+#include "STM32SPI.h"
 #include "stm32l4xx_hal.h"
 #include "wiring_time.h"
-
-/* Exported constants --------------------------------------------------------*/
 
 /* Exported macro ------------------------------------------------------------*/
 #define WIFI_RESET_MODULE()          \
@@ -51,8 +45,10 @@ extern "C" {
 
 #define WIFI_IS_CMDDATA_READY() (commandDataReadyPin.getDigitalValue() == GPIO_PIN_SET)
 
-/* Exported functions ------------------------------------------------------- */
-void SPI_WIFI_MspInit(SPI_HandleTypeDef* hspi);
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t SPI_WIFI_DeInit(void);
 int8_t SPI_WIFI_Init(uint16_t mode);
 int8_t SPI_WIFI_ResetModule(void);

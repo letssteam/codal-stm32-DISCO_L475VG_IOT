@@ -1,4 +1,4 @@
-#include "BLE_Scanning_Sample.h"
+#include "BLE_Broadcast_and_Scan_Sample.h"
 
 #include <string>
 
@@ -13,6 +13,8 @@ BLELocalDevice BLEObj(&hci);
 BLELocalDevice& BLE = BLEObj;
 
 codal::STM32AdvertisingBLE advertising;
+
+#define ST_MICRO_COMPANY_UUID 0x0030
 
 char get_safe_char(uint8_t c)
 {
@@ -95,17 +97,15 @@ void print_scan_result()
     }
 }
 
-void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
+void BLE_Broadcast_and_Scan_sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    bool state     = false;
-    unsigned sleep = 200;
-    unsigned ms    = 0;
+    unsigned ms = 0;
 
     discoL475VgIot.serial.init(115200);
 
     printf("\r\n");
     printf("*******************************************\r\n");
-    printf("*         Demonstration du Scan BLE       *\r\n");
+    printf("*           Demonstration du BLE          *\r\n");
     printf("*******************************************\r\n");
 
     if (BLE.begin() != 0) {
@@ -113,6 +113,7 @@ void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     }
     else {
         printf("Failed to initialize BLE !!\r\n");
+        bool state = false;
 
         while (true) {
             io.led2.setDigitalValue(state ? 1 : 0);
@@ -122,20 +123,30 @@ void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         }
     }
 
-    advertising.setDurationEmitting(0);
+    advertising.setLocalName("It Work's !");
+    advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)"Start counter !", 15);
     advertising.begin();
 
-    while (true) {
-        io.led1.setDigitalValue(state ? 0 : 1);
-        io.led2.setDigitalValue(state ? 1 : 0);
-        state = !state;
+    int size;
+    char message[22];
+    BLEDevice buffer[16];
 
-        if (ms >= 2000) {
+    while (true) {
+        io.led1.setDigitalValue(advertising.isEmitting() ? 1 : 0);
+        io.led2.setDigitalValue(advertising.isScanning() ? 1 : 0);
+
+        if (ms % 1000 && advertising.isScanning()) {
             print_scan_result();
-            ms = 0;
         }
 
-        ms += sleep;
-        discoL475VgIot.sleep(sleep);
+        if (ms % 1000 && advertising.isEmitting()) {
+            size = sprintf(message, "Time: %02d", ms / 1000);
+            if (size >= 0) {
+                advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)message, size);
+            }
+        }
+
+        ms += 100;
+        discoL475VgIot.sleep(100);
     }
 }

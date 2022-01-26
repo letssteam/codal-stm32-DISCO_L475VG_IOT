@@ -12,7 +12,7 @@ HCISpiTransportClass hci(&spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNameto
 BLELocalDevice BLEObj(&hci);
 BLELocalDevice& BLE = BLEObj;
 
-codal::STM32AdvertisingBLE advertising(DEVICE_ID_RADIO);
+codal::STM32AdvertisingBLE advertising;
 
 #define ST_MICRO_COMPANY_UUID 0x0030
 

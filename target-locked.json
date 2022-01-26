@@ -51,7 +51,7 @@
             "url": "https://github.com/letssteam/codal-core.git"
         },
         {
-            "branch": "bba2e66633f6671ea955f7d6c8a2ba7f427fee29",
+            "branch": "9b6abcdb9b9ed30ebe21c07290cf3a230e3e72ca",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -63,7 +63,7 @@
     "processor": "STM32L4",
     "product_line": "STM32L475xx",
     "series": "STM32L4xx",
-    "snapshot_version": "v1.0.10",
+    "snapshot_version": "v1.0.11",
     "toolchain": "ARM_GCC",
     "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }

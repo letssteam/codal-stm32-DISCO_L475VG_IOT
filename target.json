@@ -48,8 +48,8 @@
   "cmake_definitions": {},
   "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
   "asm_flags": "-fno-exceptions -fno-unwind-tables --specs=nosys.specs -mcpu=cortex-m4 -mthumb",
-  "c_flags": "-std=c11 --specs=nosys.specs -Warray-bounds -u _printf_float -Wno-format",
-  "cpp_flags": "-std=c++17 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
+  "c_flags": "-O0 -ggdb3 -std=c11 --specs=nosys.specs -Warray-bounds -u _printf_float -Wno-format",
+  "cpp_flags": "-O0 -ggdb3 -std=c++17 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
   "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--wrap,atexit -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=1048576 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys -Wl,--end-group",
   "libraries": [
     {

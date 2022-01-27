@@ -18,7 +18,7 @@
                 "openocd.cfg"
             ],
             "preLaunchTask": "flash",
-            "runToMain": true,
+            "runToEntryPoint": "main",
             "demangle": true,
             "showDevDebugOutput": "parsed",
             "preLaunchCommands": [
@@ -44,7 +44,7 @@
                 "openocd.cfg"
             ],
             "preLaunchTask": "flash_pyocd",
-            "runToMain": true
+            "runToEntryPoint": "main"
         }
     ]
 }

@@ -68,10 +68,10 @@ void print_advertised_services_uuid(BLEDevice& device)
 
 void print_scan_result()
 {
-    BLEDevice buffer[16];
+    BLEDevice buffer[32];
 
-    if (advertising.hasResultWithManufacturerData()) {
-        size_t nb_result = advertising.getResultWithManufacturerData(buffer, 16);
+    if (advertising.hasResults()) {
+        size_t nb_result = advertising.getAllResults(buffer, 32);
 
         for (size_t device_index = 0; device_index < nb_result; ++device_index) {
             BLEDevice device = buffer[device_index];

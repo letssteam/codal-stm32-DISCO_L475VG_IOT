@@ -27,8 +27,11 @@
 #include "STM32DISCO_L475VG_IOT_IO.h"
 #include "STM32Pin.h"
 #include "STM32SPI.h"
+#include "WInterrupts.h"
 #include "es_wifi.h"
 #include "es_wifi_conf.h"
+#include "pins_arduino.h"
+#include "wiring_constants.h"
 
 /* Private define ------------------------------------------------------------*/
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
@@ -47,28 +50,102 @@ codal::STM32Pin sclk3(ID_PIN_WIFI_SCLK, PinNumber::PC_10, codal::PIN_CAPABILITY_
 
 codal::STM32SPI spi3(miso3, mosi3, sclk3, 8000000UL, 0, true);
 
-static int volatile spi_rx_event             = 0;
-static int volatile spi_tx_event             = 0;
+#define WIFI_MODULE_SPI_BUFFER_SIZE 128
+
+uint8_t _rxbuff[WIFI_MODULE_SPI_BUFFER_SIZE];
+uint16_t _read_index;
+uint16_t _write_index;
+uint16_t _write_index_initial;
+
+bool avalaible()
+{
+    return (_read_index != _write_index);
+}
+
+int peek()
+{
+    int peek_val = -1;
+
+    if (_read_index != _write_index) {
+        peek_val = _rxbuff[_read_index];
+    }
+
+    return peek_val;
+}
+
+int read()
+{
+    int read_val = -1;
+
+    if (_read_index != _write_index) {
+        read_val = _rxbuff[_read_index];
+        _read_index++;
+        if (_read_index == _write_index) {
+            /* Reset buffer index */
+            _read_index  = 0;
+            _write_index = 0;
+        }
+    }
+
+    return read_val;
+}
+
 static int volatile cmddata_rdy_rising_event = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 static int wait_cmddata_rdy_high(int timeout);
 static int wait_cmddata_rdy_rising_event(int timeout);
-static int wait_spi_tx_event(int timeout);
-static int wait_spi_rx_event(int timeout);
+
 static void SPI_WIFI_DelayUs(uint32_t);
-/* Private functions ---------------------------------------------------------*/
-/*******************************************************************************
-                       COM Driver Interface (SPI)
-*******************************************************************************/
+
+int wait_cmddata_rdy_high(int timeout)
+{
+    uint32_t tickstart = HAL_GetTick();
+    while (WIFI_IS_CMDDATA_READY() == 0) {
+        if ((HAL_GetTick() - tickstart) > (uint32_t)timeout) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int wait_cmddata_rdy_rising_event(int timeout)
+{
+    int tickstart = HAL_GetTick();
+    while (!avalaible() && cmddata_rdy_rising_event == 1) {
+        if ((HAL_GetTick() - tickstart) > (uint32_t)timeout) {
+            return -1;
+        }
+    }
+    return 0;
+}
 
 /**
- * @brief  Initialize the SPI3
+ * @brief  Interrupt handler for  Data RDY signal
+ * @param  None
+ * @retval None
+ */
+extern "C" void SPI_WIFI_ISR(void)
+{
+    if (cmddata_rdy_rising_event == 1) {
+        cmddata_rdy_rising_event = 0;
+    }
+}
+
+/**
+ * @brief  Initialize the Wifi module
  * @param  None
  * @retval None
  */
 int8_t SPI_WIFI_Init(uint16_t mode)
 {
+    _read_index          = 0;
+    _write_index         = 0;
+    _write_index_initial = 0;
+    memset(_rxbuff, 0, sizeof(_rxbuff));
+
+    attachInterrupt(pinNametoDigitalPin(PE_1), SPI_WIFI_ISR, RISING);
+
     int8_t rc = 0;
 
     if (mode == ES_WIFI_INIT) {
@@ -96,12 +173,17 @@ int8_t SPI_WIFI_ResetModule(void)
     uint8_t count = 0;
 
     WIFI_RESET_MODULE();
+
+    LOCK_SPI();
     WIFI_ENABLE_NSS();
+
     SPI_WIFI_DelayUs(15);
 
     while (WIFI_IS_CMDDATA_READY()) {
-        Prompt[count] = spi3.write(0);
-        count += 1;
+        Prompt[count + 1] = spi3.write(0);
+        Prompt[count]     = spi3.write(0);
+
+        count += 2;
         if (((HAL_GetTick() - tickstart) > 0xFFFF)) {
             WIFI_DISABLE_NSS();
             return -1;
@@ -109,6 +191,8 @@ int8_t SPI_WIFI_ResetModule(void)
     }
 
     WIFI_DISABLE_NSS();
+    UNLOCK_SPI();
+
     if ((Prompt[0] != 0x15) || (Prompt[1] != 0x15) || (Prompt[2] != '\r') || (Prompt[3] != '\n') ||
         (Prompt[4] != '>') || (Prompt[5] != ' ')) {
         return -1;
@@ -123,7 +207,7 @@ int8_t SPI_WIFI_ResetModule(void)
  */
 int8_t SPI_WIFI_DeInit(void)
 {
-    // HAL_SPI_DeInit(&hspi);
+    detachInterrupt(pinNametoDigitalPin(PE_1));
     return 0;
 }
 
@@ -134,89 +218,43 @@ int8_t SPI_WIFI_DeInit(void)
  * @param  timeout : send timeout in mS
  * @retval Length of received data (payload)
  */
-
-int wait_cmddata_rdy_high(int timeout)
-{
-    uint32_t tickstart = HAL_GetTick();
-    while (WIFI_IS_CMDDATA_READY() == 0) {
-        if ((HAL_GetTick() - tickstart) > (uint32_t)timeout) {
-            return -1;
-        }
-    }
-    return 0;
-}
-
-int wait_cmddata_rdy_rising_event(int timeout)
-{
-#ifdef SEM_WAIT
-    return SEM_WAIT(cmddata_rdy_rising_sem, timeout);
-#else
-    int tickstart = HAL_GetTick();
-    while (cmddata_rdy_rising_event == 1) {
-        if ((HAL_GetTick() - tickstart) > (uint32_t)timeout) {
-            return -1;
-        }
-    }
-    return 0;
-#endif
-}
-
-int wait_spi_rx_event(int timeout)
-{
-#ifdef SEM_WAIT
-    return SEM_WAIT(spi_rx_sem, timeout);
-#else
-    int tickstart = HAL_GetTick();
-    while (spi_rx_event == 1) {
-        if ((HAL_GetTick() - tickstart) > (uint32_t)timeout) {
-            return -1;
-        }
-    }
-    return 0;
-#endif
-}
-
-int wait_spi_tx_event(int timeout)
-{
-#ifdef SEM_WAIT
-    return SEM_WAIT(spi_tx_sem, timeout);
-#else
-    int tickstart = HAL_GetTick();
-    while (spi_tx_event == 1) {
-        if ((HAL_GetTick() - tickstart) > (uint32_t)timeout) {
-            return -1;
-        }
-    }
-    return 0;
-#endif
-}
-
 int16_t SPI_WIFI_ReceiveData(uint8_t* pData, uint16_t len, uint32_t timeout)
 {
     int16_t length = 0;
-    uint8_t tmp[2];
-    uint8_t writeData[len];
 
     WIFI_DISABLE_NSS();
     UNLOCK_SPI();
-    SPI_WIFI_DelayUs(3);
+
+    SPI_WIFI_DelayUs(15);
 
     if (wait_cmddata_rdy_rising_event(timeout) < 0) {
         return ES_WIFI_ERROR_WAITING_DRDY_FALLING;
     }
 
+    while (avalaible()) {
+        if ((length < len) || (!len)) {
+            pData[0] = read();
+            pData[1] = read();
+            length += 2;
+            pData += 2;
+
+            if (length >= ES_WIFI_DATA_SIZE) {
+                WIFI_DISABLE_NSS();
+                SPI_WIFI_ResetModule();
+                UNLOCK_SPI();
+                return ES_WIFI_ERROR_STUFFING_FOREVER;
+            }
+        }
+    }
+
     LOCK_SPI();
     WIFI_ENABLE_NSS();
     SPI_WIFI_DelayUs(15);
+
     while (WIFI_IS_CMDDATA_READY()) {
         if ((length < len) || (!len)) {
-            spi_rx_event = 1;
-            spi3.write(writeData, pData, 2);
-
-            wait_spi_rx_event(timeout);
-
-            pData[0] = tmp[0];
-            pData[1] = tmp[1];
+            pData[1] = spi3.write(0);
+            pData[0] = spi3.write(0);
             length += 2;
             pData += 2;
 
@@ -244,8 +282,6 @@ int16_t SPI_WIFI_ReceiveData(uint8_t* pData, uint16_t len, uint32_t timeout)
  */
 int16_t SPI_WIFI_SendData(uint8_t* pdata, uint16_t len, uint32_t timeout)
 {
-    uint8_t Padding[2];
-    uint8_t readData[len];
     if (wait_cmddata_rdy_high(timeout) < 0) {
         return ES_WIFI_ERROR_SPI_FAILED;
     }
@@ -256,19 +292,19 @@ int16_t SPI_WIFI_SendData(uint8_t* pdata, uint16_t len, uint32_t timeout)
     WIFI_ENABLE_NSS();
     SPI_WIFI_DelayUs(15);
     if (len > 1) {
-        spi_tx_event = 1;
-        spi3.write(pdata, readData, len);
-        wait_spi_tx_event(timeout);
+        for (int i = 0; i < len; i += 2) {
+            _rxbuff[_write_index + 1] = spi3.write(pdata[i + 1]);
+            _rxbuff[_write_index]     = spi3.write(pdata[i]);
+            _write_index += 2;
+        }
     }
 
-    if (len & 1) {
-        Padding[0] = pdata[len - 1];
-        Padding[1] = '\n';
-
-        spi_tx_event = 1;
-        spi3.write(Padding, readData, 2);
-        wait_spi_tx_event(timeout);
+    if (len & 1) {  // Need padding
+        _rxbuff[_write_index + 1] = spi3.write('\n');
+        _rxbuff[_write_index]     = spi3.write(pdata[len - 1]);
+        _write_index += 2;
     }
+
     return len;
 }
 
@@ -310,60 +346,3 @@ void SPI_WIFI_DelayUs(uint32_t n)
     while (ct) ct--;
     return;
 }
-
-/**
- * @brief Rx Transfer completed callback.
- * @param  hspi: pointer to a SPI_HandleTypeDef structure that contains
- *               the configuration information for SPI module.
- * @retval None
- */
-
-void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef* hspi)
-{
-    if (spi_rx_event) {
-        SEM_SIGNAL(spi_rx_sem);
-        spi_rx_event = 0;
-    }
-}
-
-/**
- * @brief Tx Transfer completed callback.
- * @param  hspi: pointer to a SPI_HandleTypeDef structure that contains
- *               the configuration information for SPI module.
- * @retval None
- */
-void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef* hspi)
-{
-    if (spi_tx_event) {
-        SEM_SIGNAL(spi_tx_sem);
-        spi_tx_event = 0;
-    }
-}
-
-/**
- * @brief  Interrupt handler for  Data RDY signal
- * @param  None
- * @retval None
- */
-void SPI_WIFI_ISR(void)
-{
-    if (cmddata_rdy_rising_event == 1) {
-        SEM_SIGNAL(cmddata_rdy_rising_sem);
-        cmddata_rdy_rising_event = 0;
-    }
-}
-/**
- * @}
- */
-
-/**
- * @}
- */
-
-/**
- * @}
- */
-
-/**
- * @}
- */

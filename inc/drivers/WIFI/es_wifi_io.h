@@ -43,7 +43,7 @@
         nssPin.setDigitalValue(1); \
     } while (0);
 
-#define WIFI_IS_CMDDATA_READY() (commandDataReadyPin.getDigitalValue() == GPIO_PIN_SET)
+#define WIFI_IS_CMDDATA_READY() (commandDataReadyPin.getDigitalValue() == 1)
 
 #ifdef __cplusplus
 extern "C" {

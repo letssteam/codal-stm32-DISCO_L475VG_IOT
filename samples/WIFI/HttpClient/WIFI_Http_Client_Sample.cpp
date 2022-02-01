@@ -1,7 +1,19 @@
 #include "WIFI_Http_Client_Sample.h"
 
+#include "ISM43362_M3G_L44_driver.h"
+#include "es_wifi_conf.h"
 #include "ssd1306.h"
-extern codal::STM32Pin commandDataReadyPin;
+
+codal::STM32Pin miso3(ID_PIN_WIFI_MISO, PinNumber::PC_11, codal::PIN_CAPABILITY_DIGITAL);
+codal::STM32Pin mosi3(ID_PIN_WIFI_MOSI, PinNumber::PC_12, codal::PIN_CAPABILITY_DIGITAL);
+codal::STM32Pin sclk3(ID_PIN_WIFI_SCLK, PinNumber::PC_10, codal::PIN_CAPABILITY_DIGITAL);
+
+codal::STM32SPI spi3(miso3, mosi3, sclk3, 8000000UL, 0, true);
+
+IsmDrvClass DrvWiFi(&spi3, PinNumber::PE_0, PinNumber::PE_1, PinNumber::PE_8, PinNumber::PB_13);
+
+const char* ssid       = "Unplugged2";
+const char* passphrase = "erasmusplus";
 
 void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
@@ -18,31 +30,18 @@ void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*******************************************\r\n");
     printf("*          Demonstration du wifi          *\r\n");
     printf("*******************************************\r\n");
-    std::string str;
 
-    if (SPI_WIFI_Init(ES_WIFI_INIT) != 0) {
+    if (DrvWiFi.ES_WIFI_Init() != ES_WIFI_STATUS_OK) {
         printf("Init not Ok\r\n");
         return;
     }
 
     printf("Init Ok\r\n");
 
-    int ret = SPI_WIFI_SendData((uint8_t*)"I?\r\n", 4, ES_WIFI_TIMEOUT);
-    if (ret != 4) {
-        printf("Init command not sent!\r\n");
+    if (DrvWiFi.ES_WIFI_Connect(ssid, passphrase, ES_WIFI_SEC_OPEN) != ES_WIFI_STATUS_OK) {
+        printf("Connection to %s not Ok\r\n", ssid);
+        DrvWiFi.ES_WIFI_Disconnect();
         return;
     }
-
-    printf("Init command sent!\r\n");
-
-    uint8_t receivedData[ES_WIFI_DATA_SIZE];
-    int receiveLength = SPI_WIFI_ReceiveData(receivedData, ES_WIFI_DATA_SIZE, ES_WIFI_TIMEOUT);
-    if (receiveLength < 0) {
-        printf("Problem during receive data\r\n");
-        return;
-    }
-    printf("Data Received : %d\r\n", receiveLength);
-    for (int i = 0; i < receiveLength; i++) {
-        printf("receivedData[%d] = %d\r\n", i, receivedData[i]);
-    }
+    printf("Connected to %s\r\n", ssid);
 }

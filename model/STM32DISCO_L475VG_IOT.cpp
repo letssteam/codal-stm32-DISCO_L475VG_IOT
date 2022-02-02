@@ -15,7 +15,7 @@ STM32DISCO_L475VG_IOT* codal::default_device_instance = nullptr;
 STM32DISCO_L475VG_IOT::STM32DISCO_L475VG_IOT()
     : lowLevelTimer(TIM5, TIM5_IRQn),
       timer(lowLevelTimer),
-      serial(io.rx, io.tx),
+      serial(io.tx, io.rx),
       i2c1(io.sda, io.scl),
       i2c2(io.sda2, io.scl2),
       spi1(io.miso, io.mosi, io.sclk),

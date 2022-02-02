@@ -759,6 +759,7 @@ void IsmDrvClass::ES_WIFI_ListAccessPoints()
 {
     ES_WIFI_Status_t ret;
     char* curr_ptr  = NULL;
+    char* sav_ptr   = NULL;
     char pdata[128] = {'\0'};
     /* Reset AP number */
     ESWifiApObj.nbr = 0;
@@ -768,17 +769,17 @@ void IsmDrvClass::ES_WIFI_ListAccessPoints()
     ret = AT_ExecuteCommand();
     if ((ret == ES_WIFI_STATUS_OK) || (ret == ES_WIFI_STATUS_REQ_DATA_STAGE)) {
         /* Init AP tokenization */
-        curr_ptr = strtok((char*)(EsWifiObj.CmdData), "\n");
+        curr_ptr = strtok_r((char*)(EsWifiObj.CmdData), "\n", &sav_ptr);
         while ((curr_ptr != NULL) && (ESWifiApObj.nbr < ES_WIFI_MAX_DETECTED_AP)) {
             if ((*curr_ptr) != '#') {
-                curr_ptr = strtok(NULL, "\n");
+                curr_ptr = strtok_r(NULL, "\n", &sav_ptr);
             }
             else {
                 /* save AP info */
                 strcpy(pdata, curr_ptr);
                 if (AT_ParseSingleAP(pdata, &(ESWifiApObj.AP[ESWifiApObj.nbr]))) {
                     ESWifiApObj.nbr++;
-                    curr_ptr = strtok(NULL, "\n");
+                    curr_ptr = strtok_r(NULL, "\n", &sav_ptr);
                 }
                 else {
                     if (ret == ES_WIFI_STATUS_REQ_DATA_STAGE) {
@@ -788,7 +789,7 @@ void IsmDrvClass::ES_WIFI_ListAccessPoints()
                         if ((ret != ES_WIFI_STATUS_OK) && (ret != ES_WIFI_STATUS_REQ_DATA_STAGE)) {
                             break;
                         }
-                        curr_ptr = strtok((char*)(EsWifiObj.CmdData), "\n");
+                        curr_ptr = strtok_r((char*)(EsWifiObj.CmdData), "\n", &sav_ptr);
                     }
                 }
             }

@@ -16,10 +16,7 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-#ifndef IPAddress_h
-#define IPAddress_h
-
+#pragma once
 #include <stdint.h>
 
 #include <string>
@@ -65,5 +62,3 @@ class IPAddress {
 };
 
 const IPAddress INADDR_NONE(0, 0, 0, 0);
-
-#endif

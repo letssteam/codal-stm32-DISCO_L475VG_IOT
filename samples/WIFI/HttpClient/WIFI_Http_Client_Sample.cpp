@@ -17,13 +17,6 @@ const char* passphrase = "PASSWORD";
 
 void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    codal::SSD1306_I2C oled(&discoL475VgIot.i2c1, 0x78, 128, 64, false);
-
-    oled.init();
-    oled.fill(0);
-    oled.drawText("Demo wifi", 0, 0, 1);
-    oled.show();
-
     discoL475VgIot.serial.init(115200);
 
     printf("\r\n");

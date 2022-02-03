@@ -30,13 +30,13 @@ _Static_assert((ES_WIFI_DATA_SIZE & 1) == 0, "ES_WIFI_DATA_SIZE have to be even!
  * @brief  Constructor.
  * @param  SPIx   : SPI interface
  * @param  cs     : chip select pin
- * @param  spiIRQ : SPI IRQ
+ * @param  commandDataReady : SPI IRQ
  * @param  reset : reset pin
  * @param  wakeup : wakeup pin
  * @retval None
  */
-IsmDrvClass::IsmDrvClass(codal::STM32SPI* SPIx, PinNumber cs, PinNumber commandDataReady, PinNumber reset,
-                         PinNumber wakeup)
+IsmDrvClass::IsmDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM32Pin* commandDataReady,
+                         codal::STM32Pin* reset, codal::STM32Pin* wakeup)
 {
     /* Call Spi constructor                                                    */
     Drv = new SpiDrvClass(SPIx, cs, commandDataReady, reset, wakeup);

@@ -291,7 +291,8 @@ class IsmDrvClass : public WiFiDrvClass {
     ES_WIFI_Status_t ES_WIFI_GetTrSettings(uint8_t index);
 
   public:
-    IsmDrvClass(codal::STM32SPI* SPIx, PinNumber cs, PinNumber commandDataReady, PinNumber reset, PinNumber wakeup);
+    IsmDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM32Pin* commandDataReady, codal::STM32Pin* reset,
+                codal::STM32Pin* wakeup);
 
     virtual ES_WIFI_Status_t ES_WIFI_Init();
     virtual void ES_WIFI_ListAccessPoints();

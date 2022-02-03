@@ -10,7 +10,12 @@ codal::STM32Pin sclk3(ID_PIN_WIFI_SCLK, PinNumber::PC_10, codal::PIN_CAPABILITY_
 
 codal::STM32SPI spi3(miso3, mosi3, sclk3, 10000000UL, 0, true);
 
-IsmDrvClass DrvWiFi(&spi3, PinNumber::PE_0, PinNumber::PE_1, PinNumber::PE_8, PinNumber::PB_13);
+codal::STM32Pin wakeUpPin(ID_PIN_WIFI_WAKE_UP, PinNumber::PB_13, codal::PIN_CAPABILITY_DIGITAL);
+codal::STM32Pin resetPin(ID_PIN_WIFI_RESET, PinNumber::PE_8, codal::PIN_CAPABILITY_DIGITAL);
+codal::STM32Pin nssPin(ID_PIN_WIFI_NSS, PinNumber::PE_0, codal::PIN_CAPABILITY_DIGITAL);
+codal::STM32Pin commandDataReadyPin(ID_PIN_WIFI_COMMAND_DATA_READY, PinNumber::PE_1, codal::PIN_CAPABILITY_DIGITAL);
+
+IsmDrvClass DrvWiFi(&spi3, &nssPin, &commandDataReadyPin, &resetPin, &wakeUpPin);
 
 const char* ssid       = "SSID";
 const char* passphrase = "PASSWORD";

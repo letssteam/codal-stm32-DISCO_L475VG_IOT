@@ -12,22 +12,15 @@
 /**
  * @brief  Constructor.
  * @param  SPIx   : SPI interface
- * @param  cs     : chip select pin
- * @param  spiIRQ : SPI IRQ pin
- * @param  reset  : reset pin
- * @param  wakeup : wakeup pin
- * @retval None
+ * @param  csPin     : chip select pin
+ * @param  commandDataReadyPin : SPI IRQ pin
+ * @param  resetPin  : reset pin
+ * @param  wakeUpPin : wakeup pin
  */
-SpiDrvClass::SpiDrvClass(codal::STM32SPI* SPIx, PinNumber cs, PinNumber commandDataReady, PinNumber reset,
-                         PinNumber wakeup)
+SpiDrvClass::SpiDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* csPin, codal::STM32Pin* commandDataReadyPin,
+                         codal::STM32Pin* resetPin, codal::STM32Pin* wakeUpPin)
+    : DriverClass(resetPin, wakeUpPin), ISM43362(SPIx), csPin(csPin), commandDataReadyPin(commandDataReadyPin)
 {
-    wakeUpPin = new codal::STM32Pin(ID_PIN_WIFI_WAKE_UP, wakeup, codal::PIN_CAPABILITY_DIGITAL);
-    resetPin  = new codal::STM32Pin(ID_PIN_WIFI_RESET, reset, codal::PIN_CAPABILITY_DIGITAL);
-    nssPin    = new codal::STM32Pin(ID_PIN_WIFI_NSS, cs, codal::PIN_CAPABILITY_DIGITAL);
-    commandDataReadyPin =
-        new codal::STM32Pin(ID_PIN_WIFI_COMMAND_DATA_READY, commandDataReady, codal::PIN_CAPABILITY_DIGITAL);
-
-    ISM43362 = SPIx;
 }
 
 /**
@@ -38,7 +31,7 @@ SpiDrvClass::SpiDrvClass(codal::STM32SPI* SPIx, PinNumber cs, PinNumber commandD
 void SpiDrvClass::Spi_Slave_Select()
 {
     do {
-        nssPin->setDigitalValue(0);
+        csPin->setDigitalValue(0);
     } while (0);
     target_wait(10);
 }
@@ -51,7 +44,7 @@ void SpiDrvClass::Spi_Slave_Select()
 void SpiDrvClass::Spi_Slave_Deselect()
 {
     do {
-        nssPin->setDigitalValue(1);
+        csPin->setDigitalValue(1);
     } while (0);
     target_wait(10);
 }
@@ -95,7 +88,7 @@ int8_t SpiDrvClass::IO_Init(void)
 
     /* pin configuration                                                       */
     wakeUpPin->setDigitalValue(0);
-    nssPin->setDigitalValue(1);
+    csPin->setDigitalValue(1);
 
     /* Clock = 10MHz (Inventek Wi-Fi module supports up to 20MHz)               */
     ISM43362->setFrequency(10000000);

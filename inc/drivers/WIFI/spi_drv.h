@@ -12,12 +12,12 @@
 class SpiDrvClass : public DriverClass {
   private:
     codal::STM32SPI* ISM43362;
-    // SPISettings *Settings_43362;
-    codal::Pin* nssPin;
-    codal::Pin* commandDataReadyPin;
+    codal::STM32Pin* csPin;
+    codal::STM32Pin* commandDataReadyPin;
 
   public:
-    SpiDrvClass(codal::STM32SPI* SPIx, PinNumber cs, PinNumber commandDataReady, PinNumber reset, PinNumber wakeup);
+    SpiDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* csPin, codal::STM32Pin* commandDataReadyPin,
+                codal::STM32Pin* resetPin, codal::STM32Pin* wakeupPin);
 
     void Spi_Wifi_Reset();
     void Spi_Slave_Select();

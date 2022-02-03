@@ -1,8 +1,8 @@
 {
     "architecture": "CORTEX_M4F",
-    "asm_flags": "-fno-exceptions -fno-unwind-tables --specs=nosys.specs -mcpu=cortex-m4 -mthumb",
+    "asm_flags": "-fno-exceptions -fno-unwind-tables --specs=nano.specs -mcpu=cortex-m4 -mthumb",
     "board": "B_L475E_IOT01A",
-    "c_flags": "-std=c11 --specs=nosys.specs -Warray-bounds -u _printf_float -Wno-format",
+    "c_flags": "-O0 -ggdb3 -std=gnu11 --specs=nano.specs -Warray-bounds -u _printf_float -Wno-format",
     "cmake_definitions": {},
     "config": {
         "ARDUINO_B_L475E_IOT01A": 1,
@@ -37,9 +37,9 @@
         "VARIANT": "variant_B_L475E_IOT01A",
         "VARIANT_H": "\"variant_B_L475E_IOT01A.h\""
     },
-    "cpp_flags": "-std=c++17 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
+    "cpp_flags": "-O0 -ggdb3 -std=gnu++17 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
-    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DI2C_IRQ_PRIO=0 -DEXTI_IRQ_PRIO=0",
+    "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DCUSTOM_PERIPHERAL_PINS -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DI2C_IRQ_PRIO=0 -DEXTI_IRQ_PRIO=0",
     "device": "STM32",
     "generate_bin": true,
     "generate_hex": true,
@@ -57,13 +57,13 @@
             "url": "https://github.com/letssteam/codal-stm32"
         }
     ],
-    "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--wrap,atexit -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=1048576 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -lnosys -Wl,--end-group",
+    "linker_flags": "-Wl,--no-wchar-size-warning -Wl,--gc-sections -Wl,--wrap,atexit -Wl,--defsym=LD_FLASH_OFFSET=0 -Wl,--defsym=LD_MAX_SIZE=1048576 -Wl,--defsym=LD_MAX_DATA_SIZE=98304 -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -Wl,--start-group -lstdc++ -lsupc++ -lm -lc -lgcc -Wl,--end-group",
     "mcu": "cortex-m4",
     "post_process": "",
     "processor": "STM32L4",
     "product_line": "STM32L475xx",
     "series": "STM32L4xx",
-    "snapshot_version": "v1.0.13",
+    "snapshot_version": "v1.0.14",
     "toolchain": "ARM_GCC",
     "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }

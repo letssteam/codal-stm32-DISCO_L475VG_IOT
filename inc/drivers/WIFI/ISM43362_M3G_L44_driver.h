@@ -243,12 +243,12 @@ typedef struct {
 } ES_WIFI_Conn_t;
 
 typedef struct {
-    uint8_t Product_ID[ES_WIFI_PRODUCT_ID_SIZE];
-    uint8_t FW_Rev[ES_WIFI_FW_REV_SIZE];
-    uint8_t API_Rev[ES_WIFI_API_REV_SIZE];
-    uint8_t Stack_Rev[ES_WIFI_STACK_REV_SIZE];
-    uint8_t RTOS_Rev[ES_WIFI_RTOS_REV_SIZE];
-    uint8_t Product_Name[ES_WIFI_PRODUCT_NAME_SIZE];
+    uint8_t Product_ID[ES_WIFI_PRODUCT_ID_SIZE + 1];
+    uint8_t FW_Rev[ES_WIFI_FW_REV_SIZE + 1];
+    uint8_t API_Rev[ES_WIFI_API_REV_SIZE + 1];
+    uint8_t Stack_Rev[ES_WIFI_STACK_REV_SIZE + 1];
+    uint8_t RTOS_Rev[ES_WIFI_RTOS_REV_SIZE + 1];
+    uint8_t Product_Name[ES_WIFI_PRODUCT_NAME_SIZE + 1];
     uint32_t CPU_Clock;
     ES_WIFI_SecurityType_t Security;
     ES_WIFI_Network_t NetSettings;

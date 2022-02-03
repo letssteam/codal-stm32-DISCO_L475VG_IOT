@@ -290,7 +290,7 @@ bool IsmDrvClass::AT_ParseSingleAP(char* pdata, ES_WIFI_AP_t* AP)
 
             case 1:
                 ptr[strlen(ptr) - 1] = 0;
-                strncpy((char*)AP->SSID, ptr + 1, ES_WIFI_MAX_SSID_NAME_SIZE + 1);
+                strncpy((char*)AP->SSID, ptr + 1, ES_WIFI_MAX_SSID_NAME_SIZE);
                 break;
 
             case 2:
@@ -408,11 +408,11 @@ void IsmDrvClass::AT_ParseConnSettings(char* pdata, ES_WIFI_Network_t* NetSettin
     while (ptr != NULL) {
         switch (num++) {
             case 0:
-                strncpy((char*)NetSettings->SSID, ptr, ES_WIFI_MAX_SSID_NAME_SIZE + 1);
+                strncpy((char*)NetSettings->SSID, ptr, ES_WIFI_MAX_SSID_NAME_SIZE);
                 break;
 
             case 1:
-                strncpy((char*)NetSettings->pswd, ptr, ES_WIFI_MAX_PSWD_NAME_SIZE + 1);
+                strncpy((char*)NetSettings->pswd, ptr, ES_WIFI_MAX_PSWD_NAME_SIZE);
                 break;
 
             case 2:

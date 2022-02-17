@@ -1,7 +1,6 @@
 #include "WIFI_Http_Client_Sample.h"
 
-#include "ISM43362_M3G_L44_driver.h"
-#include "es_wifi_conf.h"
+#include "Ism43362Driver.h"
 #include "ssd1306.h"
 
 codal::STM32Pin miso3(ID_PIN_WIFI_ISM43362_MISO, PinNumber::PC_11, codal::PIN_CAPABILITY_DIGITAL);
@@ -16,7 +15,7 @@ codal::STM32Pin csPin(ID_PIN_WIFI_ISM43362_CS, PinNumber::PE_0, codal::PIN_CAPAB
 codal::STM32Pin commandDataReadyPin(ID_PIN_WIFI_ISM43362_COMMAND_DATA_READY, PinNumber::PE_1,
                                     codal::PIN_CAPABILITY_DIGITAL);
 
-IsmDrvClass DrvWiFi(&spi3, &csPin, &commandDataReadyPin, &resetPin, &wakeUpPin);
+Ism43362Driver DrvWiFi(&spi3, &csPin, &commandDataReadyPin, &resetPin, &wakeUpPin);
 
 const char* ssid       = "SSID";
 const char* passphrase = "PASSWORD";

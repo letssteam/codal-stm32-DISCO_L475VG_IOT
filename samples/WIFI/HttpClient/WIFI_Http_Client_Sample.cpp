@@ -1,6 +1,8 @@
-#include "WIFI_Http_Client_Sample.h"
+#include <memory>
 
 #include "Ism43362Driver.h"
+#include "WIFI_Buffer_Sample.h"
+#include "Wifi.h"
 #include "ssd1306.h"
 
 codal::STM32Pin miso3(ID_PIN_WIFI_ISM43362_MISO, PinNumber::PC_11, codal::PIN_CAPABILITY_DIGITAL);
@@ -16,11 +18,14 @@ codal::STM32Pin commandDataReadyPin(ID_PIN_WIFI_ISM43362_COMMAND_DATA_READY, Pin
                                     codal::PIN_CAPABILITY_DIGITAL);
 
 Ism43362Driver DrvWiFi(&spi3, &csPin, &commandDataReadyPin, &resetPin, &wakeUpPin);
+codal::WiFi wifi(DrvWiFi);
 
-const char* ssid       = "SSID";
-const char* passphrase = "PASSWORD";
+const char* ssid       = "NEDJAR";
+const char* passphrase = "Camevenere1!";
+const char* host       = "google.com";
+const char* methodName = "GET";
 
-void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
+void Wifi_Buffer_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     discoL475VgIot.serial.init(115200);
 
@@ -29,23 +34,35 @@ void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*          Demonstration du wifi          *\r\n");
     printf("*******************************************\r\n");
 
-    if (DrvWiFi.ES_WIFI_Init() != ES_WIFI_STATUS_OK) {
+    if (wifi.init() != DEVICE_OK) {
         printf("Init not Ok\r\n");
         return;
     }
+    else
+        printf("Init Ok\r\n");
 
-    printf("Init Ok\r\n");
+    printf("Number of network : %d \r\n", wifi.networksVisible());
 
-    printf("Begin scan network\r\n");
-    DrvWiFi.ES_WIFI_ListAccessPoints();
-    printf("End scan network\r\n");
+    printf("Connection to %s \r\n", ssid);
 
-    printf("Number of network : %d\r\n", DrvWiFi.ES_WIFI_GetApNbr());
+    wifi.attach(ssid, passphrase);
 
-    if (DrvWiFi.ES_WIFI_Connect(ssid, passphrase, ES_WIFI_SEC_WPA2) != ES_WIFI_STATUS_OK) {
-        printf("Connection to %s not Ok\r\n", ssid);
-        DrvWiFi.ES_WIFI_Disconnect();
+    if (!wifi.isAttached()) {
+        printf("Not connected to %s \r\n", ssid);
+        wifi.detach();
         return;
     }
-    printf("Connected to %s\r\n", ssid);
+
+    printf("Connected to %s \r\n", ssid);
+
+    auto client = wifi.connect(host, 80);
+
+    if (client->isConnected()) {
+        auto req = "GET / HTTP/1.1\r\nHost: google.com\r\nConnection: Close\r\n\r\n";
+        client->write(req, strlen(req));
+        char buffer[2000];
+        memset(buffer, 0, 2000);
+        client->read(buffer, 2000);
+        printf("Received : %s\r\n", buffer);
+    }
 }

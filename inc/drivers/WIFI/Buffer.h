@@ -3,39 +3,10 @@
 #include <stdint.h>
 #include <string.h>
 
-/** A templated software ring buffer
- *
- * Example:
- * @code
- *  #include "Buffer.h"
- *
- *  Buffer <char> buf;
- *
- *  int main()
- *  {
- *      buf = 'a';
- *      buf.put('b');
- *      char *head = buf.head();
- *      puts(head);
- *
- *      char whats_in_there[2] = {0};
- *      int pos = 0;
- *
- *      while(buf.available())
- *      {
- *          whats_in_there[pos++] = buf;
- *      }
- *      printf("%c %c\n", whats_in_there[0], whats_in_there[1]);
- *      buf.clear();
- *      error("done\n\n\n");
- *  }
- * @endcode
- */
-
 template <typename T>
 class Buffer {
   private:
-    T* _buffer;
+    T* buffer;
     volatile size_t writeLocation;
     volatile size_t readLocation;
     size_t size;
@@ -76,9 +47,9 @@ class Buffer {
     void clear(void);
 
     /** Determine if anything is readable in the buffer
-     *  @return 1 if something can be read, 0 otherwise
+     *  @return true if something can be read, false otherwise
      */
-    size_t available(void);
+    bool available(void);
 
     /** Overloaded operator for writing to the buffer
      *  @param data Something to put in the buffer
@@ -99,7 +70,8 @@ class Buffer {
 template <typename T>
 void Buffer<T>::put(T data)
 {
-    _buffer[writeLocation] = data;
+    buffer[writeLocation] = data;
+
     ++writeLocation;
     writeLocation %= (this->size - 1);
 
@@ -109,7 +81,8 @@ void Buffer<T>::put(T data)
 template <typename T>
 T Buffer<T>::get(void)
 {
-    T data_pos = _buffer[readLocation];
+    T data_pos = buffer[readLocation];
+
     ++readLocation;
     readLocation %= (this->size - 1);
 
@@ -119,29 +92,29 @@ T Buffer<T>::get(void)
 template <typename T>
 T* Buffer<T>::head(void)
 {
-    T* data_pos = &_buffer[0];
+    T* data_pos = &buffer[0];
 
     return data_pos;
 }
 
 template <typename T>
-size_t Buffer<T>::available(void)
+bool Buffer<T>::available(void)
 {
-    return (writeLocation == readLocation) ? 0 : 1;
+    return (writeLocation != readLocation);
 }
 
 template <typename T>
 Buffer<T>::Buffer(size_t size)
 {
-    _buffer    = new T[size];
-    this->size = size;
+    this->buffer = new T[size];
+    this->size   = size;
     clear();
 }
 
 template <typename T>
 Buffer<T>::~Buffer()
 {
-    delete[] _buffer;
+    delete[] this->buffer;
 }
 
 template <typename T>
@@ -157,7 +130,7 @@ size_t Buffer<T>::getNbAvailable()
         return (writeLocation - readLocation);
     }
     else {
-        return (this->size - readLocation + writeLocation);
+        return (size - readLocation + writeLocation);
     }
 }
 
@@ -166,7 +139,6 @@ void Buffer<T>::clear(void)
 {
     writeLocation = 0;
     readLocation  = 0;
-    memset(_buffer, 0, this->size);
 
-    return;
+    memset(buffer, 0, size);
 }

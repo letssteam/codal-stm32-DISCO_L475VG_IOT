@@ -1,11 +1,10 @@
-#include "spi_drv.h"
-
 #include <stdbool.h>
 #include <string.h>
 
 #include <cstdio>
 
 #include "STM32DISCO_L475VG_IOT_IO.h"
+#include "SpiDriver.h"
 #include "Timer.h"
 #include "codal_target_hal.h"
 
@@ -17,9 +16,9 @@
  * @param  resetPin  : reset pin
  * @param  wakeUpPin : wakeup pin
  */
-SpiDrvClass::SpiDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* csPin, codal::STM32Pin* commandDataReadyPin,
-                         codal::STM32Pin* resetPin, codal::STM32Pin* wakeUpPin)
-    : DriverClass(resetPin, wakeUpPin), ISM43362(SPIx), csPin(csPin), commandDataReadyPin(commandDataReadyPin)
+SpiDriver::SpiDriver(codal::STM32SPI* SPIx, codal::STM32Pin* csPin, codal::STM32Pin* commandDataReadyPin,
+                     codal::STM32Pin* resetPin, codal::STM32Pin* wakeUpPin)
+    : Driver(resetPin, wakeUpPin), ISM43362(SPIx), csPin(csPin), commandDataReadyPin(commandDataReadyPin)
 {
 }
 
@@ -28,7 +27,7 @@ SpiDrvClass::SpiDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* csPin, codal::S
  * @param  None
  * @retval None
  */
-void SpiDrvClass::Spi_Slave_Select()
+void SpiDriver::Spi_Slave_Select()
 {
     do {
         csPin->setDigitalValue(0);
@@ -41,7 +40,7 @@ void SpiDrvClass::Spi_Slave_Select()
  * @param  None
  * @retval None
  */
-void SpiDrvClass::Spi_Slave_Deselect()
+void SpiDriver::Spi_Slave_Deselect()
 {
     do {
         csPin->setDigitalValue(1);
@@ -54,7 +53,7 @@ void SpiDrvClass::Spi_Slave_Deselect()
  * @param  None
  * @retval data_ready pin state. This is the spiIRQ pin.
  */
-uint8_t SpiDrvClass::Spi_Get_Data_Ready_State()
+uint8_t SpiDriver::Spi_Get_Data_Ready_State()
 {
     return commandDataReadyPin->getDigitalValue();
 }
@@ -64,7 +63,7 @@ uint8_t SpiDrvClass::Spi_Get_Data_Ready_State()
  * @param  None
  * @retval None
  */
-void SpiDrvClass::Spi_Wifi_Reset()
+void SpiDriver::Spi_Wifi_Reset()
 {
     do {
         resetPin->setDigitalValue(0);
@@ -79,7 +78,7 @@ void SpiDrvClass::Spi_Wifi_Reset()
  * @param  None
  * @retval : 0 if init success, -1 otherwise.
  */
-int8_t SpiDrvClass::IO_Init(void)
+int8_t SpiDriver::IO_Init(void)
 {
     uint8_t Prompt[6];             // data receive
     uint32_t start;                // start time for timeout
@@ -133,7 +132,7 @@ int8_t SpiDrvClass::IO_Init(void)
  * @param  None
  * @retval None
  */
-void SpiDrvClass::IO_DeInit(void)
+void SpiDriver::IO_DeInit(void)
 {
     ISM43362->endTransaction();
 }
@@ -143,7 +142,7 @@ void SpiDrvClass::IO_DeInit(void)
  * @param  time in ms
  * @retval None
  */
-void SpiDrvClass::IO_Delay(uint32_t time)
+void SpiDriver::IO_Delay(uint32_t time)
 {
     target_wait(time);
 }
@@ -155,7 +154,7 @@ void SpiDrvClass::IO_Delay(uint32_t time)
  * @param  timeout : send timeout in ms
  * @retval Length of sent data, -1 if send fail
  */
-int16_t SpiDrvClass::IO_Send(uint8_t* pdata, uint16_t len, uint32_t timeout)
+int16_t SpiDriver::IO_Send(uint8_t* pdata, uint16_t len, uint32_t timeout)
 {
     uint8_t Padding[2];  // padding data
     uint32_t start;      // start time for timeout
@@ -197,7 +196,7 @@ int16_t SpiDrvClass::IO_Send(uint8_t* pdata, uint16_t len, uint32_t timeout)
  * @param  timeout : send timeout in mS
  * @retval Length of received data (payload)
  */
-int16_t SpiDrvClass::IO_Receive(uint8_t* pData, uint16_t len, uint32_t timeout)
+int16_t SpiDriver::IO_Receive(uint8_t* pData, uint16_t len, uint32_t timeout)
 {
     int16_t length = 0;            // length of data receive
     uint8_t tmp[2];                // 2 bytes buffer of receive

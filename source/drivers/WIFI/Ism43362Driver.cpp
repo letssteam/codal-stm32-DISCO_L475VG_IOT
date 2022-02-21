@@ -1,4 +1,4 @@
-#include "ISM43362_M3G_L44_driver.h"
+#include "Ism43362Driver.h"
 
 #if (ES_WIFI_PAYLOAD_SIZE + AT_ERROR_STRING_LEN) > ES_WIFI_DATA_SIZE
 #warning "ES_WIFI_PAYLOAD_SIZE is higer than ES_WIFI_DATA_SIZE this could cause overflow!"
@@ -35,11 +35,11 @@ _Static_assert((ES_WIFI_DATA_SIZE & 1) == 0, "ES_WIFI_DATA_SIZE have to be even!
  * @param  wakeup : wakeup pin
  * @retval None
  */
-IsmDrvClass::IsmDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM32Pin* commandDataReady,
-                         codal::STM32Pin* reset, codal::STM32Pin* wakeup)
+Ism43362Driver::Ism43362Driver(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM32Pin* commandDataReady,
+                               codal::STM32Pin* reset, codal::STM32Pin* wakeup)
 {
     /* Call Spi constructor                                                    */
-    Drv = new SpiDrvClass(SPIx, cs, commandDataReady, reset, wakeup);
+    Drv = new SpiDriver(SPIx, cs, commandDataReady, reset, wakeup);
     for (int i = 0; i < MAX_SOCK_NUM; i++) {
         sockState[i] = SOCKET_FREE;
     }
@@ -51,7 +51,7 @@ IsmDrvClass::IsmDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM3
  * @param  a: character to convert
  * @retval integer value.
  */
-uint8_t IsmDrvClass::Hex2Num(char a)
+uint8_t Ism43362Driver::Hex2Num(char a)
 {
     if (a >= '0' && a <= '9') { /* Char is num */
         return a - '0';
@@ -72,7 +72,7 @@ uint8_t IsmDrvClass::Hex2Num(char a)
  * @param  cnt: pointer to the number of parsed digit
  * @retval Hex value.
  */
-uint32_t IsmDrvClass::ParseHexNumber(char* ptr, uint8_t* cnt)
+uint32_t Ism43362Driver::ParseHexNumber(char* ptr, uint8_t* cnt)
 {
     uint32_t sum = 0;
     uint8_t i    = 0;
@@ -100,7 +100,7 @@ uint32_t IsmDrvClass::ParseHexNumber(char* ptr, uint8_t* cnt)
  * @param  cnt: pointer to the number of parsed digit
  * @retval integer value.
  */
-int32_t IsmDrvClass::ParseNumber(char* ptr, uint8_t* cnt)
+int32_t Ism43362Driver::ParseNumber(char* ptr, uint8_t* cnt)
 {
     uint8_t minus = 0, i = 0;
     int32_t sum = 0;
@@ -134,7 +134,7 @@ int32_t IsmDrvClass::ParseNumber(char* ptr, uint8_t* cnt)
  * @param  arr: pointer to MAC array
  * @retval None.
  */
-void IsmDrvClass::ParseMAC(char* ptr, uint8_t* arr)
+void Ism43362Driver::ParseMAC(char* ptr, uint8_t* arr)
 {
     uint8_t hexnum = 0, hexcnt;
 
@@ -157,7 +157,7 @@ void IsmDrvClass::ParseMAC(char* ptr, uint8_t* arr)
  * @param  arr: pointer to IP array
  * @retval None.
  */
-void IsmDrvClass::ParseIP(char* ptr, uint8_t* arr)
+void Ism43362Driver::ParseIP(char* ptr, uint8_t* arr)
 {
     uint8_t hexnum = 0, hexcnt;
 
@@ -179,7 +179,7 @@ void IsmDrvClass::ParseIP(char* ptr, uint8_t* arr)
  * @param  ptr: pointer to string
  * @retval Encryption type.
  */
-ES_WIFI_SecurityType_t IsmDrvClass::ParseSecurity(char* ptr)
+ES_WIFI_SecurityType_t Ism43362Driver::ParseSecurity(char* ptr)
 {
     if (ptr == NULL) {
         return ES_WIFI_SEC_UNKNOWN;
@@ -213,7 +213,7 @@ ES_WIFI_SecurityType_t IsmDrvClass::ParseSecurity(char* ptr)
  * @param  ptr: pointer to string
  * @retval None.
  */
-void IsmDrvClass::AT_ParseInfo(uint8_t* pdata)
+void Ism43362Driver::AT_ParseInfo(uint8_t* pdata)
 {
     char* ptr;
     uint8_t num = 0;
@@ -268,7 +268,7 @@ void IsmDrvClass::AT_ParseInfo(uint8_t* pdata)
  * @param  AP: Access point structure
  * @retval boolean, true if parse ok
  */
-bool IsmDrvClass::AT_ParseSingleAP(char* pdata, ES_WIFI_AP_t* AP)
+bool Ism43362Driver::AT_ParseSingleAP(char* pdata, ES_WIFI_AP_t* AP)
 {
     uint8_t num = 0;
     char* ptr;
@@ -324,7 +324,7 @@ bool IsmDrvClass::AT_ParseSingleAP(char* pdata, ES_WIFI_AP_t* AP)
  * @param  ptr: pointer to string
  * @retval None.
  */
-void IsmDrvClass::AT_ParseSystemConfig(char* pdata, ES_WIFI_SystemConfig_t* pConfig)
+void Ism43362Driver::AT_ParseSystemConfig(char* pdata, ES_WIFI_SystemConfig_t* pConfig)
 {
     uint8_t num = 0;
     char* ptr;
@@ -394,7 +394,7 @@ void IsmDrvClass::AT_ParseSystemConfig(char* pdata, ES_WIFI_SystemConfig_t* pCon
  * @param  pdata: pointer to data
  * @retval None.
  */
-void IsmDrvClass::AT_ParseConnSettings(char* pdata, ES_WIFI_Network_t* NetSettings)
+void Ism43362Driver::AT_ParseConnSettings(char* pdata, ES_WIFI_Network_t* NetSettings)
 {
     uint8_t num = 0;
     char* ptr;
@@ -472,7 +472,7 @@ void IsmDrvClass::AT_ParseConnSettings(char* pdata, ES_WIFI_Network_t* NetSettin
  * @param  ConnSettings: struct settings.
  * @retval None.
  */
-void IsmDrvClass::AT_ParseTrSettings(char* pdata, ES_WIFI_Conn_t* ConnSettings)
+void Ism43362Driver::AT_ParseTrSettings(char* pdata, ES_WIFI_Conn_t* ConnSettings)
 {
     uint8_t num = 0;
     char* ptr;
@@ -523,7 +523,7 @@ void IsmDrvClass::AT_ParseTrSettings(char* pdata, ES_WIFI_Conn_t* ConnSettings)
  * @retval Operation Status.
  * @note  Command is in EsWifiObj.CmdData then it is used to store returned data
  */
-ES_WIFI_Status_t IsmDrvClass::AT_ExecuteCommand(void)
+ES_WIFI_Status_t Ism43362Driver::AT_ExecuteCommand(void)
 {
     int ret = 0;
 
@@ -540,7 +540,7 @@ ES_WIFI_Status_t IsmDrvClass::AT_ExecuteCommand(void)
  * @param  pdata: pointer to returned data
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::AT_ReceiveCommand(uint8_t* pdata, uint16_t len)
+ES_WIFI_Status_t Ism43362Driver::AT_ReceiveCommand(uint8_t* pdata, uint16_t len)
 {
     int16_t recv_len = 0;
     /* Read len - AT_OK_STRING_LEN -2 to be able to
@@ -575,7 +575,7 @@ ES_WIFI_Status_t IsmDrvClass::AT_ReceiveCommand(uint8_t* pdata, uint16_t len)
  * @param  pdata: pointer to returned data
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::AT_RequestSendData(uint8_t* cmd, uint16_t len, uint8_t* pdata)
+ES_WIFI_Status_t Ism43362Driver::AT_RequestSendData(uint8_t* cmd, uint16_t len, uint8_t* pdata)
 {
     if ((cmd == NULL) || (pdata == NULL)) {
         return ES_WIFI_STATUS_ERROR;
@@ -611,7 +611,7 @@ ES_WIFI_Status_t IsmDrvClass::AT_RequestSendData(uint8_t* cmd, uint16_t len, uin
  * @param  ReadData : pointer to received data length.
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::AT_RequestReceiveData(uint8_t* cmd, char* pdata, uint16_t Reqlen, uint16_t* ReadData)
+ES_WIFI_Status_t Ism43362Driver::AT_RequestReceiveData(uint8_t* cmd, char* pdata, uint16_t Reqlen, uint16_t* ReadData)
 {
     uint16_t len;
     uint8_t* p  = EsWifiObj.CmdData;
@@ -661,7 +661,7 @@ ES_WIFI_Status_t IsmDrvClass::AT_RequestReceiveData(uint8_t* cmd, char* pdata, u
  * @param  None.
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::ES_WIFI_Init()
+ES_WIFI_Status_t Ism43362Driver::ES_WIFI_Init()
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
 
@@ -684,7 +684,7 @@ ES_WIFI_Status_t IsmDrvClass::ES_WIFI_Init()
  * @param  None
  * @retval ProductID.
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetProductID()
+uint8_t* Ism43362Driver::ES_WIFI_GetProductID()
 {
     return EsWifiObj.Product_ID;
 }
@@ -694,7 +694,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetProductID()
  * @param  None
  * @retval pointer to the firmware version.
  */
-char* IsmDrvClass::ES_WIFI_GetFWRevID()
+char* Ism43362Driver::ES_WIFI_GetFWRevID()
 {
     return (char*)EsWifiObj.FW_Rev;
 }
@@ -704,7 +704,7 @@ char* IsmDrvClass::ES_WIFI_GetFWRevID()
  * @param  None.
  * @retval Product name.
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetProductName()
+uint8_t* Ism43362Driver::ES_WIFI_GetProductName()
 {
     return EsWifiObj.Product_Name;
 }
@@ -714,7 +714,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetProductName()
  * @param  None.
  * @retval API revision.
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetAPIRev()
+uint8_t* Ism43362Driver::ES_WIFI_GetAPIRev()
 {
     return EsWifiObj.API_Rev;
 }
@@ -724,7 +724,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetAPIRev()
  * @param  None.
  * @retval Operation Status.
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetStackRev()
+uint8_t* Ism43362Driver::ES_WIFI_GetStackRev()
 {
     return EsWifiObj.Stack_Rev;
 }
@@ -734,7 +734,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetStackRev()
  * @param  None
  * @retval RTOS Revision
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetRTOSRev()
+uint8_t* Ism43362Driver::ES_WIFI_GetRTOSRev()
 {
     return EsWifiObj.RTOS_Rev;
 }
@@ -744,7 +744,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetRTOSRev()
  * @param  Timeout: Timeout in ms.
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::ES_WIFI_SetTimeout(uint32_t Timeout)
+ES_WIFI_Status_t Ism43362Driver::ES_WIFI_SetTimeout(uint32_t Timeout)
 {
     EsWifiObj.Timeout = Timeout;
     return ES_WIFI_STATUS_OK;
@@ -755,7 +755,7 @@ ES_WIFI_Status_t IsmDrvClass::ES_WIFI_SetTimeout(uint32_t Timeout)
  * @param  None.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_ListAccessPoints()
+void Ism43362Driver::ES_WIFI_ListAccessPoints()
 {
     ES_WIFI_Status_t ret;
     char* curr_ptr  = NULL;
@@ -806,7 +806,7 @@ void IsmDrvClass::ES_WIFI_ListAccessPoints()
  * @param  None.
  * @retval Number of access point in view.
  */
-int IsmDrvClass::ES_WIFI_GetApNbr()
+int Ism43362Driver::ES_WIFI_GetApNbr()
 {
     return ESWifiApObj.nbr;
 }
@@ -818,7 +818,7 @@ int IsmDrvClass::ES_WIFI_GetApNbr()
  * @param  SecType: Security type.
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::ES_WIFI_Connect(const char* SSID, const char* Password, ES_WIFI_SecurityType_t SecType)
+ES_WIFI_Status_t Ism43362Driver::ES_WIFI_Connect(const char* SSID, const char* Password, ES_WIFI_SecurityType_t SecType)
 {
     ES_WIFI_Status_t ret;
 
@@ -859,7 +859,7 @@ ES_WIFI_Status_t IsmDrvClass::ES_WIFI_Connect(const char* SSID, const char* Pass
  * @param  None.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_Disconnect()
+void Ism43362Driver::ES_WIFI_Disconnect()
 {
     strcpy((char*)EsWifiObj.CmdData, AT_NET_DISCONNECT);
     strcat((char*)EsWifiObj.CmdData, SUFFIX_CMD);
@@ -871,7 +871,7 @@ void IsmDrvClass::ES_WIFI_Disconnect()
  * @param  Pointer to network setting structure.
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::ES_WIFI_GetNetworkSettings()
+ES_WIFI_Status_t Ism43362Driver::ES_WIFI_GetNetworkSettings()
 {
     ES_WIFI_Status_t ret;
 
@@ -890,7 +890,7 @@ ES_WIFI_Status_t IsmDrvClass::ES_WIFI_GetNetworkSettings()
  * @param  index : socket number on which you want the settings
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::ES_WIFI_GetTrSettings(uint8_t index)
+ES_WIFI_Status_t Ism43362Driver::ES_WIFI_GetTrSettings(uint8_t index)
 {
     ES_WIFI_Status_t ret;
 
@@ -909,7 +909,7 @@ ES_WIFI_Status_t IsmDrvClass::ES_WIFI_GetTrSettings(uint8_t index)
  * @param  pointer to the mac address.
  * @retval pointer to the mac address.
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetMACAddress(uint8_t* mac)
+uint8_t* Ism43362Driver::ES_WIFI_GetMACAddress(uint8_t* mac)
 {
     ES_WIFI_Status_t ret;
     char* ptr;
@@ -936,7 +936,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetMACAddress(uint8_t* mac)
  * @param  none.
  * @retval IP address.
  */
-IPAddress IsmDrvClass::ES_WIFI_GetIPAddress()
+IPAddress Ism43362Driver::ES_WIFI_GetIPAddress()
 {
     ES_WIFI_GetNetworkSettings();
     return EsWifiObj.NetSettings.IP_Addr;
@@ -947,7 +947,7 @@ IPAddress IsmDrvClass::ES_WIFI_GetIPAddress()
  * @param  none.
  * @retval submask.
  */
-IPAddress IsmDrvClass::ES_WIFI_GetSubnetMask()
+IPAddress Ism43362Driver::ES_WIFI_GetSubnetMask()
 {
     ES_WIFI_GetNetworkSettings();
     return EsWifiObj.NetSettings.IP_Mask;
@@ -958,7 +958,7 @@ IPAddress IsmDrvClass::ES_WIFI_GetSubnetMask()
  * @param  none.
  * @retval gateway IP.
  */
-IPAddress IsmDrvClass::ES_WIFI_GetGatewayIP()
+IPAddress Ism43362Driver::ES_WIFI_GetGatewayIP()
 {
     ES_WIFI_GetNetworkSettings();
     return EsWifiObj.NetSettings.Gateway_Addr;
@@ -969,7 +969,7 @@ IPAddress IsmDrvClass::ES_WIFI_GetGatewayIP()
  * @param : None
  * return: pointer to SSID
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetSSID()
+uint8_t* Ism43362Driver::ES_WIFI_GetSSID()
 {
     ES_WIFI_GetNetworkSettings();
     return EsWifiObj.NetSettings.SSID;
@@ -981,7 +981,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetSSID()
  * return: ssid string of the specified item on the networks scanned list
  * Note : ES_WIFI_ListAccessPoints() should be perform before call this function
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetSSID(uint8_t networkItem)
+uint8_t* Ism43362Driver::ES_WIFI_GetSSID(uint8_t networkItem)
 {
     // List all access point in view
     for (int j = 0; j < ESWifiApObj.nbr; j++) {
@@ -999,7 +999,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetSSID(uint8_t networkItem)
  * @param : pointer to BBSID
  * return: pointer to BBSID
  */
-uint8_t* IsmDrvClass::ES_WIFI_GetBSSID(uint8_t* bssid)
+uint8_t* Ism43362Driver::ES_WIFI_GetBSSID(uint8_t* bssid)
 {
     if (bssid == NULL) {
         return NULL;
@@ -1025,7 +1025,7 @@ uint8_t* IsmDrvClass::ES_WIFI_GetBSSID(uint8_t* bssid)
  * @param : None
  * return: one value of ES_WIFI_SecurityType_t enum
  */
-int IsmDrvClass::ES_WIFI_GetEncryptionType()
+int Ism43362Driver::ES_WIFI_GetEncryptionType()
 {
     ES_WIFI_GetNetworkSettings();
     return EsWifiObj.NetSettings.Security;
@@ -1037,7 +1037,7 @@ int IsmDrvClass::ES_WIFI_GetEncryptionType()
  * return: one value of ES_WIFI_SecurityType_t enum
  * Note : ES_WIFI_ListAccessPoints() should be perform before call this function
  */
-int IsmDrvClass::ES_WIFI_GetEncryptionType(uint8_t networkItem)
+int Ism43362Driver::ES_WIFI_GetEncryptionType(uint8_t networkItem)
 {
     // List all access point in view
     for (int j = 0; j < ESWifiApObj.nbr; j++) {
@@ -1055,7 +1055,7 @@ int IsmDrvClass::ES_WIFI_GetEncryptionType(uint8_t networkItem)
  * @param : None
  * return: rssi (O for no Associated AP or error)
  */
-int32_t IsmDrvClass::ES_WIFI_GetRSSI()
+int32_t Ism43362Driver::ES_WIFI_GetRSSI()
 {
     ES_WIFI_Status_t ret;
     char* ptr;
@@ -1077,7 +1077,7 @@ int32_t IsmDrvClass::ES_WIFI_GetRSSI()
  * return: rssi
  * Note : ES_WIFI_ListAccessPoints() should be perform before call this function
  */
-int32_t IsmDrvClass::ES_WIFI_GetRSSI(uint8_t networkItem)
+int32_t Ism43362Driver::ES_WIFI_GetRSSI(uint8_t networkItem)
 {
     // List all access point in view
     for (int j = 0; j < ESWifiApObj.nbr; j++) {
@@ -1095,7 +1095,7 @@ int32_t IsmDrvClass::ES_WIFI_GetRSSI(uint8_t networkItem)
  * @param  mac: the MAC address to set.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_SetMACAddress(uint8_t* mac)
+void Ism43362Driver::ES_WIFI_SetMACAddress(uint8_t* mac)
 {
     ES_WIFI_Status_t ret;
 
@@ -1119,7 +1119,7 @@ void IsmDrvClass::ES_WIFI_SetMACAddress(uint8_t* mac)
  * @param  None.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_ResetToFactoryDefault()
+void Ism43362Driver::ES_WIFI_ResetToFactoryDefault()
 {
     strcpy((char*)EsWifiObj.CmdData, AT_SYS_SET_RESET_FACTORY);
     strcat((char*)EsWifiObj.CmdData, SUFFIX_CMD);
@@ -1131,7 +1131,7 @@ void IsmDrvClass::ES_WIFI_ResetToFactoryDefault()
  * @param  None.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_ResetModule()
+void Ism43362Driver::ES_WIFI_ResetModule()
 {
     strcpy((char*)EsWifiObj.CmdData, AT_SYS_RESET_MODULE);
     strcat((char*)EsWifiObj.CmdData, SUFFIX_CMD);
@@ -1143,7 +1143,7 @@ void IsmDrvClass::ES_WIFI_ResetModule()
  * @param  ProductName : pointer to product name string
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_SetProductName(uint8_t* ProductName)
+void Ism43362Driver::ES_WIFI_SetProductName(uint8_t* ProductName)
 {
     ES_WIFI_Status_t ret;
 
@@ -1166,7 +1166,7 @@ void IsmDrvClass::ES_WIFI_SetProductName(uint8_t* ProductName)
  * @param  None.
  * @retval Operation Status.
  */
-ES_WIFI_Status_t IsmDrvClass::ES_WIFI_GetSystemConfig()
+ES_WIFI_Status_t Ism43362Driver::ES_WIFI_GetSystemConfig()
 {
     ES_WIFI_Status_t ret;
 
@@ -1185,7 +1185,7 @@ ES_WIFI_Status_t IsmDrvClass::ES_WIFI_GetSystemConfig()
  * @param  interval_ms: time between ping.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_Ping(uint8_t* address, uint16_t count, uint16_t interval_ms)
+void Ism43362Driver::ES_WIFI_Ping(uint8_t* address, uint16_t count, uint16_t interval_ms)
 {
     ES_WIFI_Status_t ret;
 
@@ -1221,7 +1221,7 @@ void IsmDrvClass::ES_WIFI_Ping(uint8_t* address, uint16_t count, uint16_t interv
  * @param  ipaddress: IP address.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_DNS_LookUp(const char* url, IPAddress* ipaddress)
+void Ism43362Driver::ES_WIFI_DNS_LookUp(const char* url, IPAddress* ipaddress)
 {
     ES_WIFI_Status_t ret;
     char* ptr;
@@ -1246,7 +1246,7 @@ void IsmDrvClass::ES_WIFI_DNS_LookUp(const char* url, IPAddress* ipaddress)
  * @param  index : index of structure connection
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_StartClientConnection(uint8_t index)
+void Ism43362Driver::ES_WIFI_StartClientConnection(uint8_t index)
 {
     ES_WIFI_Status_t ret;
 
@@ -1289,7 +1289,7 @@ void IsmDrvClass::ES_WIFI_StartClientConnection(uint8_t index)
  * @param  index : index of structure connection
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_StopClientConnection(uint8_t index)
+void Ism43362Driver::ES_WIFI_StopClientConnection(uint8_t index)
 {
     ES_WIFI_Status_t ret;
 
@@ -1310,7 +1310,7 @@ void IsmDrvClass::ES_WIFI_StopClientConnection(uint8_t index)
  * @param  mode   : communication mode
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_StartServerSingleConn(uint8_t index, comm_mode mode)
+void Ism43362Driver::ES_WIFI_StartServerSingleConn(uint8_t index, comm_mode mode)
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
     char* ptr;
@@ -1391,7 +1391,7 @@ void IsmDrvClass::ES_WIFI_StartServerSingleConn(uint8_t index, comm_mode mode)
  * @param index : socket to free
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_StopServerSingleConn(uint8_t index)
+void Ism43362Driver::ES_WIFI_StopServerSingleConn(uint8_t index)
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
 
@@ -1411,7 +1411,7 @@ void IsmDrvClass::ES_WIFI_StopServerSingleConn(uint8_t index)
  * @param  mode : communication mode
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_StartServerMultiConn(uint8_t index, comm_mode mode)
+void Ism43362Driver::ES_WIFI_StartServerMultiConn(uint8_t index, comm_mode mode)
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
     char* ptr;
@@ -1498,7 +1498,7 @@ void IsmDrvClass::ES_WIFI_StartServerMultiConn(uint8_t index, comm_mode mode)
  * @param  None.
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_StopServerMultiConn()
+void Ism43362Driver::ES_WIFI_StopServerMultiConn()
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
 
@@ -1531,7 +1531,8 @@ void IsmDrvClass::ES_WIFI_StopServerMultiConn()
  * @param  Timeout : Timeout for sending data in ms (range of 0 to 30000)
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_SendResp(uint8_t Socket, uint8_t* pdata, uint16_t Reqlen, uint16_t* SentLen, uint32_t Timeout)
+void Ism43362Driver::ES_WIFI_SendResp(uint8_t Socket, uint8_t* pdata, uint16_t Reqlen, uint16_t* SentLen,
+                                      uint32_t Timeout)
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
 
@@ -1578,8 +1579,8 @@ void IsmDrvClass::ES_WIFI_SendResp(uint8_t Socket, uint8_t* pdata, uint16_t Reql
  * @param  timeout     : Timeout for receiving the data
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_ReceiveData(uint8_t Socket, uint8_t* pdata, uint16_t Reqlen, uint16_t* Receivedlen,
-                                      uint32_t Timeout)
+void Ism43362Driver::ES_WIFI_ReceiveData(uint8_t Socket, uint8_t* pdata, uint16_t Reqlen, uint16_t* Receivedlen,
+                                         uint32_t Timeout)
 {
     ES_WIFI_Status_t ret = ES_WIFI_STATUS_ERROR;
 
@@ -1625,7 +1626,7 @@ void IsmDrvClass::ES_WIFI_ReceiveData(uint8_t Socket, uint8_t* pdata, uint16_t R
  * @param  LocalPort : local port
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_SetConnectionParam(uint8_t Number, ES_WIFI_ConnType_t Type, uint16_t LocalPort)
+void Ism43362Driver::ES_WIFI_SetConnectionParam(uint8_t Number, ES_WIFI_ConnType_t Type, uint16_t LocalPort)
 {
     if (Number < MAX_SOCK_NUM) {
         ESWifiConnTab[Number].Number    = Number;
@@ -1642,7 +1643,8 @@ void IsmDrvClass::ES_WIFI_SetConnectionParam(uint8_t Number, ES_WIFI_ConnType_t 
  * @param  Ip        : Remote IP address
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_SetConnectionParam(uint8_t Number, ES_WIFI_ConnType_t Type, uint16_t LocalPort, IPAddress Ip)
+void Ism43362Driver::ES_WIFI_SetConnectionParam(uint8_t Number, ES_WIFI_ConnType_t Type, uint16_t LocalPort,
+                                                IPAddress Ip)
 {
     if (Number < MAX_SOCK_NUM) {
         ESWifiConnTab[Number].Number     = Number;
@@ -1662,7 +1664,7 @@ void IsmDrvClass::ES_WIFI_SetConnectionParam(uint8_t Number, ES_WIFI_ConnType_t 
  * @param  port : remote port
  * @retval None.
  */
-void IsmDrvClass::ES_WIFI_getRemoteData(uint8_t sock, uint8_t* ip, uint16_t* port)
+void Ism43362Driver::ES_WIFI_getRemoteData(uint8_t sock, uint8_t* ip, uint16_t* port)
 {
     if ((ip == NULL) || (port == NULL)) {
         return;
@@ -1682,7 +1684,7 @@ void IsmDrvClass::ES_WIFI_getRemoteData(uint8_t sock, uint8_t* ip, uint16_t* por
  * @param  None
  * @retval socket number.
  */
-uint8_t IsmDrvClass::getCurrentSocket(void)
+uint8_t Ism43362Driver::getCurrentSocket(void)
 {
     return currentSock;
 }
@@ -1692,7 +1694,7 @@ uint8_t IsmDrvClass::getCurrentSocket(void)
  * @param  None
  * @retval socket number or -1 if no available.
  */
-int8_t IsmDrvClass::getFreeSocket(void)
+int8_t Ism43362Driver::getFreeSocket(void)
 {
     for (uint8_t i = 0; i < MAX_SOCK_NUM; i++) {
         if (sockState[i] == SOCKET_FREE) {
@@ -1707,7 +1709,7 @@ int8_t IsmDrvClass::getFreeSocket(void)
  * @param  socket: socket number
  * @retval the state of the socket: SOCKET_FREE or SOCKET_BUSY
  */
-uint8_t IsmDrvClass::getSocketState(uint8_t socket)
+uint8_t Ism43362Driver::getSocketState(uint8_t socket)
 {
     if (socket < MAX_SOCK_NUM) {
         return (uint8_t)sockState[socket];

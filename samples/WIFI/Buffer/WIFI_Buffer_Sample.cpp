@@ -1,7 +1,8 @@
 #include <memory>
 
+#include "Buffer.h"
 #include "Ism43362Driver.h"
-#include "WIFI_Buffer_Sample.h"
+#include "WIFI_Http_Client_Sample.h"
 #include "Wifi.h"
 #include "ssd1306.h"
 
@@ -25,44 +26,27 @@ const char* passphrase = "Camevenere1!";
 const char* host       = "google.com";
 const char* methodName = "GET";
 
-void Wifi_Buffer_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
+Buffer<char> buffer;
+
+void Wifi_Http_Client_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     discoL475VgIot.serial.init(115200);
 
     printf("\r\n");
     printf("*******************************************\r\n");
-    printf("*          Demonstration du wifi          *\r\n");
+    printf("*          Demonstration du buffer        *\r\n");
     printf("*******************************************\r\n");
 
-    if (wifi.init() != DEVICE_OK) {
-        printf("Init not Ok\r\n");
-        return;
+    buffer = 'a';
+    buffer.put('b');
+    char* head = buffer.head();
+    puts(head);
+    char whats_in_there[2] = {0};
+    int pos                = 0;
+    while (buffer.available()) {
+        whats_in_there[pos++] = buffer;
     }
-    else
-        printf("Init Ok\r\n");
-
-    printf("Number of network : %d \r\n", wifi.networksVisible());
-
-    printf("Connection to %s \r\n", ssid);
-
-    wifi.attach(ssid, passphrase);
-
-    if (!wifi.isAttached()) {
-        printf("Not connected to %s \r\n", ssid);
-        wifi.detach();
-        return;
-    }
-
-    printf("Connected to %s \r\n", ssid);
-
-    auto client = wifi.connect(host, 80);
-
-    if (client->isConnected()) {
-        auto req = "GET / HTTP/1.1\r\nHost: google.com\r\nConnection: Close\r\n\r\n";
-        client->write(req, strlen(req));
-        char buffer[2000];
-        memset(buffer, 0, 2000);
-        client->read(buffer, 2000);
-        printf("Received : %s\r\n", buffer);
-    }
+    printf("%c %c\r\n", whats_in_there[0], whats_in_there[1]);
+    buffer.clear();
+    printf("Done !\r\n");
 }

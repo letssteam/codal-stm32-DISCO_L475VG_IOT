@@ -6,10 +6,33 @@
 #include <string.h>
 
 #include "SPI.h"
-#include "es_wifi_conf.h"
-#include "spi_drv.h"
-#include "wifi_drv.h"
-#include "wl_definitions.h"
+#include "SpiDriver.h"
+#include "WifiDriver.h"
+
+/* Module capability definition ------------------------------------------------*/
+
+#define WL_SSID_MAX_LENGTH        32     // Maximum size of a SSID
+#define WL_WPA_KEY_MAX_LENGTH     63     // Length of passphrase. Valid lengths are 8-63.
+#define WL_WEP_KEY_MAX_LENGTH     13     // Length of key in bytes. Valid values are 5 and 13.
+#define WL_MAC_ADDR_LENGTH        6      // Size of a MAC-address or BSSID
+#define WL_IPV4_LENGTH            4      // Size of a IPV4
+#define WL_NETWORKS_LIST_MAXNUM   10     // Maximum size of a SSID list
+#define MAX_SOCK_NUM              4      // Maximum number of socket
+#define SOCK_NOT_AVAIL            255    // Socket not available constant
+#define NA_STATE                  -1     // Default state value for Wi-Fi state field
+#define WL_MAX_ATTEMPT_CONNECTION 10     // Maximum number of attempts to establish Wi-Fi connection
+#define WIFI_TIMEOUT              5000U  // Defines the Wi-Fi request timeout in milliseconds
+
+typedef enum {
+    WL_NO_SHIELD   = 255,
+    WL_IDLE_STATUS = 0,
+    WL_NO_SSID_AVAIL,
+    WL_SCAN_COMPLETED,
+    WL_CONNECTED,
+    WL_CONNECT_FAILED,
+    WL_CONNECTION_LOST,
+    WL_DISCONNECTED
+} wl_status_t;
 
 /* Exported macro-------------------------------------------------------------*/
 
@@ -258,9 +281,9 @@ typedef struct {
     uint32_t BufferSize;
 } ES_WIFIObject_t;
 
-class IsmDrvClass : public WiFiDrvClass {
+class Ism43362Driver : public WiFiDriver {
   private:
-    DriverClass* Drv;                            // pointer on means of communication
+    Driver* Drv;                                 // pointer on means of communication
     ES_WIFIObject_t EsWifiObj;                   // settings pointer
     ES_WIFI_SystemConfig_t ESWifiSysObj;         // configuration pointer
     ES_WIFI_APs_t ESWifiApObj;                   // list of network
@@ -291,8 +314,8 @@ class IsmDrvClass : public WiFiDrvClass {
     ES_WIFI_Status_t ES_WIFI_GetTrSettings(uint8_t index);
 
   public:
-    IsmDrvClass(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM32Pin* commandDataReady, codal::STM32Pin* reset,
-                codal::STM32Pin* wakeup);
+    Ism43362Driver(codal::STM32SPI* SPIx, codal::STM32Pin* cs, codal::STM32Pin* commandDataReady,
+                   codal::STM32Pin* reset, codal::STM32Pin* wakeup);
 
     virtual ES_WIFI_Status_t ES_WIFI_Init();
     virtual void ES_WIFI_ListAccessPoints();

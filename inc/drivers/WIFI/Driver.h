@@ -1,13 +1,15 @@
 #pragma once
 
-class DriverClass {
+#include "STM32Pin.h"
+
+class Driver {
   protected:
     codal::STM32Pin* resetPin;
     codal::STM32Pin* wakeUpPin;
 
   public:
-    DriverClass(codal::STM32Pin* resetPin, codal::STM32Pin* wakeUpPin) : resetPin(resetPin), wakeUpPin(wakeUpPin) {}
-    virtual ~DriverClass() {}
+    Driver(codal::STM32Pin* resetPin, codal::STM32Pin* wakeUpPin) : resetPin(resetPin), wakeUpPin(wakeUpPin) {}
+    virtual ~Driver() {}
     virtual int8_t IO_Init(void)                                 = 0;
     virtual void IO_DeInit(void)                                 = 0;
     virtual void IO_Delay(uint32_t)                              = 0;

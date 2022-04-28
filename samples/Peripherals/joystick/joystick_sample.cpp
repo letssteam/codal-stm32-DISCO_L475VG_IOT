@@ -58,11 +58,11 @@ void joystickSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     js->registerDirectionEvent(codal::JoystickDirection::Right, afficherRight);
     js->registerDirectionEvent(codal::JoystickDirection::Bottom, afficherBottom);
 
-    js->registerButtonEvent(codal::ButtonEvent::Click, afficherClick);
-    js->registerButtonEvent(codal::ButtonEvent::LongClick, afficherLongClick);
-    js->registerButtonEvent(codal::ButtonEvent::Up, afficherUp);
-    js->registerButtonEvent(codal::ButtonEvent::Down, afficherDown);
-    js->registerButtonEvent(codal::ButtonEvent::Hold, afficherHold);
+    js->registerJoystickButtonEvent(codal::JoystickButtonEvent::Click, afficherClick);
+    js->registerJoystickButtonEvent(codal::JoystickButtonEvent::LongClick, afficherLongClick);
+    js->registerJoystickButtonEvent(codal::JoystickButtonEvent::Up, afficherUp);
+    js->registerJoystickButtonEvent(codal::JoystickButtonEvent::Down, afficherDown);
+    js->registerJoystickButtonEvent(codal::JoystickButtonEvent::Hold, afficherHold);
 
     while (true) {
         oled.fill(0);

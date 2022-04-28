@@ -60,7 +60,7 @@
     },
     {
       "name": "codal-stm32",
-      "url": "https://github.com/letssteam/codal-stm32",
+      "url": "https://github.com/letssteam/codal-stm32/tree/joystick-lib",
       "branch": "main",
       "type": "git"
     }

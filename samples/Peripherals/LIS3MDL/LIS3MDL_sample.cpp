@@ -17,9 +17,9 @@ void lis3mdlSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     while (true) {
         auto values = lis3mdl.getMeasure();
 
-        printf("X : %5u mGauss\tY : %5u mGauss\tZ : %5u mGauss\r\n", values[0], values[1], values[2]);
+        printf("X : %5d mGauss\tY : %5d mGauss\tZ : %5d mGauss\r\n", values[0], values[1], values[2]);
         printf("\r\n");
 
-        discoL475VgIot.sleep(1000);
+        discoL475VgIot.sleep(250);
     }
 }

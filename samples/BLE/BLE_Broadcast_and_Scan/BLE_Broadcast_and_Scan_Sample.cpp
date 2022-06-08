@@ -14,7 +14,7 @@ BLELocalDevice& BLE = BLEObj;
 
 codal::STM32AdvertisingBLE advertising;
 
-#define ST_MICRO_COMPANY_UUID 0x0030
+#define ADVERTISING_UUID 0x181C
 
 char get_safe_char(uint8_t c)
 {
@@ -26,71 +26,39 @@ char get_safe_char(uint8_t c)
     }
 }
 
-void print_manufacturer_data(BLEDevice& device)
+void print_message(std::vector<uint8_t> data)
 {
-    size_t nb = device.manufacturerDataCount();
-    for (size_t i = 0; i < nb; ++i) {
-        auto manData    = device.getManufacturerData(i);
-        std::string str = "";
-        printf("\t\t#%d: 0x%04X - ", i + 1, manData.companyIdentifier);
-
-        for (size_t j = 0; j < manData.data.size(); j++) {
-            printf("%02X", manData.data[j]);
-            str += get_safe_char(manData.data[j]);
-        }
-        printf(" ('%s')\n\r", str.c_str());
+    for (auto d : data) {
+        printf("%02X ", d);
     }
+
+    printf("\r\n");
 }
 
-void print_advertising_data(BLEDevice& device)
+void print_message_as_string(std::vector<uint8_t> data)
 {
-    size_t nb = device.advertisingDataCount();
-    for (size_t i = 0; i < nb; ++i) {
-        auto data       = device.getAdvertisingData(i);
-        std::string str = "";
-        printf("\t\t#%d: ", i + 1);
-
-        for (size_t j = 0; j < data.size(); j++) {
-            printf("%02X", data[j]);
-
-            if (j >= 2) {
-                str += get_safe_char(data[j]);
-            }
-        }
-        printf(" ('%s')\n\r", str.c_str());
+    for (auto c : data) {
+        printf("%c", get_safe_char(c));
     }
-}
 
-void print_advertised_services_uuid(BLEDevice& device)
-{
-    for (int j = 0; j < device.advertisedServiceUuidCount(); ++j) {
-        printf("\t\tUUID : %s\n\r", device.advertisedServiceUuid(j).c_str());
-    }
+    printf("\r\n");
 }
 
 void print_scan_result()
 {
-    BLEDevice buffer[16];
+    if (advertising.hasReceivedMessage()) {
+        auto results = advertising.getAllReceivedMessage();
 
-    if (advertising.hasResultWithManufacturerData()) {
-        size_t nb_result = advertising.getResultWithManufacturerData(buffer, 16);
-
-        for (size_t device_index = 0; device_index < nb_result; ++device_index) {
-            BLEDevice device = buffer[device_index];
-
-            printf("[%d dBm] %s : %s\n\r", device.rssi(), device.address().c_str(),
-                   device.hasLocalName() ? device.localName().c_str() : "N/A");
-
-            printf("\t=> Manufacturer Data:\n\r");
-            print_manufacturer_data(device);
-
-            printf("\t=> Advertising Data:\n\r");
-            print_advertising_data(device);
-
-            printf("\t=> Advertised services:\n\r");
-            print_advertised_services_uuid(device);
-
-            printf("\n\r");
+        for (auto res : results) {
+            printf("%s\n\r", res.address.c_str());
+            printf("\tRSSI:         %d dbm\r\n", res.rssi);
+            printf("\tName:         %s\r\n", res.name.c_str());
+            printf("\tUUID:         %s\r\n", res.uuid.c_str());
+            printf("\tData (raw):   ");
+            print_message(res.message);
+            printf("\tData (UTF-8): ");
+            print_message_as_string(res.message);
+            printf("\r\n");
         }
 
         printf("\n\r===================================================================\n\r\n\r");
@@ -124,7 +92,7 @@ void BLE_Broadcast_and_Scan_sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     }
 
     advertising.setLocalName("It Work's !");
-    advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)"Start counter !", 15);
+    advertising.setServiceData(ADVERTISING_UUID, (uint8_t*)"Start counter !", 15);
     advertising.begin();
 
     int size;
@@ -142,7 +110,7 @@ void BLE_Broadcast_and_Scan_sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         if (ms % 1000 && advertising.isEmitting()) {
             size = sprintf(message, "Time: %02d", ms / 1000);
             if (size >= 0) {
-                advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)message, size);
+                advertising.setServiceData(ADVERTISING_UUID, (uint8_t*)message, size);
             }
         }
 

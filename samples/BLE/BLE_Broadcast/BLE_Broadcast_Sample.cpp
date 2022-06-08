@@ -4,6 +4,7 @@
 
 #include "STM32AdvertisingBLE.h"
 #include "STM32duinoBLE.h"
+#include "VL53L0X.h"
 
 codal::STM32DISCO_L475VG_IOT_IO io;
 codal::STM32SPI spi3(io.miso3, io.mosi3, io.sclk3);
@@ -14,7 +15,7 @@ BLELocalDevice& BLE = BLEObj;
 
 codal::STM32AdvertisingBLE advertising;
 
-#define ST_MICRO_COMPANY_UUID 0x0030
+#define ADVERTISING_UUID 0x181C
 
 void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
@@ -24,6 +25,10 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*******************************************\r\n");
     printf("*      Demonstration du BLE Broadcast     *\r\n");
     printf("*******************************************\r\n");
+
+    codal::VL53L0X vl53l0x(&discoL475VgIot.i2c2, &discoL475VgIot.io.pc6, 0x52);
+
+    vl53l0x.init();
 
     bool state = false;
 
@@ -42,13 +47,12 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     }
 
     advertising.setLocalName("Youpi !");
-    advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)"Start counter !", 15);
+    advertising.setServiceData(ADVERTISING_UUID, (uint8_t*)"Distance sensor !", 17);
     advertising.setDurationScanning(0);
     advertising.begin();
 
     int size;
     char message[22];
-    unsigned ms = 0;
     BLEDevice buffer[16];
 
     while (true) {
@@ -56,14 +60,11 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         io.led2.setDigitalValue(state ? 1 : 0);
         state = !state;
 
-        if (ms % 1000) {
-            size = sprintf(message, "Time: %02d", ms / 1000);
-            if (size >= 0) {
-                advertising.setManufacturerData(ST_MICRO_COMPANY_UUID, (uint8_t*)message, size);
-            }
+        size = sprintf(message, "D: %d", vl53l0x.getDistance());
+        if (size >= 0) {
+            advertising.setServiceData(ADVERTISING_UUID, (uint8_t*)message, size);
         }
 
-        ms += 500;
         discoL475VgIot.sleep(500);
     }
 }

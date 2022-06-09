@@ -66,7 +66,7 @@ void print_scan_result()
 void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
     bool state     = false;
-    unsigned sleep = 1;
+    unsigned sleep = 10;
     unsigned ms    = 0;
 
     discoL475VgIot.serial.init(115200);

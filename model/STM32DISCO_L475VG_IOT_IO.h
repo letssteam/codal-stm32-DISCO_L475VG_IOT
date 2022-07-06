@@ -57,7 +57,7 @@
 #define ID_PIN_WIFI_ISM43362_MISO               (DEVICE_ID_IO_P0 + 38)
 #define ID_PIN_WIFI_ISM43362_MOSI               (DEVICE_ID_IO_P0 + 39)
 #define ID_PIN_WIFI_ISM43362_SCK                (DEVICE_ID_IO_P0 + 40)
-#define ID_PIN_WIFI_ISM43362_COMMAND_DATA_READY (DEVICE_ID_IO_P0 + 49)
+#define ID_PIN_WIFI_ISM43362_COMMAND_DATA_READY (DEVICE_ID_IO_P0 + 41)
 
 namespace codal {
 /**
@@ -119,5 +119,9 @@ class STM32DISCO_L475VG_IOT_IO {
 
     STM32Pin pc6;
     STM32Pin pc7;
+
+    STM32Pin bleCS;
+    STM32Pin bleIRQ;
+    STM32Pin bleRST;
 };
 }  // namespace codal

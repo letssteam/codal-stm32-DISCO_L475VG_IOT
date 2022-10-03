@@ -1,70 +1,70 @@
 #include "BLE_Broadcast_Sample.h"
 
-// #include <string>
+#include <cstdio>
 
-// #include "STM32AdvertisingBLE.h"
-// #include "STM32duinoBLE.h"
-// #include "VL53L0X.h"
+#include "AdvertisingData.h"
+#include "BLEDevice.h"
+#include "HCI_SPI.h"
+#include "STM32Serial.h"
+#include "ble_utils.h"
 
-// codal::STM32DISCO_L475VG_IOT_IO io;
-// codal::STM32SPI spi3(io.miso3, io.mosi3, io.sclk3);
-// HCISpiTransportClass hci(&spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNametoDigitalPin(PE_6),
-//                          pinNametoDigitalPin(PA_8), 8000000, 0);
-// BLELocalDevice BLEObj(&hci);
-// BLELocalDevice& BLE = BLEObj;
+void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
+{
+    discoL475VgIot.serial.init(115200);
 
-// codal::STM32AdvertisingBLE advertising;
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("*           Demonstration du BLE          *\r\n");
+    printf("*******************************************\r\n");
 
-// #define ADVERTISING_UUID 0x181C
+    HCI_SPI hci(discoL475VgIot.spi3, discoL475VgIot.io.bleCS, discoL475VgIot.io.bleIRQ, discoL475VgIot.io.bleRST);
+    BLEDevice ble(&hci);
 
-// void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
-// {
-//     discoL475VgIot.serial.init(115200);
+    AdvertisingData adv;
+    AdvertisingData advScan;
 
-//     printf("\r\n");
-//     printf("*******************************************\r\n");
-//     printf("*      Demonstration du BLE Broadcast     *\r\n");
-//     printf("*******************************************\r\n");
+    // hci.enableDebug();
+    ble.init();
 
-//     codal::VL53L0X vl53l0x(&discoL475VgIot.i2c2, &discoL475VgIot.io.pc6, 0x52);
+    printf("\n==> Get BD Address\r\n");
+    auto addr = hci.readBD_ADDR();
 
-//     vl53l0x.init();
+    printf("\t");
+    BLE_Utils::printHex(addr[0]);
+    printf("\r\n");
 
-//     bool state = false;
+    printf("\t");
+    BLE_Utils::printHex(addr[1]);
+    printf("\r\n");
 
-//     if (BLE.begin() != 0) {
-//         printf("BLE Initialized !\r\n");
-//     }
-//     else {
-//         printf("Failed to initialize BLE !!\r\n");
+    printf("\n==> Get Random value\r\n");
+    auto rnd = hci.leRand();
 
-//         while (true) {
-//             io.led2.setDigitalValue(state ? 1 : 0);
-//             io.led1.setDigitalValue(state ? 1 : 0);
-//             state = !state;
-//             discoL475VgIot.sleep(50);
-//         }
-//     }
+    printf("\t");
+    BLE_Utils::printHex(rnd[0]);
+    printf("\r\n");
 
-//     advertising.setLocalName("Youpi !");
-//     advertising.setServiceData(ADVERTISING_UUID, (uint8_t*)"Distance sensor !", 17);
-//     advertising.setDurationScanning(0);
-//     advertising.begin();
+    printf("\t");
+    BLE_Utils::printHex(rnd[1]);
+    printf("\r\n");
 
-//     int size;
-//     char message[22];
-//     BLEDevice buffer[16];
+    uint8_t flags = AdvertisingFlagsBuilder().addBrEdrNotSupported().addLeGeneralDiscoverableMode().build();
+    adv.setFlags(flags);
+    adv.setLocalName("Broadcast test");
+    adv.setUserData("User data !");
 
-//     while (true) {
-//         io.led1.setDigitalValue(state ? 0 : 1);
-//         io.led2.setDigitalValue(state ? 1 : 0);
-//         state = !state;
+    advScan.setUserData("Hi ! I'm scan response !");
 
-//         size = sprintf(message, "D: %d", vl53l0x.getDistance());
-//         if (size >= 0) {
-//             advertising.setServiceData(ADVERTISING_UUID, (uint8_t*)message, size);
-//         }
+    ble.setAdvertisingData(&adv);
+    ble.setScanResponseData(&advScan);
+    if (ble.startAdvertising() != BLEDeviceError::SUCCESS) {
+        printf("Failed to start BLE !");
+    }
 
-//         discoL475VgIot.sleep(500);
-//     }
-// }
+    while (1) {
+        discoL475VgIot.sleep(1000);
+
+        adv.setUserData(std::to_string(getCurrentMillis() / 1000) + " sec");
+        ble.updateAdvertisingData();
+    }
+}

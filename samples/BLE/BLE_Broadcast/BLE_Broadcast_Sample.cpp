@@ -7,6 +7,7 @@
 #include "HCI_SPI.h"
 #include "STM32Serial.h"
 #include "ble_utils.h"
+#include "AdvertisingFlagsBuilder.h"
 
 void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {

@@ -1,110 +1,53 @@
 #include "BLE_Scanning_Sample.h"
 
-// #include <string>
+#include <cstdio>
 
-// #include "STM32AdvertisingBLE.h"
-// #include "STM32duinoBLE.h"
+#include "AdvertisingData.h"
+#include "BLEDevice.h"
+#include "EventMaskBuilder.h"
+#include "HCI_SPI.h"
+#include "LeEventMaskBuilder.h"
+#include "STM32Serial.h"
+#include "ble_utils.h"
 
-// codal::STM32DISCO_L475VG_IOT_IO io;
-// codal::STM32SPI spi3(io.miso3, io.mosi3, io.sclk3);
-// HCISpiTransportClass hci(&spi3, SPBTLE_RF, pinNametoDigitalPin(PD_13), pinNametoDigitalPin(PE_6),
-//                          pinNametoDigitalPin(PA_8), 8000000, 0);
-// BLELocalDevice BLEObj(&hci);
-// BLELocalDevice& BLE = BLEObj;
+void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
+{
+    discoL475VgIot.serial.init(115200);
 
-// codal::STM32AdvertisingBLE advertising;
+    printf("\r\n");
+    printf("*******************************************\r\n");
+    printf("*         Demonstration du Scan BLE       *\r\n");
+    printf("*******************************************\r\n");
 
-// char get_safe_char(uint8_t c)
-// {
-//     if (c >= 32 && c <= 126) {
-//         return (char)c;
-//     }
-//     else {
-//         return '?';
-//     }
-// }
+    HCI_SPI hci(discoL475VgIot.spi3, discoL475VgIot.io.bleCS, discoL475VgIot.io.bleIRQ, discoL475VgIot.io.bleRST);
+    BLEDevice ble(&hci);
 
-// void print_message(std::vector<uint8_t> data)
-// {
-//     for (auto d : data) {
-//         printf("%02X ", d);
-//     }
+    // hci.enableDebug();
+    ble.init();
+    ble.startScanning();
 
-//     printf("\r\n");
-// }
+    unsigned time = 0;
+    while (1) {
+        discoL475VgIot.sleep(100);
+        time += 100;
+        ble.poll();
 
-// void print_message_as_string(std::vector<uint8_t> data)
-// {
-//     for (auto c : data) {
-//         printf("%c", get_safe_char(c));
-//     }
+        if (time >= 2000 && ble.availableScan("Broadcast test")) {
+            time = 0;
+            for (auto dev : ble.getScanResult("Broadcast test")) {
+                printf("Device:\r\n");
+                printf("\tAddress: %s\r\n", dev.getAddress().toString().c_str());
+                printf("\tRSSI: %ddBm\r\n", dev.getRSSI());
+                printf("\tName: %s\r\n", dev.getName().c_str());
+                printf("\tService data: \r\n");
+                for (auto sd : dev.getAllServiceDatas()) {
+                    printf("\t\t[%s] %s\r\n", BLE_Utils::hexToString(sd.uuid).c_str(),
+                           BLE_Utils::dataToSafeString(sd.data).c_str());
+                }
+                printf("\r\n");
+            }
 
-//     printf("\r\n");
-// }
-
-// void print_scan_result()
-// {
-//     if (advertising.hasReceivedMessage()) {
-//         auto results = advertising.getAllReceivedMessage();
-
-//         for (auto res : results) {
-//             printf("%s\n\r", res.address.c_str());
-//             printf("\tRSSI:         %d dbm\r\n", res.rssi);
-//             printf("\tName:         %s\r\n", res.name.c_str());
-//             printf("\tUUID:         %s\r\n", res.uuid.c_str());
-//             printf("\tData (raw):   ");
-//             print_message(res.message);
-//             printf("\tData (UTF-8): ");
-//             print_message_as_string(res.message);
-//             printf("\r\n");
-//         }
-
-//         printf("\n\r===================================================================\n\r\n\r");
-//     }
-// }
-
-// void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
-// {
-//     bool state     = false;
-//     unsigned sleep = 10;
-//     unsigned ms    = 0;
-
-//     discoL475VgIot.serial.init(115200);
-
-//     printf("\r\n");
-//     printf("*******************************************\r\n");
-//     printf("*         Demonstration du Scan BLE       *\r\n");
-//     printf("*******************************************\r\n");
-
-//     if (BLE.begin() != 0) {
-//         printf("BLE Initialized !\r\n");
-//     }
-//     else {
-//         printf("Failed to initialize BLE !!\r\n");
-
-//         while (true) {
-//             io.led2.setDigitalValue(state ? 1 : 0);
-//             io.led1.setDigitalValue(state ? 1 : 0);
-//             state = !state;
-//             discoL475VgIot.sleep(50);
-//         }
-//     }
-
-//     advertising.setDurationEmitting(0);
-//     advertising.begin();
-
-//     while (true) {
-//         io.led1.setDigitalValue(state ? 0 : 1);
-//         io.led2.setDigitalValue(state ? 1 : 0);
-//         state = !state;
-
-//         if (ms >= 250) {
-//             printf("Scan result:\r\n");
-//             print_scan_result();
-//             ms = 0;
-//         }
-
-//         ms += sleep;
-//         discoL475VgIot.sleep(sleep);
-//     }
-// }
+            printf("--------------------------------------------------------------------------------\r\n\r\n");
+        }
+    }
+}

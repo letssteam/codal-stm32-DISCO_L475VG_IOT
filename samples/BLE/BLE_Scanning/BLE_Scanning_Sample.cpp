@@ -2,13 +2,12 @@
 
 #include <cstdio>
 
-#include "AdvertisingData.h"
-#include "BLEDevice.h"
-#include "EventMaskBuilder.h"
+#include "BLEDevice_Component.h"
 #include "HCI_SPI.h"
-#include "LeEventMaskBuilder.h"
-#include "STM32Serial.h"
 #include "ble_utils.h"
+
+codal::BLEDevice_Component* ble;
+HCI_SPI* hci;
 
 void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
@@ -19,22 +18,19 @@ void BLE_Scanning_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*         Demonstration du Scan BLE       *\r\n");
     printf("*******************************************\r\n");
 
-    HCI_SPI hci(discoL475VgIot.spi3, discoL475VgIot.io.bleCS, discoL475VgIot.io.bleIRQ, discoL475VgIot.io.bleRST);
-    BLEDevice ble(&hci);
+    hci = new HCI_SPI(discoL475VgIot.spi3, discoL475VgIot.io.bleCS, discoL475VgIot.io.bleIRQ, discoL475VgIot.io.bleRST);
+    ble = new codal::BLEDevice_Component((uint16_t)12345, hci);
 
-    // hci.enableDebug();
-    ble.init();
-    ble.startScanning();
+    // hci->enableDebug();
+    ble->init();
 
-    unsigned time = 0;
+    ble->startScanning();
+
     while (1) {
         discoL475VgIot.sleep(100);
-        time += 100;
-        ble.poll();
 
-        if (time >= 2000 && ble.availableScan("Broadcast test")) {
-            time = 0;
-            for (auto dev : ble.getScanResult("Broadcast test")) {
+        if (ble->availableScan()) {
+            for (auto dev : ble->getScanResult()) {
                 printf("Device:\r\n");
                 printf("\tAddress: %s\r\n", dev.getAddress().toString().c_str());
                 printf("\tRSSI: %ddBm\r\n", dev.getRSSI());

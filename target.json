@@ -61,7 +61,7 @@
     {
       "name": "codal-stm32",
       "url": "https://github.com/letssteam/codal-stm32",
-      "branch": "main",
+      "branch": "ble_from_scratch",
       "type": "git"
     }
   ]

@@ -38,6 +38,8 @@
 #include "BLE_Broadcast_Sample.h"
 #elif defined(BLE_SCANNING_SAMPLE)
 #include "BLE_Scanning_Sample.h"
+#elif defined(BLE_BROADCAST_AND_SCANNING_SAMPLE)
+#include "BLE_Broadcast_and_Scan_Sample.h"
 #elif defined(BLE_SERIAL_SAMPLE)
 #include "BLE_Serial_Sample.h"
 #elif defined(OLED_SSD1306_SAMPLE)

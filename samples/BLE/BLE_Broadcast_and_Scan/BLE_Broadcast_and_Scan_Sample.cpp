@@ -30,14 +30,21 @@ void BLE_Broadcast_and_Scan_sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     advData.setLocalName("Scan n Broadcast");
     advData.setUserData("pouet");
 
-    if (ble->startAdvertising(advData) != BLEDeviceError::SUCCESS) {
+    ble->setAdvertisingData(advData);
+
+    if (ble->startAdvertising() != BLEDeviceError::SUCCESS) {
         printf("Failed to start BLE !\r\n");
     }
 
     ble->startScanning();
 
+    uint32_t time = 0;
     while (1) {
         discoL475VgIot.sleep(100);
+        time += 100;
+
+        advData.setUserData(std::to_string(time / 1000));
+        ble->setAdvertisingData(advData);
 
         if (ble->availableScan()) {
             for (auto dev : ble->getScanResult()) {

@@ -30,11 +30,14 @@ void BLE_Broadcast_Sample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     uint8_t flags = AdvertisingFlagsBuilder().addBrEdrNotSupported().addLeGeneralDiscoverableMode().build();
     adv.setFlags(flags);
     adv.setLocalName("Broadcast test");
-    adv.setUserData("User data !");
+    adv.setUserData("Coucou !");
 
     advScan.setUserData("Hi ! I'm scan response !");
 
-    if (ble.startAdvertising(adv, advScan) != BLEDeviceError::SUCCESS) {
+    ble.setAdvertisingData(adv);
+    ble.setScanResponseData(advScan);
+
+    if (ble.startAdvertising() != BLEDeviceError::SUCCESS) {
         printf("Failed to start BLE !");
     }
 

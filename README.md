@@ -1,4 +1,4 @@
-# Codal target for the DISCO_L475VG_IOT Board [![codal-stm32-DISCO_L475VG_IOT](https://img.shields.io/github/workflow/status/letssteam/codal-stm32-DISCO_L475VG_IOT/codal-buildtarget?label=codal-stm32-DISCO_L475VG_IOT)](https://github.com/letssteam/codal-stm32-DISCO_L475VG_IOT/actions)
+# Codal target for the DISCO_L475VG_IOT Board [![codal-stm32-DISCO_L475VG_IOT](https://github.com/letssteam/codal-stm32-DISCO_L475VG_IOT/actions/workflows/codal-buildtarget.yml/badge.svg)](https://github.com/letssteam/codal-stm32-DISCO_L475VG_IOT/actions)
 
 Codal target for the [B-L475E-IOT01A](http://www.st.com/en/evaluation-tools/b-l475e-iot01a.html) Discovery kit for IoT node. Codal is the core set of drivers, mechanisms and types that make up the runtime for a board in Makecode.
 

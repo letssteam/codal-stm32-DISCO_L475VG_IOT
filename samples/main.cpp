@@ -28,6 +28,8 @@
 #include "LSM6DSL_accel_sample_event.h"
 #elif defined(VL53L0X_SAMPLE)
 #include "VL53L0X_sample.h"
+#elif defined(MP34DT01_SAMPLE)
+#include "MP34DT01_sample.h"
 #elif defined(SERIALUSB_SAMPLE)
 #include "SerialUSBSample.h"
 #elif defined(WEBUSB_SAMPLE)

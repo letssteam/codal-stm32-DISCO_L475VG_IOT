@@ -15,7 +15,7 @@ void mp32dt01Sample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
     printf("*        Demonstration du MP32DT01        *\r\n");
     printf("*******************************************\r\n");
 
-    printf("Init. microphone...");
+    printf("Init microphone...");
     discoL475VgIot.sleep(1000);
 
     if (!micro.init()) {

@@ -4,6 +4,8 @@
 
 #if defined(GPIO_SAMPLE)
 #include "GPIOSample.h"
+#elif defined(INTERRUPT_SAMPLE)
+#include "InterruptSample.h"
 #elif defined(PIN_SAMPLE)
 #include "PinSample.h"
 #elif defined(ADC_SAMPLE)

@@ -1,14 +1,11 @@
 #include "InterruptSample.h"
 
-#include <cstdio>
-
 #include "Event.h"
 #include "EventModel.h"
 #include "STM32Pin.h"
 #include "interrupt.h"
 
 codal::STM32Pin* led;
-int toggle;
 
 void toggleLed(codal::Event e)
 {
@@ -24,18 +21,11 @@ void toggleLed(codal::Event e)
     }
 }
 
-void feur(codal::Event e)
-{
-    printf("value : %d\r\n", e.value);
-}
-
 void InterruptSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
 {
-    discoL475VgIot.serial.init(115200);
-    toggle                   = 0;
     codal::STM32Pin& userBtn = discoL475VgIot.io.btnUser;
     led                      = &discoL475VgIot.io.led1;
-    led->setDigitalValue(toggle);
+    led->setDigitalValue(0);
     discoL475VgIot.io.btnUser.eventOn(DEVICE_PIN_EVENT_ON_EDGE);
     codal::EventModel::defaultEventBus->listen(userBtn.id, DEVICE_PIN_EVT_RISE, &toggleLed,
                                                MESSAGE_BUS_LISTENER_IMMEDIATE);

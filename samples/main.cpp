@@ -16,6 +16,8 @@
 #include "SerialSample.h"
 #elif defined(SPI_SAMPLE)
 #include "SpiSample.h"
+#elif defined(I2C_SAMPLE)
+#include "I2CSample.h"
 #elif defined(HTS221_SAMPLE)
 #include "HTS221_sample.h"
 #elif defined(LPS22HB_SAMPLE)

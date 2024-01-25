@@ -20,25 +20,25 @@ void i2cLCDSample_main(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         lcd.clear();
         lcd.print("10 in BIN");
         lcd.setCursor(0, 1);
-        lcd.print(10, codal::PrintRadix::BIN);
+        lcd.print(10, PrintRadix::BIN);
         discoL475VgIot.sleep(1000);
 
         lcd.clear();
         lcd.print("10 in HEX");
         lcd.setCursor(0, 1);
-        lcd.print(10, codal::PrintRadix::HEX);
+        lcd.print(10, PrintRadix::HEX);
         discoL475VgIot.sleep(1000);
 
         lcd.clear();
         lcd.print("10 in OCT");
         lcd.setCursor(0, 1);
-        lcd.print(10, codal::PrintRadix::OCT);
+        lcd.print(10, PrintRadix::OCT);
         discoL475VgIot.sleep(1000);
 
         lcd.clear();
         lcd.print("10 in DEC");
         lcd.setCursor(0, 1);
-        lcd.print(10, codal::PrintRadix::DEC);
+        lcd.print(10, PrintRadix::DEC);
         discoL475VgIot.sleep(1000);
 
         lcd.clear();

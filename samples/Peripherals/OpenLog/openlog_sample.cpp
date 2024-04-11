@@ -43,7 +43,7 @@ void openLogSample(codal::STM32DISCO_L475VG_IOT& discoL475VgIot)
         unsigned dataSize = snprintf(NULL, 0, "%f;%f;%f\r\n", temperature, pressure, humidity);
         snprintf(sensorData, dataSize, "%f;%f;%f\r\n", temperature, pressure, humidity);
         printf("ecriture des donnees suivantes sur la carte micro-sd :\r\n%s\r\n", sensorData);
-        isDataTransferOK = openLogWriter->write(sensorData, dataSize);
+        isDataTransferOK = openLogWriter->write((const char*)sensorData, dataSize);
         printf("ecriture %s\r\n\r\n", (isDataTransferOK) ? "reussie" : "echouee");
         discoL475VgIot.sleep(1000);
     }

@@ -54,6 +54,8 @@
 #include "I2C_LCD_Sample.h"
 #elif defined(WIFI_HTTP_CLIENT_SAMPLE)
 #include "WIFI_Http_Client_Sample.h"
+#elif defined(WIFI_BUFFER_SAMPLE)
+#include "WIFI_Buffer_Sample.h"
 #elif defined(MESSAGEBUS_SAMPLE)
 #include "MessageBus_Sample.h"
 #else

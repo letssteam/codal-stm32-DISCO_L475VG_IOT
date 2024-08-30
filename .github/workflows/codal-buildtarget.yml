@@ -2,7 +2,7 @@ name: codal-buildtarget
 
 on:
   push:
-    branches: 
+    branches:
       - main
   create:
 
@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: letssteam/arm-gcc-none-eabi-toolchain:latest
+      image: letssteam/makecode-toolchain:latest
       options: --user 1001 --security-opt no-new-privileges
     env:
       REPO_NAME: ${{ github.event.repository.name }}

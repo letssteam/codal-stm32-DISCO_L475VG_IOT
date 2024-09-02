@@ -1,8 +1,0 @@
-{
-    "configurations": [
-        {
-            "name": "codal-stm32-DISCO_L475VG_IOT",
-        }
-    ],
-    "version": 4
-}

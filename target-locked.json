@@ -46,13 +46,13 @@
     "generate_hex": true,
     "libraries": [
         {
-            "branch": "b6e8f96f27da10ef3c26e6d16c1706a5b04af548",
+            "branch": "02924ad392d4bd3e9eb7d9b70ea56c8a401e9472",
             "name": "codal-core",
             "type": "git",
             "url": "https://github.com/letssteam/codal-core.git"
         },
         {
-            "branch": "0686f11396533389b601bb69f861fab25b8a5b83",
+            "branch": "ef7a2a806dabfd3a83f687c67d120a973ce834bb",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -64,7 +64,7 @@
     "processor": "STM32L4",
     "product_line": "STM32L475xx",
     "series": "STM32L4xx",
-    "snapshot_version": "v1.0.28",
+    "snapshot_version": "v1.0.29",
     "toolchain": "ARM_GCC",
     "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }

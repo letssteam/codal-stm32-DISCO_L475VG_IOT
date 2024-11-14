@@ -2,7 +2,7 @@
     "architecture": "CORTEX_M4F",
     "asm_flags": "-fno-exceptions -fno-unwind-tables --specs=nano.specs -mcpu=cortex-m4 -mthumb",
     "board": "B_L475E_IOT01A",
-    "c_flags": "-O0 -ggdb3 -std=gnu11 --specs=nano.specs -Warray-bounds -u _printf_float -Wno-format",
+    "c_flags": "-O0 -ggdb3 -std=gnu2x --specs=nano.specs -Warray-bounds -u _printf_float -Wno-format",
     "cmake_definitions": {},
     "config": {
         "ARDUINO_B_L475E_IOT01A": 1,
@@ -38,7 +38,7 @@
         "VARIANT": "variant_B_L475E_IOT01A",
         "VARIANT_H": "\"variant_B_L475E_IOT01A.h\""
     },
-    "cpp_flags": "-O0 -ggdb3 -std=gnu++17 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
+    "cpp_flags": "-O0 -ggdb3 -std=gnu++23 -fwrapv -fno-rtti -fno-inline -fno-threadsafe-statics -fno-exceptions -fno-unwind-tables -Wl,--gc-sections -Wl,--sort-common -Wl,--sort-section=alignment -Wno-format -u _printf_float",
     "cpu_opts": "-mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
     "definitions": "-DSTM32L4 -DSTM32L4xx -DSTM32L475xx -DCUSTOM_PERIPHERAL_PINS -include codal-stm32-DISCO_L475VG_IOT/inc/localconf.h -DI2C_IRQ_PRIO=0 -DEXTI_IRQ_PRIO=0",
     "device": "STM32",
@@ -46,13 +46,13 @@
     "generate_hex": true,
     "libraries": [
         {
-            "branch": "a33b71be952dd53b020fe6c601ac963210ceef79",
+            "branch": "02c59a859bac46cea65acc268a1ca01036ea7dae",
             "name": "codal-core",
             "type": "git",
             "url": "https://github.com/letssteam/codal-core.git"
         },
         {
-            "branch": "01001653ca86192c82ddfe94bf8da3e42c7f7e3d",
+            "branch": "bfdb5c861a39cf482f93ce6f3bb2b42da8684287",
             "name": "codal-stm32",
             "type": "git",
             "url": "https://github.com/letssteam/codal-stm32"
@@ -64,7 +64,7 @@
     "processor": "STM32L4",
     "product_line": "STM32L475xx",
     "series": "STM32L4xx",
-    "snapshot_version": "v1.0.31",
+    "snapshot_version": "v1.0.32",
     "toolchain": "ARM_GCC",
     "variant": "STM32L4xx/L475V(C-E-G)T_L476V(C-E-G)T_L486VGT"
 }
